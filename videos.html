@@ -457,7 +457,7 @@ a{text-decoration:none;color:inherit}
     <h1>সাইবার সিকিউরিটি <span>ভিডিও টিউটোরিয়াল</span></h1>
     <p class="hero-desc">বাংলায় শিখুন Ethical Hacking, Penetration Testing, Network Security সহ আরও অনেক বিষয়</p>
     <div class="hero-stats">
-      <div class="hstat"><div class="hstat-val">২০+</div><div class="hstat-lbl">টিউটোরিয়াল</div></div>
+      <div class="hstat"><div class="hstat-val">৪০+</div><div class="hstat-lbl">টিউটোরিয়াল</div></div>
       <div class="hstat"><div class="hstat-val">৮+</div><div class="hstat-lbl">ক্যাটাগরি</div></div>
       <div class="hstat"><div class="hstat-val">বাংলা</div><div class="hstat-lbl">ভাষা</div></div>
       <div class="hstat"><div class="hstat-val">HD</div><div class="hstat-lbl">মান</div></div>
@@ -478,7 +478,7 @@ a{text-decoration:none;color:inherit}
       </div>
       <div class="prog-stats">
         <div class="pstat"><div class="pstat-val" id="watchedCount">0</div><div class="pstat-lbl">দেখা হয়েছে</div></div>
-        <div class="pstat"><div class="pstat-val">20</div><div class="pstat-lbl">মোট ভিডিও</div></div>
+        <div class="pstat"><div class="pstat-val">40</div><div class="pstat-lbl">মোট ভিডিও</div></div>
       </div>
     </div>
 
@@ -664,6 +664,126 @@ const VIDEOS = [
     desc:'Acunetix দিয়ে web application এর automated vulnerability scan, রিপোর্ট বিশ্লেষণ।',
     youtube:'-h-xmJ73nd8', duration:'৩৬:৩০', module:'মডিউল ৫', instructor:'MD. Marufur Rahman',
     instIco:'MR', isNew:true, views:'৯২০', thumb:'🌐'
+  },
+  {
+    id:21, cat:'web', title:'OWASP Top 10 — বাংলায় সম্পূর্ণ গাইড',
+    desc:'OWASP Top 10 vulnerability গুলো কী, কীভাবে কাজ করে এবং কীভাবে প্রতিরোধ করবেন — সম্পূর্ণ বাংলায়।',
+    youtube:'JBerMv-V8tE', duration:'৪৮:২০', module:'মডিউল ৬', instructor:'Safwan Muntasir',
+    instIco:'SM', isNew:true, views:'২.৩ হাজার', thumb:'🔟'
+  },
+  {
+    id:22, cat:'network', title:'TCP/IP ও OSI Model — নেটওয়ার্কিং বেসিক',
+    desc:'TCP/IP stack, OSI ৭ লেয়ার, প্রতিটি লেয়ারে কী হয় এবং হ্যাকাররা কোন লেয়ারে আক্রমণ করে।',
+    youtube:'-h-xmJ73nd8', duration:'৩৮:৪৫', module:'মডিউল ১', instructor:'MD. Marufur Rahman',
+    instIco:'MR', isNew:false, views:'১.৫ হাজার', thumb:'🌐'
+  },
+  {
+    id:23, cat:'linux', title:'Linux Privilege Escalation — Root হওয়ার কৌশল',
+    desc:'SUID, Sudo misconfiguration, Cron jobs ব্যবহার করে Linux-এ privilege escalation করার পদ্ধতি।',
+    youtube:'JBerMv-V8tE', duration:'৫৫:১০', module:'মডিউল ৩', instructor:'Arafat Ul Islam',
+    instIco:'AI', isNew:true, views:'১.৯ হাজার', thumb:'⬆️'
+  },
+  {
+    id:24, cat:'pentest', title:'Windows Penetration Testing — বাংলায়',
+    desc:'Windows Server-এ enumeration, exploit, post-exploitation এবং persistence তৈরি করার কৌশল।',
+    youtube:'-h-xmJ73nd8', duration:'৬২:৩০', module:'মডিউল ১১', instructor:'Shaikh Tariqul',
+    instIco:'ST', isNew:false, views:'২.০ হাজার', thumb:'🪟'
+  },
+  {
+    id:25, cat:'tools', title:'John the Ripper ও Hashcat — Password Cracking',
+    desc:'Hash identify করা, Dictionary attack, Brute force attack এবং Rainbow table ব্যবহার করে password crack।',
+    youtube:'JBerMv-V8tE', duration:'৩৪:২০', module:'মডিউল ৪', instructor:'Dipto Dutta',
+    instIco:'DD', isNew:false, views:'১.৪ হাজার', thumb:'🔑'
+  },
+  {
+    id:26, cat:'web', title:'Broken Authentication ও Session Hijacking',
+    desc:'Weak session token, Cookie theft, Session fixation attack এবং কীভাবে authentication bypass করা যায়।',
+    youtube:'-h-xmJ73nd8', duration:'৩১:৫৫', module:'মডিউল ৭', instructor:'Safwan Muntasir',
+    instIco:'SM', isNew:false, views:'৮৭০', thumb:'🍪'
+  },
+  {
+    id:27, cat:'recon', title:'Subdomain Enumeration ও DNS Recon',
+    desc:'Subfinder, Amass, DNSrecon ব্যবহার করে subdomain খোঁজা এবং DNS zone transfer attack।',
+    youtube:'JBerMv-V8tE', duration:'২৬:৪০', module:'মডিউল ৩', instructor:'MD. Marufur Rahman',
+    instIco:'MR', isNew:true, views:'৭৬০', thumb:'🌍'
+  },
+  {
+    id:28, cat:'tools', title:'Nikto দিয়ে Web Server Scanning',
+    desc:'Nikto ব্যবহার করে web server-এর misconfiguration, outdated software এবং vulnerability খোঁজার পদ্ধতি।',
+    youtube:'-h-xmJ73nd8', duration:'২২:১৫', module:'মডিউল ৫', instructor:'Arafat Ul Islam',
+    instIco:'AI', isNew:false, views:'৫৫০', thumb:'🎯'
+  },
+  {
+    id:29, cat:'network', title:'Firewall ও IDS/IPS Evasion Techniques',
+    desc:'Firewall rule bypass, IDS/IPS কীভাবে ফাঁকি দেওয়া যায় এবং encrypted tunnel তৈরি করার পদ্ধতি।',
+    youtube:'JBerMv-V8tE', duration:'৪১:০০', module:'মডিউল ১২', instructor:'Shaikh Tariqul',
+    instIco:'ST', isNew:false, views:'১.১ হাজার', thumb:'🧱'
+  },
+  {
+    id:30, cat:'pentest', title:'Post Exploitation — মেশিন হ্যাকের পরে কী করবেন',
+    desc:'Persistence তৈরি, Lateral movement, Data exfiltration এবং Covering tracks — সম্পূর্ণ বাংলা গাইড।',
+    youtube:'-h-xmJ73nd8', duration:'৫০:৩৫', module:'মডিউল ১১', instructor:'MD. Marufur Rahman',
+    instIco:'MR', isNew:true, views:'১.৭ হাজার', thumb:'🕵️'
+  },
+  {
+    id:31, cat:'web', title:'Command Injection Attack — বাংলায়',
+    desc:'OS Command Injection কীভাবে কাজ করে, Blind command injection এবং filter bypass কৌশল।',
+    youtube:'JBerMv-V8tE', duration:'২৮:৫০', module:'মডিউল ৮', instructor:'Arafat Ul Islam',
+    instIco:'AI', isNew:false, views:'৬৮০', thumb:'💻'
+  },
+  {
+    id:32, cat:'tools', title:'Aircrack-ng দিয়ে WiFi Hacking',
+    desc:'WPA2 handshake capture, Dictionary attack দিয়ে WiFi password crack এবং কীভাবে নিজের WiFi সুরক্ষিত করবেন।',
+    youtube:'-h-xmJ73nd8', duration:'৩৯:২০', module:'মডিউল ১৩', instructor:'Safwan Muntasir',
+    instIco:'SM', isNew:true, views:'৩.৮ হাজার', thumb:'📶'
+  },
+  {
+    id:33, cat:'network', title:'VPN ও Proxy — Anonymity বাংলায়',
+    desc:'TOR, VPN, Proxy chain ব্যবহার করে anonymous থাকার কৌশল এবং এর সীমাবদ্ধতা।',
+    youtube:'JBerMv-V8tE', duration:'২৫:১০', module:'মডিউল ১৩', instructor:'Dipto Dutta',
+    instIco:'DD', isNew:false, views:'২.২ হাজার', thumb:'🔒'
+  },
+  {
+    id:34, cat:'pentest', title:'Social Engineering ও Phishing Attack',
+    desc:'Phishing email তৈরি, Clone website, SET (Social Engineering Toolkit) ব্যবহার এবং সচেতনতা।',
+    youtube:'-h-xmJ73nd8', duration:'৪৪:৩৫', module:'মডিউল ১৪', instructor:'Shaikh Tariqul',
+    instIco:'ST', isNew:false, views:'২.৬ হাজার', thumb:'🎣'
+  },
+  {
+    id:35, cat:'web', title:'API Security Testing — REST API Hacking',
+    desc:'Postman দিয়ে API endpoint enumerate, Authentication bypass, IDOR vulnerability খোঁজার পদ্ধতি।',
+    youtube:'JBerMv-V8tE', duration:'৪৭:০০', module:'মডিউল ১০', instructor:'MD. Marufur Rahman',
+    instIco:'MR', isNew:true, views:'১.৩ হাজার', thumb:'🔌'
+  },
+  {
+    id:36, cat:'linux', title:'Bash Scripting — Automation for Hackers',
+    desc:'Hacking automation-এর জন্য Bash script লেখা, Loop, Function এবং নিজের custom tool তৈরি।',
+    youtube:'-h-xmJ73nd8', duration:'৫৩:২৫', module:'মডিউল ২', instructor:'Arafat Ul Islam',
+    instIco:'AI', isNew:false, views:'১.০ হাজার', thumb:'⚙️'
+  },
+  {
+    id:37, cat:'intro', title:'Bug Bounty দিয়ে আয় করার গাইড',
+    desc:'HackerOne, Bugcrowd প্ল্যাটফর্মে কীভাবে শুরু করবেন, রিপোর্ট লেখার কৌশল এবং প্রথম bounty পাওয়ার গল্প।',
+    youtube:'JBerMv-V8tE', duration:'৩৬:৪৫', module:'মডিউল ১৫', instructor:'Safwan Muntasir',
+    instIco:'SM', isNew:true, views:'৪.১ হাজার', thumb:'💰'
+  },
+  {
+    id:38, cat:'pentest', title:'Buffer Overflow Attack — বাংলায় সহজে',
+    desc:'Stack based buffer overflow, Return address overwrite, Shellcode inject করার সম্পূর্ণ বাংলা গাইড।',
+    youtube:'-h-xmJ73nd8', duration:'৬৫:১০', module:'মডিউল ১৬', instructor:'Shaikh Tariqul',
+    instIco:'ST', isNew:false, views:'১.২ হাজার', thumb:'💥'
+  },
+  {
+    id:39, cat:'tools', title:'Docker Security ও Container Escape',
+    desc:'Docker misconfiguration, Privileged container থেকে host escape এবং container security best practices।',
+    youtube:'JBerMv-V8tE', duration:'৪২:৫০', module:'মডিউল ১৭', instructor:'MD. Marufur Rahman',
+    instIco:'MR', isNew:true, views:'৮৮০', thumb:'🐳'
+  },
+  {
+    id:40, cat:'intro', title:'সাইবার সিকিউরিটি ক্যারিয়ার রোডম্যাপ ২০২৫',
+    desc:'SOC Analyst, Penetration Tester, Bug Bounty Hunter — কোন পথে যাবেন, কী কী সার্টিফিকেট লাগবে, কত আয় হবে।',
+    youtube:'-h-xmJ73nd8', duration:'৫৮:০০', module:'মডিউল ১৮', instructor:'Safwan Muntasir',
+    instIco:'SM', isNew:true, views:'৫.৭ হাজার', thumb:'🗺️'
   }
 ];
 
