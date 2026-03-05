@@ -1176,9 +1176,9 @@ footer{background:var(--dark);color:#64748b;padding:48px 16px 28px}
       <div style="font-size:30px">📞</div>
       <div style="flex:1">
         <div style="font-size:15px;font-weight:800;color:var(--purple);margin-bottom:4px">ক্যারিয়ার কাউন্সিলরের সাথে কথা বলুন</div>
-        <a href="tel:+8801343914432" style="font-size:14px;font-weight:700;color:var(--gray-800)">কল: 01343914432</a>
+        <a href="tel:+8801715247588" style="font-size:14px;font-weight:700;color:var(--gray-800)">কল: 01715247588</a>
         &nbsp;|&nbsp;
-        <a href="https://wa.me/8801343914432" style="font-size:14px;font-weight:700;color:#16a34a">WhatsApp</a>
+        <a href="https://wa.me/8801715247588" style="font-size:14px;font-weight:700;color:#16a34a">WhatsApp</a>
       </div>
       <button class="btn-enroll" id="btnEnrollBottom" style="width:auto;padding:12px 22px;font-size:14px;margin-bottom:0">ভর্তি হোন →</button>
     </div>
@@ -1415,4 +1415,13 @@ window.addEventListener('scroll', function() {
   var secs = ['sec-curriculum','sec-features','sec-projects','sec-whom','sec-reviews','sec-faq','sec-payment'];
   var active = 0;
   secs.forEach(function(id, i) {
-    var el =
+    var el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 120) active = i;
+  });
+  document.querySelectorAll('.tab-btn').forEach(function(btn, i) {
+    btn.classList.toggle('active', i === active);
+  });
+});
+</script>
+</body>
+</html>
