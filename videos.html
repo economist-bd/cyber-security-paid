@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ভিডিও টিউটোরিয়াল | MH Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Firebase compat -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey:"AIzaSyCSVcrc2L6aVMb4GZ5pLIUufXS2k1Dem7o",
+  authDomain:"login-app-fb96c.firebaseapp.com",
+  projectId:"login-app-fb96c",
+  storageBucket:"login-app-fb96c.firebasestorage.app",
+  messagingSenderId:"377973996747",
+  appId:"1:377973996747:web:7a01d630fe75230627ef4e"
+});
+const auth = firebase.auth();
+const db   = firebase.firestore();
+const ADMIN_EMAILS = ['admin@mhacademy.com.bd','your@email.com'];
+</script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0c0c14;--bg2:#13131e;--bg3:#1a1a28;--bg4:#222235;
+  --border:#2a2a40;--border2:#333350;
+  --purple:#7c3aed;--purple2:#a855f7;--purple-light:#ede9fe;
+  --purple-glow:rgba(124,58,237,.3);
+  --green:#10b981;--orange:#f97316;--yellow:#f59e0b;--red:#ef4444;
+  --text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;
+  --white:#fff;--font:'Hind Siliguri',sans-serif;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh}
+button{font-family:var(--font);cursor:pointer;border:none;outline:none;background:none}
+a{text-decoration:none;color:inherit}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+/* ═══ ACCESS DENIED SCREEN ═══ */
+.gate{
+  position:fixed;inset:0;z-index:999;
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+}
+.gate-box{
+  max-width:440px;width:100%;text-align:center;
+}
+.gate-ico{font-size:72px;margin-bottom:20px;display:block}
+.gate-title{font-size:24px;font-weight:800;color:var(--white);margin-bottom:10px}
+.gate-desc{font-size:14px;color:var(--text2);line-height:1.75;margin-bottom:28px}
+.gate-card{
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:20px;padding:28px;margin-bottom:20px;
+}
+.btn-google{
+  width:100%;padding:14px;border-radius:12px;
+  background:var(--white);color:#3c3c3c;
+  font-size:15px;font-weight:700;font-family:var(--font);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:all .2s;box-shadow:0 4px 16px rgba(0,0,0,.3);
+  margin-bottom:12px;
+}
+.btn-google:active{transform:scale(.97)}
+.btn-enroll-gate{
+  width:100%;padding:14px;border-radius:12px;
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  color:#fff;font-size:15px;font-weight:700;font-family:var(--font);
+  transition:all .2s;box-shadow:0 4px 20px var(--purple-glow);
+}
+.btn-enroll-gate:active{transform:scale(.97)}
+.gate-note{font-size:12px;color:var(--text3);margin-top:14px}
+
+/* ═══ LOADING ═══ */
+.loading{
+  position:fixed;inset:0;z-index:998;
+  background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+}
+.spinner{
+  width:44px;height:44px;
+  border:3px solid var(--border2);border-top-color:var(--purple);
+  border-radius:50%;animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-txt{color:var(--text2);font-size:14px;font-weight:600}
+
+/* ═══ TOPBAR ═══ */
+.topbar{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:0 16px;height:58px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.topbar-left{display:flex;align-items:center;gap:10px}
+.back-btn{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--bg3);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text2);font-size:18px;transition:all .15s;
+}
+.back-btn:hover{border-color:var(--purple);color:var(--purple2)}
+.topbar-logo{display:flex;align-items:center;gap:8px}
+.logo-box{
+  width:30px;height:30px;
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  border-radius:7px;display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:900;color:#fff;
+}
+.logo-nm{font-size:15px;font-weight:800;color:var(--white)}
+.logo-nm span{color:var(--purple2)}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.user-chip{
+  display:flex;align-items:center;gap:8px;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:100px;padding:5px 12px 5px 6px;
+}
+.user-av{
+  width:26px;height:26px;border-radius:50%;
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#fff;flex-shrink:0;
+}
+.user-nm-txt{font-size:12px;font-weight:600;color:var(--text);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.access-badge{
+  font-size:10px;font-weight:700;border-radius:100px;padding:2px 8px;
+}
+.badge-admin{background:rgba(239,68,68,.15);color:var(--red)}
+.badge-enrolled{background:rgba(16,185,129,.12);color:var(--green)}
+.btn-logout-sm{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:8px;padding:6px 12px;font-size:12px;color:var(--text2);
+  transition:all .15s;
+}
+.btn-logout-sm:hover{border-color:var(--red);color:var(--red)}
+
+/* ═══ HERO ═══ */
+.hero{
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  padding:28px 16px;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;
+  top:-60px;left:50%;transform:translateX(-50%);
+  width:400px;height:200px;
+  background:radial-gradient(ellipse,rgba(124,58,237,.2),transparent 70%);
+  pointer-events:none;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);
+  border-radius:100px;padding:5px 14px;
+  color:var(--purple2);font-size:12px;font-weight:700;margin-bottom:12px;
+}
+.ldot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:ldot 1.8s infinite}
+@keyframes ldot{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(20px,4vw,28px);font-weight:800;color:var(--white);margin-bottom:8px}
+.hero h1 span{
+  background:linear-gradient(90deg,var(--purple2),#c084fc);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-desc{font-size:14px;color:var(--text2);max-width:480px;margin:0 auto 20px;line-height:1.65}
+.hero-stats{display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap}
+.hstat{text-align:center}
+.hstat-val{font-size:20px;font-weight:800;color:var(--white)}
+.hstat-lbl{font-size:11px;color:var(--text3);margin-top:2px}
+
+/* ═══ MAIN ═══ */
+.main{max-width:1200px;margin:0 auto;padding:24px 16px 80px}
+
+/* ═══ FILTER BAR ═══ */
+.filter-bar{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:24px;flex-wrap:wrap;
+}
+.search-wrap{
+  flex:1;min-width:200px;position:relative;
+}
+.search-ico{
+  position:absolute;left:12px;top:50%;transform:translateY(-50%);
+  color:var(--text3);font-size:14px;pointer-events:none;
+}
+.search-input{
+  width:100%;background:var(--bg3);border:1px solid var(--border2);
+  border-radius:10px;padding:10px 14px 10px 36px;
+  color:var(--text);font-size:13px;outline:none;
+  transition:border-color .2s;font-family:var(--font);
+}
+.search-input:focus{border-color:var(--purple)}
+.search-input::placeholder{color:var(--text3)}
+.filter-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.ftab{
+  padding:8px 14px;border-radius:9px;font-size:12px;font-weight:700;
+  color:var(--text2);background:var(--bg3);border:1px solid var(--border);
+  cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.ftab.active{background:rgba(124,58,237,.15);color:var(--purple2);border-color:rgba(124,58,237,.4)}
+.ftab:hover:not(.active){border-color:var(--border2);color:var(--text)}
+
+/* ═══ VIDEO GRID ═══ */
+.videos-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:16px;
+}
+@media(max-width:600px){.videos-grid{grid-template-columns:1fr}}
+
+/* ═══ VIDEO CARD ═══ */
+.video-card{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;
+  cursor:pointer;transition:all .22s;
+  position:relative;
+}
+.video-card:hover{
+  transform:translateY(-4px);
+  border-color:var(--border2);
+  box-shadow:0 12px 40px rgba(0,0,0,.4),0 0 0 1px rgba(124,58,237,.15);
+}
+.video-thumb{
+  aspect-ratio:16/9;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#0f0c1d,#1e1b4b);
+}
+.thumb-bg{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:8px;
+}
+.thumb-ico{font-size:40px;opacity:.8}
+.play-btn{
+  position:absolute;
+  width:48px;height:48px;border-radius:50%;
+  background:rgba(255,255,255,.92);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .2s,background .2s;
+  box-shadow:0 4px 20px rgba(0,0,0,.4);
+}
+.video-card:hover .play-btn{transform:scale(1.12);background:#fff}
+.play-arrow{
+  width:0;height:0;
+  border-top:9px solid transparent;
+  border-bottom:9px solid transparent;
+  border-left:16px solid var(--purple);
+  margin-left:3px;
+}
+.thumb-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 50%);
+}
+.duration-badge{
+  position:absolute;bottom:8px;right:8px;
+  background:rgba(0,0,0,.8);color:#fff;
+  border-radius:5px;padding:2px 7px;font-size:11px;font-weight:700;
+  font-family:monospace;
+}
+.module-ribbon{
+  position:absolute;top:10px;left:10px;
+  background:rgba(124,58,237,.85);color:#fff;
+  border-radius:6px;padding:3px 9px;font-size:10px;font-weight:700;
+}
+.new-ribbon{
+  position:absolute;top:10px;right:10px;
+  background:var(--green);color:#fff;
+  border-radius:6px;padding:3px 9px;font-size:10px;font-weight:700;
+}
+
+.video-info{padding:14px}
+.video-meta{
+  display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;
+}
+.topic-tag{
+  font-size:11px;font-weight:700;border-radius:6px;padding:3px 9px;
+}
+.tag-recon{background:rgba(59,130,246,.12);color:#60a5fa}
+.tag-pentest{background:rgba(239,68,68,.1);color:#f87171}
+.tag-tools{background:rgba(245,158,11,.1);color:#fbbf24}
+.tag-network{background:rgba(16,185,129,.1);color:#34d399}
+.tag-intro{background:rgba(124,58,237,.12);color:var(--purple2)}
+.tag-web{background:rgba(249,115,22,.1);color:#fb923c}
+.tag-linux{background:rgba(168,85,247,.1);color:#c084fc}
+.tag-crypto{background:rgba(20,184,166,.1);color:#2dd4bf}
+.video-num{font-size:11px;color:var(--text3);font-weight:600}
+.video-title{
+  font-size:14px;font-weight:700;color:var(--white);
+  line-height:1.45;margin-bottom:10px;
+  display:-webkit-box;-webkit-line-clamp:2;
+  -webkit-box-orient:vertical;overflow:hidden;
+}
+.video-footer{
+  display:flex;align-items:center;justify-content:space-between;
+}
+.instructor-row{display:flex;align-items:center;gap:6px}
+.inst-mini-av{
+  width:22px;height:22px;border-radius:50%;
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:700;color:#fff;flex-shrink:0;
+}
+.inst-mini-name{font-size:11px;color:var(--text2);font-weight:500}
+.views-txt{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:3px}
+
+/* ═══ VIDEO PLAYER MODAL ═══ */
+.player-overlay{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,.92);
+  display:none;align-items:center;justify-content:center;
+  padding:16px;
+}
+.player-overlay.show{display:flex}
+.player-box{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:20px;width:100%;max-width:860px;
+  overflow:hidden;animation:playerPop .25s ease;
+}
+@keyframes playerPop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+.player-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px;border-bottom:1px solid var(--border);
+}
+.player-title-txt{font-size:15px;font-weight:700;color:var(--white);flex:1;margin-right:10px}
+.btn-close-player{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--bg3);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text2);font-size:16px;flex-shrink:0;
+  transition:all .15s;
+}
+.btn-close-player:hover{background:rgba(239,68,68,.15);color:var(--red);border-color:var(--red)}
+.player-iframe-wrap{
+  position:relative;padding-top:56.25%;background:#000;
+}
+.player-iframe-wrap iframe{
+  position:absolute;inset:0;width:100%;height:100%;border:none;
+}
+.player-body{padding:16px 18px}
+.player-meta{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  margin-bottom:10px;
+}
+.player-desc{font-size:13px;color:var(--text2);line-height:1.65}
+.player-nav{
+  display:flex;gap:8px;margin-top:14px;justify-content:space-between;
+  border-top:1px solid var(--border);padding-top:14px;
+}
+.btn-nav{
+  display:flex;align-items:center;gap:6px;
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:10px;padding:9px 16px;
+  font-size:13px;font-weight:600;color:var(--text2);
+  transition:all .15s;
+}
+.btn-nav:hover{border-color:var(--purple);color:var(--purple2)}
+.btn-nav:disabled{opacity:.3;cursor:not-allowed}
+
+/* ═══ PROGRESS BAR (top) ═══ */
+.progress-section{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:14px;padding:16px;margin-bottom:24px;
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+}
+.prog-info{flex:1;min-width:160px}
+.prog-title{font-size:14px;font-weight:700;color:var(--white);margin-bottom:6px}
+.prog-bar-wrap{display:flex;align-items:center;gap:10px}
+.prog-bar{flex:1;height:8px;background:var(--bg);border-radius:100px;overflow:hidden}
+.prog-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--purple),var(--purple2));transition:width 1s ease}
+.prog-pct{font-size:13px;font-weight:700;color:var(--purple2);white-space:nowrap}
+.prog-stats{display:flex;gap:16px}
+.pstat{text-align:center}
+.pstat-val{font-size:18px;font-weight:800;color:var(--white)}
+.pstat-lbl{font-size:11px;color:var(--text3);margin-top:1px}
+
+/* ═══ SECTION TITLE ═══ */
+.sec-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;flex-wrap:wrap;gap:8px;
+}
+.sec-title{font-size:17px;font-weight:800;color:var(--white)}
+.sec-count{font-size:13px;color:var(--text3);font-weight:500}
+
+/* ═══ EMPTY ═══ */
+.empty-state{
+  text-align:center;padding:60px 20px;color:var(--text3);
+}
+.empty-state div:first-child{font-size:48px;margin-bottom:12px}
+
+/* ═══ MOBILE NAV ═══ */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--bg2);border-top:1px solid var(--border);
+  display:flex;z-index:90;
+  box-shadow:0 -4px 16px rgba(0,0,0,.3);
+}
+.bnav-item{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:10px 0;font-size:10px;font-weight:600;
+  color:var(--text3);gap:4px;transition:color .15s;
+  cursor:pointer;
+}
+.bnav-item.active{color:var(--purple2)}
+.bnav-item span:first-child{font-size:20px}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading" id="loadingScreen">
+  <div class="spinner"></div>
+  <div class="loading-txt">অ্যাক্সেস যাচাই হচ্ছে...</div>
+</div>
+
+<!-- ACCESS DENIED / LOGIN GATE -->
+<div class="gate" id="gateScreen" style="display:none">
+  <div class="gate-box">
+    <span class="gate-ico">🔐</span>
+    <div class="gate-title" id="gateTitle">অ্যাক্সেস সীমিত</div>
+    <div class="gate-desc" id="gateDesc">এই ভিডিওগুলো শুধুমাত্র এনরোলড স্টুডেন্ট ও অ্যাডমিনদের জন্য।</div>
+    <div class="gate-card" id="gateCard">
+      <!-- Dynamic content -->
+    </div>
+    <div class="gate-note">🛡️ প্রতিটি ভিডিও সুরক্ষিত — শেয়ার করা যাবে না</div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="mainApp" style="display:none">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="back-btn" onclick="window.location.href='index.html'">←</button>
+      <div class="topbar-logo">
+        <div class="logo-box">MH</div>
+        <span class="logo-nm">MH <span>Academy</span></span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="user-chip">
+        <div class="user-av" id="topUserAv">U</div>
+        <span class="user-nm-txt" id="topUserName">—</span>
+        <span class="access-badge" id="accessBadge">—</span>
+      </div>
+      <button class="btn-logout-sm" id="btnLogout">লগআউট</button>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge"><div class="ldot"></div> এক্সক্লুসিভ কন্টেন্ট</div>
+    <h1>সাইবার সিকিউরিটি <span>ভিডিও টিউটোরিয়াল</span></h1>
+    <p class="hero-desc">বাংলায় শিখুন Ethical Hacking, Penetration Testing, Network Security সহ আরও অনেক বিষয়</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-val">২০+</div><div class="hstat-lbl">টিউটোরিয়াল</div></div>
+      <div class="hstat"><div class="hstat-val">৮+</div><div class="hstat-lbl">ক্যাটাগরি</div></div>
+      <div class="hstat"><div class="hstat-val">বাংলা</div><div class="hstat-lbl">ভাষা</div></div>
+      <div class="hstat"><div class="hstat-val">HD</div><div class="hstat-lbl">মান</div></div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- PROGRESS -->
+    <div class="progress-section">
+      <div class="prog-info">
+        <div class="prog-title">আপনার প্রগ্রেস</div>
+        <div class="prog-bar-wrap">
+          <div class="prog-bar"><div class="prog-fill" id="progressFill" style="width:0%"></div></div>
+          <span class="prog-pct" id="progressPct">0%</span>
+        </div>
+      </div>
+      <div class="prog-stats">
+        <div class="pstat"><div class="pstat-val" id="watchedCount">0</div><div class="pstat-lbl">দেখা হয়েছে</div></div>
+        <div class="pstat"><div class="pstat-val">20</div><div class="pstat-lbl">মোট ভিডিও</div></div>
+      </div>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+      <div class="search-wrap">
+        <span class="search-ico">🔍</span>
+        <input class="search-input" id="searchInput" placeholder="ভিডিও খুঁজুন...">
+      </div>
+      <div class="filter-tabs" id="filterTabs">
+        <div class="ftab active" data-cat="all">সব</div>
+        <div class="ftab" data-cat="intro">ভূমিকা</div>
+        <div class="ftab" data-cat="linux">Linux</div>
+        <div class="ftab" data-cat="recon">Recon</div>
+        <div class="ftab" data-cat="pentest">Pentesting</div>
+        <div class="ftab" data-cat="web">Web Hacking</div>
+        <div class="ftab" data-cat="tools">Tools</div>
+        <div class="ftab" data-cat="network">Network</div>
+      </div>
+    </div>
+
+    <!-- VIDEO GRID -->
+    <div class="sec-hdr">
+      <div class="sec-title">📹 সকল ভিডিও</div>
+      <div class="sec-count" id="videoCount">২০টি ভিডিও</div>
+    </div>
+    <div class="videos-grid" id="videosGrid">
+      <!-- Dynamic -->
+    </div>
+
+  </div><!-- /main -->
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <div class="bnav-item" onclick="window.location.href='index.html'"><span>🏠</span><span>হোম</span></div>
+    <div class="bnav-item active"><span>📹</span><span>ভিডিও</span></div>
+    <div class="bnav-item" onclick="window.location.href='dashboard.html'"><span>📊</span><span>ড্যাশবোর্ড</span></div>
+    <div class="bnav-item" onclick="window.location.href='payment.html'"><span>💳</span><span>পেমেন্ট</span></div>
+  </div>
+
+</div><!-- /mainApp -->
+
+<!-- VIDEO PLAYER MODAL -->
+<div class="player-overlay" id="playerOverlay">
+  <div class="player-box">
+    <div class="player-header">
+      <div class="player-title-txt" id="playerTitle">—</div>
+      <button class="btn-close-player" onclick="closePlayer()">✕</button>
+    </div>
+    <div class="player-iframe-wrap">
+      <iframe id="playerIframe" src="" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+    </div>
+    <div class="player-body">
+      <div class="player-meta" id="playerMeta"></div>
+      <div class="player-desc" id="playerDesc"></div>
+      <div class="player-nav">
+        <button class="btn-nav" id="btnPrev" onclick="navigateVideo(-1)">← আগের ভিডিও</button>
+        <button class="btn-nav" id="btnNext" onclick="navigateVideo(1)">পরের ভিডিও →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══ Video Data — ২০টি বাংলা সাইবার সিকিউরিটি টিউটোরিয়াল ══
+const VIDEOS = [
+  {
+    id:1, cat:'intro', title:'সাইবার সিকিউরিটি কী এবং কেন শিখবেন?',
+    desc:'সাইবার সিকিউরিটির মূল ধারণা, ক্যারিয়ার সুযোগ এবং এই ফিল্ডে কীভাবে শুরু করবেন তা নিয়ে বিস্তারিত আলোচনা।',
+    youtube:'JBerMv-V8tE', duration:'২২:১৫', module:'মডিউল ১', instructor:'MD. Marufur Rahman',
+    instIco:'MR', isNew:true, views:'১.২ হাজার', thumb:'🛡️'
+  },
+  {
+    id:2, cat:'intro', title:'Ethical Hacking এর ধরন ও আইনি বিষয়',
+    desc:'White Hat, Black Hat, Grey Hat হ্যাকার কারা? Ethical Hacking কীভাবে আইনিভাবে করবেন।',
+    youtube:'-h-xmJ73nd8', duration:'১৮:৪০', module:'মডিউল ১', instructor:'Safwan Muntasir',
+    instIco:'SM', isNew:false, views:'৯৮৫', thumb:'⚖️'
+  },
+  {
+    id:3, cat:'linux', title:'Kali Linux ইনস্টলেশন ও সেটআপ গাইড',
+    desc:'VMware ও VirtualBox-এ Kali Linux ইনস্টল করার সম্পূর্ণ প্রক্রিয়া। Snapshot ও Clone তৈরি করা।',
+    youtube:'JBerMv-V8tE', duration:'৩৫:২০', module:'মডিউল ২', instructor:'MD. Marufur Rahman',
+    instIco:'MR', isNew:false, views:'২.৪ হাজার', thumb:'🐉'
+  },
+  {
+    id:4, cat:'linux', title:'Linux কমান্ড মাস্টারক্লাস — বাংলায়',
+    desc:'File management, User management, Permission control, SSH সহ সকল গুরুত্বপূর্ণ Linux কমান্ড।',
+    youtube:'-h-xmJ73nd8', duration:'৪২:০৫', module:'মডিউল ২', instructor:'MD. Marufur Rahman',
+    instIco:'MR', isNew:false, views:'১.৮ হাজার', thumb:'💻'
+  },
+  {
+    id:5, cat:'recon', title:'Footprinting ও Information Gathering',
+    desc:'Google Dork, Whois, OSINT টুলস ব্যবহার করে টার্গেট সম্পর্কে তথ্য সংগ্রহ করার পদ্ধতি।',
+    youtube:'JBerMv-V8tE', duration:'২৮:৩০', module:'মডিউল ৩', instructor:'MD. Marufur Rahman',
+    instIco:'MR', isNew:true, views:'৭৬০', thumb:'🔍'
+  },
+  {
+    id:6, cat:'recon', title:'Nmap দিয়ে Port Scanning ও Network Discovery',
+    desc:'Nmap এর বিভিন্ন flag, TCP/UDP scan, OS detection এবং Nmap Automator ব্যবহার।',
+    youtube:'-h-xmJ73nd8', duration:'৩১:১৫', module:'মডিউল ৩', instructor:'Shaikh Tariqul',
+    instIco:'ST', isNew:false, views:'১.১ হাজার', thumb:'📡'
+  },
+  {
+    id:7, cat:'recon', title:'Directory Enumeration — Gobuster ও Dirsearch',
+    desc:'Web directory brute force, FFuf ব্যবহার এবং hidden path খুঁজে বের করার কৌশল।',
+    youtube:'JBerMv-V8tE', duration:'২৪:৫০', module:'মডিউল ৪', instructor:'MD. Marufur Rahman',
+    instIco:'MR', isNew:false, views:'৬৪৫', thumb:'📂'
+  },
+  {
+    id:8, cat:'tools', title:'Burp Suite সম্পূর্ণ গাইড — বাংলায়',
+    desc:'Burp Suite ইনস্টলেশন, Proxy configuration, Intercept, Repeater, Intruder এর ব্যবহার।',
+    youtube:'-h-xmJ73nd8', duration:'৫২:৩০', module:'মডিউল ৬', instructor:'MD. Marufur Rahman',
+    instIco:'MR', isNew:true, views:'৩.২ হাজার', thumb:'🕷️'
+  },
+  {
+    id:9, cat:'tools', title:'Metasploit Framework — Exploit ও Payload',
+    desc:'Metasploit এর আর্কিটেকচার, Exploit কীভাবে কাজ করে, Meterpreter session তৈরি।',
+    youtube:'JBerMv-V8tE', duration:'৪৫:২০', module:'মডিউল ৬', instructor:'Shaikh Tariqul',
+    instIco:'ST', isNew:false, views:'২.১ হাজার', thumb:'🔫'
+  },
+  {
+    id:10, cat:'tools', title:'Nessus দিয়ে Vulnerability Scanning',
+    desc:'Nessus ইনস্টলেশন, Scan policy তৈরি, CVE ও CVSS Score বোঝা এবং রিপোর্ট তৈরি।',
+    youtube:'-h-xmJ73nd8', duration:'৩৮:১০', module:'মডিউল ৫', instructor:'MD. Marufur Rahman',
+    instIco:'MR', isNew:false, views:'৮৯০', thumb:'🔬'
+  },
+  {
+    id:11, cat:'web', title:'SQL Injection — সম্পূর্ণ বাংলা গাইড',
+    desc:'Error-based, Blind, Time-based SQL Injection। SQLMap ব্যবহার এবং কীভাবে প্রতিরোধ করবেন।',
+    youtube:'JBerMv-V8tE', duration:'৫৮:৪৫', module:'মডিউল ৭', instructor:'MD. Marufur Rahman',
+    instIco:'MR', isNew:true, views:'৪.৫ হাজার', thumb:'💉'
+  },
+  {
+    id:12, cat:'web', title:'XSS Attack — Reflected, Stored ও DOM Based',
+    desc:'Cross-Site Scripting এর তিন ধরন, Cookie চুরি করার পদ্ধতি এবং XSS থেকে সুরক্ষা।',
+    youtube:'-h-xmJ73nd8', duration:'৩৩:২০', module:'মডিউল ৮', instructor:'Safwan Muntasir',
+    instIco:'SM', isNew:false, views:'১.৬ হাজার', thumb:'⚡'
+  },
+  {
+    id:13, cat:'web', title:'CSRF ও SSRF Attack Explained',
+    desc:'Cross-Site Request Forgery এবং Server-Side Request Forgery কীভাবে কাজ করে এবং exploit করতে হয়।',
+    youtube:'JBerMv-V8tE', duration:'২৭:৩৫', module:'মডিউল ৮', instructor:'MD. Marufur Rahman',
+    instIco:'MR', isNew:false, views:'৭৩০', thumb:'🔄'
+  },
+  {
+    id:14, cat:'web', title:'LFI/RFI — File Inclusion Vulnerability',
+    desc:'Local File Inclusion ও Remote File Inclusion থেকে Remote Code Execution পর্যন্ত।',
+    youtube:'-h-xmJ73nd8', duration:'৩০:০০', module:'মডিউল ৮', instructor:'Arafat Ul Islam',
+    instIco:'AI', isNew:false, views:'৫৬০', thumb:'📁'
+  },
+  {
+    id:15, cat:'network', title:'Wireshark দিয়ে Network Traffic Analysis',
+    desc:'Packet capture, Filter ব্যবহার, HTTP/HTTPS ট্র্যাফিক বিশ্লেষণ এবং Man-in-the-Middle detection।',
+    youtube:'JBerMv-V8tE', duration:'৪০:১৫', module:'মডিউল ১০', instructor:'Shaikh Tariqul',
+    instIco:'ST', isNew:true, views:'১.৩ হাজার', thumb:'📊'
+  },
+  {
+    id:16, cat:'network', title:'Man-in-the-Middle Attack বাংলায়',
+    desc:'ARP Poisoning, DNS Spoofing এবং MITM attack কীভাবে ঠেকাবেন — সম্পূর্ণ বাংলা গাইড।',
+    youtube:'-h-xmJ73nd8', duration:'৩৫:৫০', module:'মডিউল ১০', instructor:'MD. Marufur Rahman',
+    instIco:'MR', isNew:false, views:'১.০ হাজার', thumb:'🕵️'
+  },
+  {
+    id:17, cat:'pentest', title:'TryHackMe Room Solve — CTF বাংলায়',
+    desc:'TryHackMe প্ল্যাটফর্মে কীভাবে Room solve করবেন। Beginner-friendly CTF walkthrough।',
+    youtube:'JBerMv-V8tE', duration:'৬৮:২০', module:'মডিউল ৯', instructor:'Dipto Dutta',
+    instIco:'DD', isNew:true, views:'২.৮ হাজার', thumb:'🎮'
+  },
+  {
+    id:18, cat:'pentest', title:'Brute Force Attack — Hydra ও Medusa',
+    desc:'Password brute force, Wordlist তৈরি, SSH/FTP/HTTP brute force এবং প্রতিরোধ পদ্ধতি।',
+    youtube:'-h-xmJ73nd8', duration:'২৯:৪০', module:'মডিউল ৪', instructor:'Arafat Ul Islam',
+    instIco:'AI', isNew:false, views:'৮৮০', thumb:'⚔️'
+  },
+  {
+    id:19, cat:'pentest', title:'Vulnerability Assessment রিপোর্ট লেখা',
+    desc:'Professional VAPT রিপোর্ট কীভাবে লিখবেন। CVE, CVSS Score, Risk Rating সহ সম্পূর্ণ গাইড।',
+    youtube:'JBerMv-V8tE', duration:'৪৪:০০', module:'মডিউল ৫', instructor:'Shaikh Tariqul',
+    instIco:'ST', isNew:false, views:'৬৭০', thumb:'📝'
+  },
+  {
+    id:20, cat:'tools', title:'Acunetix Web Vulnerability Scanner',
+    desc:'Acunetix দিয়ে web application এর automated vulnerability scan, রিপোর্ট বিশ্লেষণ।',
+    youtube:'-h-xmJ73nd8', duration:'৩৬:৩০', module:'মডিউল ৫', instructor:'MD. Marufur Rahman',
+    instIco:'MR', isNew:true, views:'৯২০', thumb:'🌐'
+  }
+];
+
+// Tag mapping
+const TAG_MAP = {
+  intro:{cls:'tag-intro',lbl:'ভূমিকা'},
+  linux:{cls:'tag-linux',lbl:'Linux'},
+  recon:{cls:'tag-recon',lbl:'Recon'},
+  pentest:{cls:'tag-pentest',lbl:'Pentesting'},
+  web:{cls:'tag-web',lbl:'Web Hacking'},
+  tools:{cls:'tag-tools',lbl:'Tools'},
+  network:{cls:'tag-network',lbl:'Network'}
+};
+
+let currentVideoIdx = 0;
+let watched = JSON.parse(localStorage.getItem('mh_watched') || '[]');
+let filteredVideos = [...VIDEOS];
+
+// ══ Auth check ══
+auth.onAuthStateChanged(function(user) {
+  document.getElementById('loadingScreen').style.display = 'none';
+
+  if (!user) {
+    showLoginGate();
+    return;
+  }
+
+  // Check access: admin OR enrolled student
+  var isAdmin = ADMIN_EMAILS.includes(user.email);
+  if (isAdmin) {
+    grantAccess(user, 'admin');
+    return;
+  }
+
+  // Check Firestore enrollment
+  db.collection('enrollments').doc(user.uid).get()
+  .then(function(doc) {
+    var hasActive = doc.exists && (doc.data().courses||[]).some(function(c){ return c.status==='active'; });
+    // Also check localStorage fallback
+    var localOrders = JSON.parse(localStorage.getItem('mh_orders')||'[]');
+    var hasLocalOrder = localOrders.some(function(o){ return o.email===user.email; });
+
+    if (hasActive || hasLocalOrder) {
+      grantAccess(user, 'student');
+    } else {
+      showEnrolledGate(user);
+    }
+  })
+  .catch(function() {
+    // Network error — check localStorage
+    var localOrders = JSON.parse(localStorage.getItem('mh_orders')||'[]');
+    var hasLocalOrder = localOrders.some(function(o){ return o.email===user.email; });
+    if (hasLocalOrder) {
+      grantAccess(user, 'student');
+    } else {
+      showEnrolledGate(user);
+    }
+  });
+});
+
+// ══ Grant access ══
+function grantAccess(user, role) {
+  document.getElementById('gateScreen').style.display = 'none';
+  document.getElementById('mainApp').style.display = 'block';
+
+  document.getElementById('topUserAv').textContent = (user.displayName||user.email).charAt(0).toUpperCase();
+  document.getElementById('topUserName').textContent = user.displayName || user.email.split('@')[0];
+
+  var badge = document.getElementById('accessBadge');
+  if (role === 'admin') {
+    badge.textContent = '⚡ Admin';
+    badge.className = 'access-badge badge-admin';
+  } else {
+    badge.textContent = '✅ এনরোলড';
+    badge.className = 'access-badge badge-enrolled';
+  }
+
+  renderVideos(VIDEOS);
+  updateProgress();
+}
+
+// ══ Gate screens ══
+function showLoginGate() {
+  document.getElementById('gateScreen').style.display = 'flex';
+  document.getElementById('gateTitle').textContent = 'লগইন করুন';
+  document.getElementById('gateDesc').textContent = 'ভিডিও দেখতে প্রথমে Google একাউন্ট দিয়ে লগইন করুন।';
+  document.getElementById('gateCard').innerHTML = `
+    <button class="btn-google" id="btnGoogleLogin">
+      <svg width="20" height="20" viewBox="0 0 48 48"><path d="M43.6 20.1H24v7.8h11.3c-1.1 5.3-5.8 9-11.3 9-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.1 8 3l5.8-5.8C34.1 7.3 29.3 5 24 5 13.5 5 5 13.5 5 24s8.5 19 19 19c10.7 0 18.4-7.5 18.4-18.5 0-1.2-.1-2.5-.4-4.4z" fill="#FFC107"/><path d="M6.3 14.7l6.6 4.8C14.5 16 18.9 13 24 13c3.1 0 5.9 1.1 8 3l5.8-5.8C34.1 7.3 29.3 5 24 5c-7.7 0-14.4 4.4-17.7 9.7z" fill="#FF3D00"/><path d="M24 43c5.2 0 9.9-1.9 13.5-5.1l-6.3-5.2C29.1 34.4 26.6 35 24 35c-5.4 0-10-3.6-11.2-8.6l-6.6 5.1C9.5 38.4 16.3 43 24 43z" fill="#4CAF50"/><path d="M43.6 20.1H24v7.8h11.3c-.5 2.7-2 5.1-4.2 6.7l6.3 5.2C40.7 36.3 44 30.6 44 24c0-1.2-.1-2.5-.4-3.9z" fill="#1976D2"/></svg>
+      Google দিয়ে লগইন করুন
+    </button>`;
+  document.getElementById('btnGoogleLogin').onclick = function() {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).catch(function(e){ alert('লগইন ব্যর্থ: '+e.message); });
+  };
+}
+
+function showEnrolledGate(user) {
+  document.getElementById('gateScreen').style.display = 'flex';
+  document.getElementById('gateTitle').textContent = 'কোর্স কিনুন';
+  document.getElementById('gateDesc').textContent = user.displayName+' হিসেবে লগইন করা আছেন। ভিডিও দেখতে কোর্সে ভর্তি হতে হবে।';
+  document.getElementById('gateCard').innerHTML = `
+    <div style="font-size:40px;margin-bottom:14px">🎓</div>
+    <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:6px">কোর্সে ভর্তি হোন</div>
+    <div style="font-size:13px;color:#94a3b8;margin-bottom:18px;line-height:1.6">মাত্র <strong style="color:#a855f7">৳৮,৮০০</strong> এ সম্পূর্ণ কোর্স অ্যাক্সেস করুন</div>
+    <button class="btn-enroll-gate" onclick="window.location.href='payment.html'">
+      🚀 এখনই ভর্তি হোন — ৳৮,৮০০
+    </button>
+    <button onclick="auth.signOut()" style="display:block;margin:12px auto 0;font-size:12px;color:#64748b;font-family:var(--font)">অন্য একাউন্টে লগইন করুন</button>`;
+}
+
+// ══ Render videos ══
+function renderVideos(videos) {
+  var grid = document.getElementById('videosGrid');
+  document.getElementById('videoCount').textContent = videos.length + 'টি ভিডিও';
+  if (!videos.length) {
+    grid.innerHTML = '<div class="empty-state"><div>🔍</div><div>কোনো ভিডিও পাওয়া যায়নি</div></div>';
+    return;
+  }
+  grid.innerHTML = videos.map(function(v, i) {
+    var tag = TAG_MAP[v.cat] || {cls:'tag-intro',lbl:v.cat};
+    var isWatched = watched.includes(v.id);
+    return `
+    <div class="video-card" onclick="openVideo(${i}, ${JSON.stringify(videos).replace(/"/g,'&quot;')})">
+      <div class="video-thumb">
+        <div class="thumb-bg">
+          <span class="thumb-ico">${v.thumb}</span>
+        </div>
+        <div class="play-btn"><div class="play-arrow"></div></div>
+        <div class="thumb-overlay"></div>
+        <span class="module-ribbon">${v.module}</span>
+        ${v.isNew?'<span class="new-ribbon">NEW</span>':''}
+        <span class="duration-badge">${v.duration}</span>
+        ${isWatched?'<div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);background:rgba(16,185,129,.9);color:#fff;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700">✅ দেখা হয়েছে</div>':''}
+      </div>
+      <div class="video-info">
+        <div class="video-meta">
+          <span class="topic-tag ${tag.cls}">${tag.lbl}</span>
+          <span class="video-num">ভিডিও ${v.id}</span>
+        </div>
+        <div class="video-title">${v.title}</div>
+        <div class="video-footer">
+          <div class="instructor-row">
+            <div class="inst-mini-av">${v.instIco}</div>
+            <span class="inst-mini-name">${v.instructor}</span>
+          </div>
+          <div class="views-txt">👁️ ${v.views}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══ Open video player ══
+function openVideo(idx, videosArr) {
+  // videosArr might be stringified — use filteredVideos instead
+  currentVideoIdx = idx;
+  var video = filteredVideos[idx];
+  if (!video) return;
+
+  // Mark as watched
+  if (!watched.includes(video.id)) {
+    watched.push(video.id);
+    localStorage.setItem('mh_watched', JSON.stringify(watched));
+    updateProgress();
+    renderVideos(filteredVideos);
+  }
+
+  var embedUrl = 'https://www.youtube.com/embed/' + video.youtube + '?autoplay=1&rel=0&modestbranding=1';
+  document.getElementById('playerIframe').src = embedUrl;
+  document.getElementById('playerTitle').textContent = video.title;
+
+  var tag = TAG_MAP[video.cat]||{cls:'tag-intro',lbl:video.cat};
+  document.getElementById('playerMeta').innerHTML = `
+    <span class="topic-tag ${tag.cls}">${tag.lbl}</span>
+    <span style="font-size:12px;color:var(--text3)">⏱️ ${video.duration}</span>
+    <span style="font-size:12px;color:var(--text3)">📖 ${video.module}</span>
+    <span style="font-size:12px;color:var(--text2);display:flex;align-items:center;gap:5px">
+      <span style="width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#a855f7);display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff">${video.instIco}</span>
+      ${video.instructor}
+    </span>`;
+  document.getElementById('playerDesc').textContent = video.desc;
+  document.getElementById('btnPrev').disabled = idx === 0;
+  document.getElementById('btnNext').disabled = idx === filteredVideos.length - 1;
+  document.getElementById('playerOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePlayer() {
+  document.getElementById('playerIframe').src = '';
+  document.getElementById('playerOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function navigateVideo(dir) {
+  var newIdx = currentVideoIdx + dir;
+  if (newIdx >= 0 && newIdx < filteredVideos.length) {
+    openVideo(newIdx);
+  }
+}
+
+// Close on backdrop click
+document.getElementById('playerOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closePlayer();
+});
+
+// ESC key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closePlayer();
+});
+
+// ══ Filter ══
+document.querySelectorAll('.ftab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+    var cat = this.getAttribute('data-cat');
+    filteredVideos = cat === 'all' ? [...VIDEOS] : VIDEOS.filter(v => v.cat === cat);
+    applySearch(filteredVideos);
+  });
+});
+
+document.getElementById('searchInput').addEventListener('input', function() {
+  var cat = document.querySelector('.ftab.active').getAttribute('data-cat');
+  var base = cat === 'all' ? [...VIDEOS] : VIDEOS.filter(v => v.cat === cat);
+  applySearch(base);
+});
+
+function applySearch(base) {
+  var q = document.getElementById('searchInput').value.toLowerCase().trim();
+  filteredVideos = !q ? base : base.filter(v =>
+    v.title.toLowerCase().includes(q) ||
+    v.desc.toLowerCase().includes(q) ||
+    v.instructor.toLowerCase().includes(q) ||
+    v.module.toLowerCase().includes(q)
+  );
+  renderVideos(filteredVideos);
+}
+
+// ══ Progress ══
+function updateProgress() {
+  var pct = Math.round((watched.length / VIDEOS.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('watchedCount').textContent = watched.length;
+}
+
+// ══ Logout ══
+document.getElementById('btnLogout').onclick = function() {
+  if (confirm('লগআউট করবেন?')) auth.signOut();
+};
+</script>
+</body>
+</html>
