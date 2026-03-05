@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel | MH Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<!-- Firebase compat -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey:"AIzaSyCSVcrc2L6aVMb4GZ5pLIUufXS2k1Dem7o",
+  authDomain:"login-app-fb96c.firebaseapp.com",
+  projectId:"login-app-fb96c",
+  storageBucket:"login-app-fb96c.firebasestorage.app",
+  messagingSenderId:"377973996747",
+  appId:"1:377973996747:web:7a01d630fe75230627ef4e"
+});
+const auth = firebase.auth();
+const db   = firebase.firestore();
+// ── Admin emails — এখানে আপনার admin email যোগ করুন ──
+const ADMIN_EMAILS = ['your@email.com','admin@mhacademy.com.bd'];
+</script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0a0a0f;--bg2:#111118;--bg3:#1a1a24;--bg4:#22222f;
+  --border:#2a2a3a;--border2:#333345;
+  --purple:#7c3aed;--purple2:#a855f7;--purple-glow:rgba(124,58,237,.25);
+  --green:#10b981;--green-dim:#064e3b;
+  --orange:#f97316;--orange-dim:#7c2d12;
+  --red:#ef4444;--red-dim:#7f1d1d;
+  --yellow:#f59e0b;--yellow-dim:#78350f;
+  --blue:#3b82f6;--blue-dim:#1e3a5f;
+  --text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;
+  --white:#fff;--font:'Hind Siliguri',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+button{font-family:var(--font);cursor:pointer;border:none;outline:none;background:none}
+input,select,textarea{font-family:var(--font)}
+a{text-decoration:none;color:inherit}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+/* ═══ LOGIN SCREEN ═══ */
+#loginScreen{
+  position:fixed;inset:0;z-index:999;
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+}
+.login-wrap{
+  width:100%;max-width:400px;padding:24px;
+  text-align:center;
+}
+.login-logo{
+  width:64px;height:64px;
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  border-radius:16px;margin:0 auto 20px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;font-weight:900;color:#fff;
+  box-shadow:0 0 40px var(--purple-glow);
+}
+.login-title{font-size:22px;font-weight:800;color:var(--white);margin-bottom:6px}
+.login-sub{font-size:14px;color:var(--text2);margin-bottom:32px}
+.login-card{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:20px;padding:28px;
+}
+.login-label{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;text-align:left;display:block}
+.login-input{
+  width:100%;background:var(--bg2);border:1px solid var(--border2);
+  border-radius:10px;padding:12px 14px;color:var(--text);
+  font-size:14px;margin-bottom:14px;outline:none;
+  transition:border-color .2s;
+}
+.login-input:focus{border-color:var(--purple)}
+.btn-login{
+  width:100%;padding:13px;
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  color:#fff;border-radius:12px;font-size:15px;font-weight:700;
+  margin-bottom:14px;transition:all .2s;
+  box-shadow:0 4px 20px var(--purple-glow);
+}
+.btn-login:hover{transform:translateY(-1px);box-shadow:0 8px 28px var(--purple-glow)}
+.btn-login:active{transform:scale(.97)}
+.login-err{color:var(--red);font-size:13px;margin-top:-8px;margin-bottom:10px;display:none}
+.login-note{font-size:12px;color:var(--text3);margin-top:14px}
+
+/* ═══ LAYOUT ═══ */
+#appShell{display:none}
+
+.sidebar{
+  position:fixed;left:0;top:0;bottom:0;width:240px;
+  background:var(--bg2);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;z-index:100;
+  transition:transform .3s;
+}
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main-area{margin-left:0!important}
+}
+.sidebar-header{
+  padding:20px 20px 16px;
+  border-bottom:1px solid var(--border);
+}
+.sidebar-logo{display:flex;align-items:center;gap:10px}
+.s-logo-box{
+  width:32px;height:32px;
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:900;color:#fff;
+}
+.s-logo-name{font-size:15px;font-weight:800;color:var(--white)}
+.s-logo-name span{color:var(--purple2)}
+.admin-badge{
+  font-size:10px;font-weight:700;color:var(--purple2);
+  background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);
+  border-radius:4px;padding:2px 6px;margin-left:auto;
+}
+
+.sidebar-nav{flex:1;padding:12px 10px;overflow-y:auto}
+.nav-group-label{
+  font-size:10px;font-weight:700;color:var(--text3);
+  letter-spacing:.8px;text-transform:uppercase;
+  padding:12px 10px 6px;
+}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:10px;
+  font-size:14px;font-weight:500;color:var(--text2);
+  cursor:pointer;transition:all .15s;margin-bottom:2px;
+  position:relative;
+}
+.nav-item:hover{background:var(--bg3);color:var(--text)}
+.nav-item.active{background:rgba(124,58,237,.15);color:var(--purple2)}
+.nav-item.active::before{
+  content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:3px;height:60%;background:var(--purple2);border-radius:0 2px 2px 0;
+}
+.nav-ico{font-size:17px;flex-shrink:0}
+.nav-badge{
+  margin-left:auto;background:var(--red);color:#fff;
+  border-radius:100px;padding:1px 7px;font-size:10px;font-weight:700;
+}
+.nav-badge.green{background:var(--green)}
+.nav-badge.yellow{background:var(--yellow)}
+
+.sidebar-footer{
+  padding:14px 20px;border-top:1px solid var(--border);
+}
+.admin-user{display:flex;align-items:center;gap:10px}
+.admin-av{
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:700;font-size:13px;flex-shrink:0;
+}
+.admin-name-txt{font-size:13px;font-weight:700;color:var(--text)}
+.admin-role{font-size:11px;color:var(--text3)}
+.btn-signout{
+  margin-left:auto;color:var(--text3);font-size:18px;padding:4px;
+  transition:color .15s;
+}
+.btn-signout:hover{color:var(--red)}
+
+/* ═══ TOPBAR ═══ */
+.topbar{
+  position:fixed;top:0;left:240px;right:0;height:58px;
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 20px;gap:14px;
+  z-index:90;transition:left .3s;
+}
+@media(max-width:900px){.topbar{left:0}}
+.menu-toggle{
+  font-size:20px;color:var(--text2);padding:6px;
+  display:none;
+}
+@media(max-width:900px){.menu-toggle{display:block}}
+.topbar-title{font-size:16px;font-weight:800;color:var(--white)}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.topbar-btn{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:9px;padding:7px 14px;font-size:13px;
+  color:var(--text2);transition:all .15s;
+  display:flex;align-items:center;gap:6px;
+}
+.topbar-btn:hover{border-color:var(--purple);color:var(--purple2)}
+.topbar-notif{
+  width:34px;height:34px;border-radius:9px;
+  background:var(--bg3);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;position:relative;cursor:pointer;
+}
+.notif-dot{
+  position:absolute;top:6px;right:7px;
+  width:7px;height:7px;border-radius:50%;background:var(--red);
+  border:2px solid var(--bg2);
+}
+
+/* ═══ MAIN AREA ═══ */
+.main-area{
+  margin-left:240px;padding-top:58px;min-height:100vh;
+  transition:margin-left .3s;
+}
+.page{display:none;padding:24px;animation:fadeIn .2s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══ CARDS ═══ */
+.card{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:16px;padding:20px;
+}
+.card-title{
+  font-size:14px;font-weight:700;color:var(--text2);
+  margin-bottom:16px;display:flex;align-items:center;gap:8px;
+}
+
+/* ═══ STATS GRID ═══ */
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:14px;margin-bottom:24px;
+}
+.stat-card{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:14px;padding:18px 16px;
+  transition:border-color .2s;cursor:default;
+}
+.stat-card:hover{border-color:var(--border2)}
+.stat-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.stat-ico{
+  width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.ic-purple{background:rgba(124,58,237,.15)}
+.ic-green{background:rgba(16,185,129,.12)}
+.ic-orange{background:rgba(249,115,22,.12)}
+.ic-blue{background:rgba(59,130,246,.12)}
+.ic-red{background:rgba(239,68,68,.12)}
+.ic-yellow{background:rgba(245,158,11,.12)}
+.stat-trend{
+  font-size:11px;font-weight:700;border-radius:6px;
+  padding:3px 7px;
+}
+.trend-up{color:var(--green);background:rgba(16,185,129,.12)}
+.trend-down{color:var(--red);background:rgba(239,68,68,.12)}
+.stat-val{font-size:26px;font-weight:800;color:var(--white);margin-bottom:4px}
+.stat-lbl{font-size:12px;color:var(--text3)}
+
+/* ═══ TABLE ═══ */
+.table-wrap{overflow-x:auto;margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{
+  text-align:left;padding:10px 14px;
+  font-size:11px;font-weight:700;color:var(--text3);
+  letter-spacing:.5px;text-transform:uppercase;
+  background:var(--bg2);border-bottom:1px solid var(--border);
+}
+td{
+  padding:13px 14px;border-bottom:1px solid var(--border);
+  color:var(--text);vertical-align:middle;
+}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+.td-name{font-weight:700;color:var(--white)}
+.td-mono{font-family:var(--mono);font-size:12px;color:var(--text2)}
+
+/* Status badges */
+.badge{
+  display:inline-flex;align-items:center;gap:5px;
+  border-radius:100px;padding:4px 10px;
+  font-size:11px;font-weight:700;white-space:nowrap;
+}
+.badge-pending{background:rgba(245,158,11,.12);color:var(--yellow)}
+.badge-active{background:rgba(16,185,129,.12);color:var(--green)}
+.badge-rejected{background:rgba(239,68,68,.12);color:var(--red)}
+.bdot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+/* Action buttons */
+.btn-sm{
+  padding:5px 12px;border-radius:7px;font-size:12px;font-weight:700;
+  transition:all .15s;display:inline-flex;align-items:center;gap:5px;
+}
+.btn-approve{background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.3)}
+.btn-approve:hover{background:rgba(16,185,129,.25)}
+.btn-reject{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.25)}
+.btn-reject:hover{background:rgba(239,68,68,.2)}
+.btn-view{background:rgba(59,130,246,.1);color:var(--blue);border:1px solid rgba(59,130,246,.25)}
+.btn-view:hover{background:rgba(59,130,246,.2)}
+.btn-edit{background:rgba(124,58,237,.1);color:var(--purple2);border:1px solid rgba(124,58,237,.25)}
+.btn-edit:hover{background:rgba(124,58,237,.2)}
+.btn-del{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.25)}
+.btn-del:hover{background:rgba(239,68,68,.2)}
+.btn-primary{
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  color:#fff;border-radius:10px;padding:10px 18px;
+  font-size:13px;font-weight:700;transition:all .2s;
+  box-shadow:0 4px 14px var(--purple-glow);
+  display:inline-flex;align-items:center;gap:7px;
+}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px var(--purple-glow)}
+.btn-primary:active{transform:scale(.97)}
+.btn-secondary{
+  background:var(--bg4);color:var(--text2);border-radius:10px;
+  padding:10px 18px;font-size:13px;font-weight:600;
+  border:1px solid var(--border2);transition:all .15s;
+  display:inline-flex;align-items:center;gap:7px;
+}
+.btn-secondary:hover{border-color:var(--purple);color:var(--purple2)}
+
+/* ═══ GRID LAYOUTS ═══ */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:700px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+/* ═══ FORM ═══ */
+.form-group{margin-bottom:16px}
+.form-label{font-size:12px;font-weight:700;color:var(--text2);display:block;margin-bottom:7px}
+.form-input{
+  width:100%;background:var(--bg2);border:1px solid var(--border2);
+  border-radius:10px;padding:11px 14px;color:var(--text);
+  font-size:14px;outline:none;transition:border-color .2s;
+}
+.form-input:focus{border-color:var(--purple)}
+.form-input::placeholder{color:var(--text3)}
+select.form-input option{background:var(--bg3)}
+textarea.form-input{resize:vertical;min-height:90px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.form-row{grid-template-columns:1fr}}
+.form-hint{font-size:11px;color:var(--text3);margin-top:4px}
+
+/* ═══ TABS ═══ */
+.tab-bar{
+  display:flex;gap:4px;background:var(--bg2);
+  border-radius:10px;padding:4px;margin-bottom:20px;
+  border:1px solid var(--border);width:fit-content;
+}
+.tab-item{
+  padding:8px 16px;border-radius:7px;font-size:13px;
+  font-weight:600;color:var(--text2);cursor:pointer;transition:all .15s;
+}
+.tab-item.active{background:var(--bg3);color:var(--white);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+
+/* ═══ MODAL ═══ */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.75);
+  z-index:1000;display:none;align-items:center;justify-content:center;
+  padding:16px;
+}
+.modal-overlay.show{display:flex}
+.modal-box{
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:20px;padding:24px;width:100%;max-width:500px;
+  animation:modalPop .25s cubic-bezier(.175,.885,.32,1.275);
+  max-height:90vh;overflow-y:auto;
+}
+@keyframes modalPop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:20px;
+}
+.modal-title{font-size:17px;font-weight:800;color:var(--white)}
+.btn-close-modal{color:var(--text3);font-size:22px;padding:2px;transition:color .15s}
+.btn-close-modal:hover{color:var(--red)}
+.modal-footer{display:flex;gap:10px;margin-top:20px;justify-content:flex-end}
+
+/* ═══ TOAST ═══ */
+#toast{
+  position:fixed;bottom:24px;right:24px;z-index:9999;
+  display:flex;flex-direction:column;gap:8px;
+}
+.toast-item{
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:12px;padding:12px 18px;
+  font-size:13px;font-weight:600;color:var(--text);
+  display:flex;align-items:center;gap:10px;min-width:260px;
+  box-shadow:0 8px 28px rgba(0,0,0,.4);
+  animation:toastIn .3s ease;
+}
+@keyframes toastIn{from{transform:translateX(40px);opacity:0}to{transform:translateX(0);opacity:1}}
+.toast-item.success{border-left:3px solid var(--green)}
+.toast-item.error{border-left:3px solid var(--red)}
+.toast-item.info{border-left:3px solid var(--blue)}
+
+/* ═══ SEARCH ═══ */
+.search-bar{
+  display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;
+}
+.search-input{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:10px;padding:9px 14px 9px 36px;color:var(--text);
+  font-size:13px;outline:none;width:260px;transition:border-color .2s;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%2364748b' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:12px center;
+}
+.search-input:focus{border-color:var(--purple);width:300px}
+.filter-select{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:10px;padding:9px 14px;color:var(--text2);
+  font-size:13px;outline:none;cursor:pointer;
+}
+.filter-select option{background:var(--bg3)}
+
+/* ═══ CHART PLACEHOLDER ═══ */
+.chart-area{
+  height:180px;background:var(--bg2);border-radius:12px;
+  display:flex;align-items:flex-end;gap:6px;padding:14px;
+  margin-top:8px;
+}
+.bar{
+  flex:1;border-radius:4px 4px 0 0;
+  background:linear-gradient(180deg,var(--purple),var(--purple2));
+  opacity:.7;transition:opacity .2s;cursor:pointer;min-width:12px;
+}
+.bar:hover{opacity:1}
+
+/* ═══ AVATAR ═══ */
+.av{
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:#fff;
+}
+
+/* ═══ NOTICE ═══ */
+.notice{
+  background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);
+  border-radius:12px;padding:14px 16px;
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:13px;color:#fde68a;margin-bottom:18px;
+}
+
+/* ═══ PAGE HEADER ═══ */
+.page-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:22px;flex-wrap:wrap;gap:12px;
+}
+.page-title{font-size:20px;font-weight:800;color:var(--white)}
+.page-sub{font-size:13px;color:var(--text3);margin-top:2px}
+
+/* ═══ PROGRESS ═══ */
+.prog-bar{background:var(--bg2);border-radius:100px;height:6px;overflow:hidden;flex:1}
+.prog-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--purple),var(--purple2))}
+
+/* ═══ EMPTY ═══ */
+.empty-row td{text-align:center;padding:40px;color:var(--text3);font-size:14px}
+</style>
+</head>
+<body>
+
+<!-- ═══ LOGIN SCREEN ═══ -->
+<div id="loginScreen">
+  <div class="login-wrap">
+    <div class="login-logo">MH</div>
+    <div class="login-title">Admin Panel</div>
+    <div class="login-sub">MH Academy — শুধুমাত্র অ্যাডমিনদের জন্য</div>
+    <div class="login-card">
+      <label class="login-label">ইমেইল</label>
+      <input class="login-input" id="loginEmail" type="email" placeholder="admin@mhacademy.com.bd">
+      <label class="login-label">পাসওয়ার্ড</label>
+      <input class="login-input" id="loginPass" type="password" placeholder="••••••••">
+      <div class="login-err" id="loginErr">❌ ভুল ইমেইল বা পাসওয়ার্ড</div>
+      <button class="btn-login" id="btnAdminLogin">লগইন করুন →</button>
+      <div class="login-note">🔒 এই পেইজ শুধুমাত্র অ্যাডমিনদের জন্য</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ APP SHELL ═══ -->
+<div id="appShell">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <div class="s-logo-box">MH</div>
+        <span class="s-logo-name">MH <span>Academy</span></span>
+        <span class="admin-badge">ADMIN</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-group-label">মেইন</div>
+      <div class="nav-item active" data-page="dashboard">
+        <span class="nav-ico">📊</span> ড্যাশবোর্ড
+      </div>
+
+      <div class="nav-group-label">অর্ডার</div>
+      <div class="nav-item" data-page="orders">
+        <span class="nav-ico">📋</span> অর্ডার ম্যানেজমেন্ট
+        <span class="nav-badge" id="pendingCount">0</span>
+      </div>
+      <div class="nav-item" data-page="students">
+        <span class="nav-ico">👨‍🎓</span> স্টুডেন্ট ম্যানেজমেন্ট
+      </div>
+      <div class="nav-item" data-page="payments">
+        <span class="nav-ico">💰</span> পেমেন্ট রিপোর্ট
+      </div>
+
+      <div class="nav-group-label">কন্টেন্ট</div>
+      <div class="nav-item" data-page="classes">
+        <span class="nav-ico">🎬</span> ক্লাস ম্যানেজমেন্ট
+      </div>
+      <div class="nav-item" data-page="batches">
+        <span class="nav-ico">🏷️</span> ব্যাচ ম্যানেজমেন্ট
+      </div>
+      <div class="nav-item" data-page="courses">
+        <span class="nav-ico">📚</span> কোর্স ম্যানেজমেন্ট
+      </div>
+
+      <div class="nav-group-label">সিস্টেম</div>
+      <div class="nav-item" data-page="notifications">
+        <span class="nav-ico">🔔</span> নোটিফিকেশন পাঠান
+      </div>
+      <div class="nav-item" data-page="settings">
+        <span class="nav-ico">⚙️</span> সেটিংস
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="admin-user">
+        <div class="admin-av" id="adminAv">A</div>
+        <div>
+          <div class="admin-name-txt" id="adminName">Admin</div>
+          <div class="admin-role">Super Admin</div>
+        </div>
+        <button class="btn-signout" id="btnSignOut" title="লগআউট">⏻</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <span class="topbar-title" id="topbarTitle">ড্যাশবোর্ড</span>
+    <div class="topbar-right">
+      <a href="index.html" target="_blank" class="topbar-btn">🌐 ওয়েবসাইট</a>
+      <div class="topbar-notif" id="notifBell">🔔<div class="notif-dot" id="notifDot"></div></div>
+    </div>
+  </div>
+
+  <!-- MAIN AREA -->
+  <div class="main-area">
+
+    <!-- ─── PAGE: DASHBOARD ─── -->
+    <div class="page active" id="page-dashboard">
+      <div class="page-header">
+        <div>
+          <div class="page-title">ওভারভিউ</div>
+          <div class="page-sub">সকল তথ্যের সারসংক্ষেপ</div>
+        </div>
+        <button class="btn-primary" id="btnRefresh">🔄 রিফ্রেশ</button>
+      </div>
+
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card">
+          <div class="stat-top"><div class="stat-ico ic-orange">📋</div><span class="stat-trend trend-up" id="trendOrders">+0</span></div>
+          <div class="stat-val" id="statTotalOrders">0</div>
+          <div class="stat-lbl">মোট অর্ডার</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top"><div class="stat-ico ic-yellow">⏳</div></div>
+          <div class="stat-val" id="statPending">0</div>
+          <div class="stat-lbl">যাচাই বাকি</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top"><div class="stat-ico ic-green">✅</div></div>
+          <div class="stat-val" id="statApproved">0</div>
+          <div class="stat-lbl">অ্যাপ্রুভড</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top"><div class="stat-ico ic-purple">👨‍🎓</div></div>
+          <div class="stat-val" id="statStudents">0</div>
+          <div class="stat-lbl">মোট স্টুডেন্ট</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top"><div class="stat-ico ic-blue">💰</div></div>
+          <div class="stat-val" id="statRevenue">৳০</div>
+          <div class="stat-lbl">মোট আয়</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top"><div class="stat-ico ic-red">❌</div></div>
+          <div class="stat-val" id="statRejected">0</div>
+          <div class="stat-lbl">বাতিল</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Recent orders -->
+        <div class="card">
+          <div class="card-title">📋 সাম্প্রতিক অর্ডার</div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>নাম</th><th>পরিমাণ</th><th>স্ট্যাটাস</th></tr></thead>
+              <tbody id="recentOrdersBody">
+                <tr class="empty-row"><td colspan="3">লোড হচ্ছে...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Revenue chart -->
+        <div class="card">
+          <div class="card-title">📈 আয়ের চিত্র (শেষ ৭ দিন)</div>
+          <div class="chart-area" id="revenueChart"></div>
+          <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--text3)" id="chartLabels"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── PAGE: ORDERS ─── -->
+    <div class="page" id="page-orders">
+      <div class="page-header">
+        <div>
+          <div class="page-title">অর্ডার ম্যানেজমেন্ট</div>
+          <div class="page-sub">পেমেন্ট যাচাই ও অ্যাপ্রুভ করুন</div>
+        </div>
+        <button class="btn-primary" onclick="loadOrders()">🔄 আপডেট</button>
+      </div>
+
+      <div class="notice">
+        ⚠️ <strong>নতুন অর্ডার আসলে</strong> এখানে দেখাবে। TrxID যাচাই করে Approve বা Reject করুন। Approve হলে স্টুডেন্টের ড্যাশবোর্ডে ব্যাচ একটিভ হবে।
+      </div>
+
+      <div class="tab-bar" id="orderTabs">
+        <div class="tab-item active" data-filter="all">সব</div>
+        <div class="tab-item" data-filter="pending_verification">যাচাই বাকি</div>
+        <div class="tab-item" data-filter="active">অ্যাপ্রুভড</div>
+        <div class="tab-item" data-filter="rejected">বাতিল</div>
+      </div>
+
+      <div class="search-bar">
+        <input class="search-input" id="orderSearch" placeholder="নাম, TrxID, ফোন দিয়ে খুঁজুন...">
+        <select class="filter-select" id="orderBatchFilter">
+          <option value="">সব ব্যাচ</option>
+          <option>৯ম ব্যাচ</option>
+          <option>৮ম ব্যাচ</option>
+        </select>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th><th>নাম</th><th>ফোন</th><th>TrxID</th>
+                <th>পরিমাণ</th><th>ব্যাচ</th><th>স্ট্যাটাস</th>
+                <th>তারিখ</th><th>অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+              <tr class="empty-row"><td colspan="9">লোড হচ্ছে...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── PAGE: STUDENTS ─── -->
+    <div class="page" id="page-students">
+      <div class="page-header">
+        <div>
+          <div class="page-title">স্টুডেন্ট ম্যানেজমেন্ট</div>
+          <div class="page-sub">সকল এনরোলড স্টুডেন্টের তালিকা</div>
+        </div>
+        <button class="btn-primary" onclick="loadStudents()">🔄 আপডেট</button>
+      </div>
+
+      <div class="search-bar">
+        <input class="search-input" id="studentSearch" placeholder="নাম বা ইমেইল দিয়ে খুঁজুন...">
+        <select class="filter-select" id="studentStatusFilter">
+          <option value="">সব স্ট্যাটাস</option>
+          <option value="active">একটিভ</option>
+          <option value="pending_verification">যাচাই বাকি</option>
+        </select>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>#</th><th>নাম</th><th>ইমেইল</th><th>ফোন</th><th>কোর্স</th><th>ব্যাচ</th><th>প্রগ্রেস</th><th>স্ট্যাটাস</th><th>অ্যাকশন</th></tr>
+            </thead>
+            <tbody id="studentsTableBody">
+              <tr class="empty-row"><td colspan="9">লোড হচ্ছে...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── PAGE: PAYMENTS ─── -->
+    <div class="page" id="page-payments">
+      <div class="page-header">
+        <div>
+          <div class="page-title">পেমেন্ট রিপোর্ট</div>
+          <div class="page-sub">সকল পেমেন্টের বিস্তারিত</div>
+        </div>
+        <button class="btn-primary" onclick="exportCSV()">📥 CSV Export</button>
+      </div>
+
+      <div class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="stat-card">
+          <div class="stat-ico ic-green" style="margin-bottom:10px">💰</div>
+          <div class="stat-val" id="payRevenue">৳০</div>
+          <div class="stat-lbl">মোট আয় (অ্যাপ্রুভড)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ico ic-yellow" style="margin-bottom:10px">⏳</div>
+          <div class="stat-val" id="payPending">৳০</div>
+          <div class="stat-lbl">যাচাই বাকি</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ico ic-purple" style="margin-bottom:10px">📊</div>
+          <div class="stat-val" id="payAvg">৳০</div>
+          <div class="stat-lbl">গড় পরিমাণ</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">💳 সকল পেমেন্ট</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>#</th><th>নাম</th><th>মেথড</th><th>TrxID</th><th>পরিমাণ</th><th>প্রোমো</th><th>স্ট্যাটাস</th><th>তারিখ</th></tr>
+            </thead>
+            <tbody id="paymentsTableBody">
+              <tr class="empty-row"><td colspan="8">লোড হচ্ছে...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── PAGE: CLASSES ─── -->
+    <div class="page" id="page-classes">
+      <div class="page-header">
+        <div>
+          <div class="page-title">ক্লাস ম্যানেজমেন্ট</div>
+          <div class="page-sub">লাইভ ক্লাস যোগ ও পরিচালনা করুন</div>
+        </div>
+        <button class="btn-primary" onclick="openModal('addClassModal')">➕ নতুন ক্লাস</button>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>#</th><th>ক্লাসের নাম</th><th>মডিউল</th><th>তারিখ</th><th>সময়</th><th>লিংক</th><th>স্ট্যাটাস</th><th>অ্যাকশন</th></tr>
+            </thead>
+            <tbody id="classesTableBody">
+              <tr class="empty-row"><td colspan="8">কোনো ক্লাস যোগ করা হয়নি</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── PAGE: BATCHES ─── -->
+    <div class="page" id="page-batches">
+      <div class="page-header">
+        <div>
+          <div class="page-title">ব্যাচ ম্যানেজমেন্ট</div>
+          <div class="page-sub">ব্যাচ তৈরি ও পরিচালনা করুন</div>
+        </div>
+        <button class="btn-primary" onclick="openModal('addBatchModal')">➕ নতুন ব্যাচ</button>
+      </div>
+
+      <div class="grid-3" id="batchGrid">
+        <!-- Dynamic batches -->
+        <div class="card" style="border:1px solid rgba(124,58,237,.3)">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+            <div>
+              <div style="font-size:16px;font-weight:800;color:var(--white)">৯ম ব্যাচ</div>
+              <div style="font-size:12px;color:var(--text3);margin-top:2px">শুরু: ১০ মার্চ ২০২৫</div>
+            </div>
+            <span class="badge badge-active"><span class="bdot" style="background:var(--green)"></span> চলমান</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+            <div style="display:flex;justify-content:space-between;font-size:12px">
+              <span style="color:var(--text3)">স্টুডেন্ট</span><span id="b9Students" style="font-weight:700;color:var(--white)">0</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:12px">
+              <span style="color:var(--text3)">ক্লাস হয়েছে</span><span style="font-weight:700;color:var(--white)">0/36</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div class="prog-bar"><div class="prog-fill" style="width:5%"></div></div>
+              <span style="font-size:11px;color:var(--text3)">5%</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn-sm btn-edit" style="flex:1" onclick="showToast('ব্যাচ এডিট','info')">✏️ এডিট</button>
+            <button class="btn-sm btn-view" style="flex:1" onclick="switchPage('students')">👁️ স্টুডেন্ট</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── PAGE: COURSES ─── -->
+    <div class="page" id="page-courses">
+      <div class="page-header">
+        <div>
+          <div class="page-title">কোর্স ম্যানেজমেন্ট</div>
+          <div class="page-sub">কোর্সের তথ্য আপডেট করুন</div>
+        </div>
+        <button class="btn-primary" onclick="openModal('addCourseModal')">➕ নতুন কোর্স</button>
+      </div>
+
+      <div class="grid-2">
+        <div class="card" style="border:1px solid rgba(124,58,237,.3)">
+          <div style="display:flex;gap:14px;align-items:flex-start">
+            <div style="width:52px;height:52px;background:linear-gradient(135deg,#1e1b4b,#4c1d95);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0">🔐</div>
+            <div style="flex:1">
+              <div style="font-size:15px;font-weight:800;color:var(--white);margin-bottom:4px">Cyber Security & Ethical Hacking</div>
+              <div style="font-size:12px;color:var(--text3);margin-bottom:10px">Career Track Program</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <span style="font-size:11px;background:rgba(124,58,237,.15);color:var(--purple2);border-radius:6px;padding:3px 9px;font-weight:700">৳৮,৮০০</span>
+                <span style="font-size:11px;background:rgba(16,185,129,.1);color:var(--green);border-radius:6px;padding:3px 9px;font-weight:700">৩৬ ক্লাস</span>
+                <span style="font-size:11px;background:rgba(59,130,246,.1);color:var(--blue);border-radius:6px;padding:3px 9px;font-weight:700">লাইভ</span>
+              </div>
+            </div>
+          </div>
+          <div style="height:1px;background:var(--border);margin:16px 0"></div>
+          <div style="display:flex;gap:8px">
+            <button class="btn-sm btn-edit" onclick="openModal('editCourseModal')">✏️ এডিট</button>
+            <a href="index.html" target="_blank"><button class="btn-sm btn-view">🌐 দেখুন</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── PAGE: NOTIFICATIONS ─── -->
+    <div class="page" id="page-notifications">
+      <div class="page-header">
+        <div>
+          <div class="page-title">নোটিফিকেশন পাঠান</div>
+          <div class="page-sub">স্টুডেন্টদের Email বা SMS পাঠান</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">📧 Email পাঠান</div>
+          <div class="form-group">
+            <label class="form-label">প্রাপক</label>
+            <select class="form-input" id="emailTo">
+              <option value="all">সব স্টুডেন্ট</option>
+              <option value="active">শুধু একটিভ স্টুডেন্ট</option>
+              <option value="pending">যাচাই বাকি স্টুডেন্ট</option>
+              <option value="batch9">৯ম ব্যাচ</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">সাবজেক্ট</label>
+            <input class="form-input" id="emailSubject" placeholder="Email এর বিষয়">
+          </div>
+          <div class="form-group">
+            <label class="form-label">বার্তা</label>
+            <textarea class="form-input" id="emailBody" placeholder="Email এর বিস্তারিত বার্তা লিখুন..."></textarea>
+          </div>
+          <button class="btn-primary" onclick="sendBulkEmail()">📧 Email পাঠান</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title">📱 SMS পাঠান</div>
+          <div class="form-group">
+            <label class="form-label">প্রাপক</label>
+            <select class="form-input" id="smsTo">
+              <option value="all">সব স্টুডেন্ট</option>
+              <option value="active">শুধু একটিভ</option>
+              <option value="pending">যাচাই বাকি</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">বার্তা <span style="color:var(--text3);font-weight:400">(সর্বোচ্চ ১৬০ অক্ষর)</span></label>
+            <textarea class="form-input" id="smsBody" placeholder="SMS বার্তা লিখুন..." style="min-height:120px" maxlength="160" oninput="document.getElementById('smsCount').textContent=this.value.length"></textarea>
+            <div class="form-hint"><span id="smsCount">0</span>/160 অক্ষর</div>
+          </div>
+          <button class="btn-primary" onclick="sendBulkSMS()">📱 SMS পাঠান</button>
+        </div>
+      </div>
+
+      <!-- Sent history -->
+      <div class="card" style="margin-top:20px">
+        <div class="card-title">📜 পাঠানোর ইতিহাস</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ধরন</th><th>প্রাপক</th><th>বিষয়</th><th>তারিখ</th><th>স্ট্যাটাস</th></tr></thead>
+            <tbody id="notifHistory">
+              <tr class="empty-row"><td colspan="5">কোনো নোটিফিকেশন পাঠানো হয়নি</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── PAGE: SETTINGS ─── -->
+    <div class="page" id="page-settings">
+      <div class="page-header">
+        <div class="page-title">সেটিংস</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">🌐 ওয়েবসাইট সেটিংস</div>
+          <div class="form-group">
+            <label class="form-label">সাইটের নাম</label>
+            <input class="form-input" value="MH Academy" id="siteName">
+          </div>
+          <div class="form-group">
+            <label class="form-label">যোগাযোগ নম্বর</label>
+            <input class="form-input" value="01343914432" id="sitePhone">
+          </div>
+          <div class="form-group">
+            <label class="form-label">ইমেইল</label>
+            <input class="form-input" value="support@mhacademy.com.bd" id="siteEmail">
+          </div>
+          <div class="form-group">
+            <label class="form-label">bKash নম্বর</label>
+            <input class="form-input" value="01912125156" id="bkashNum">
+          </div>
+          <button class="btn-primary" onclick="saveSettings()">💾 সেভ করুন</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title">🔑 API কনফিগারেশন</div>
+          <div class="form-group">
+            <label class="form-label">EmailJS Public Key</label>
+            <input class="form-input" type="password" placeholder="ej_xxxxxxxxxxxx" id="emailjsKey">
+          </div>
+          <div class="form-group">
+            <label class="form-label">EmailJS Service ID</label>
+            <input class="form-input" placeholder="service_xxxxx" id="emailjsService">
+          </div>
+          <div class="form-group">
+            <label class="form-label">EmailJS Template ID</label>
+            <input class="form-input" placeholder="template_xxxxx" id="emailjsTemplate">
+          </div>
+          <div class="form-group">
+            <label class="form-label">BulkSMSBD API Key</label>
+            <input class="form-input" type="password" placeholder="SMS API Key" id="smsKey">
+          </div>
+          <button class="btn-primary" onclick="saveAPIKeys()">💾 সেভ করুন</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title">👤 Admin ম্যানেজমেন্ট</div>
+          <div class="form-group">
+            <label class="form-label">নতুন Admin Email যোগ করুন</label>
+            <input class="form-input" placeholder="admin@example.com" id="newAdminEmail">
+          </div>
+          <button class="btn-primary" onclick="addAdmin()">➕ Admin যোগ করুন</button>
+          <div style="margin-top:16px">
+            <div class="form-label" style="margin-bottom:10px">বর্তমান Admin তালিকা</div>
+            <div id="adminList" style="display:flex;flex-direction:column;gap:8px"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">🔗 পেইজ লিংক</div>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg2);border-radius:10px">
+              <span style="color:var(--text2)">🏠 কোর্স পেইজ (index.html)</span>
+              <a href="index.html" target="_blank"><button class="btn-sm btn-view">খুলুন</button></a>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg2);border-radius:10px">
+              <span style="color:var(--text2)">💳 পেমেন্ট পেইজ (payment.html)</span>
+              <a href="payment.html" target="_blank"><button class="btn-sm btn-view">খুলুন</button></a>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg2);border-radius:10px">
+              <span style="color:var(--text2)">📊 স্টুডেন্ট ড্যাশবোর্ড (dashboard.html)</span>
+              <a href="dashboard.html" target="_blank"><button class="btn-sm btn-view">খুলুন</button></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main-area -->
+</div><!-- /appShell -->
+
+<!-- ═══ MODALS ═══ -->
+
+<!-- Add Class Modal -->
+<div class="modal-overlay" id="addClassModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">➕ নতুন ক্লাস যোগ করুন</div>
+      <button class="btn-close-modal" onclick="closeModal('addClassModal')">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">ক্লাসের নাম *</label>
+        <input class="form-input" id="clsName" placeholder="ক্লাসের বিষয়">
+      </div>
+      <div class="form-group">
+        <label class="form-label">মডিউল নম্বর</label>
+        <input class="form-input" id="clsModule" placeholder="মডিউল ১" type="number">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">তারিখ *</label>
+        <input class="form-input" id="clsDate" type="date">
+      </div>
+      <div class="form-group">
+        <label class="form-label">সময়</label>
+        <input class="form-input" id="clsTime" type="time" value="22:30">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Zoom/Meet লিংক</label>
+      <input class="form-input" id="clsLink" placeholder="https://...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">ব্যাচ</label>
+      <select class="form-input" id="clsBatch">
+        <option>৯ম ব্যাচ</option><option>৮ম ব্যাচ</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('addClassModal')">বাতিল</button>
+      <button class="btn-primary" onclick="addClass()">✅ যোগ করুন</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Batch Modal -->
+<div class="modal-overlay" id="addBatchModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">➕ নতুন ব্যাচ তৈরি করুন</div>
+      <button class="btn-close-modal" onclick="closeModal('addBatchModal')">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">ব্যাচের নাম *</label>
+        <input class="form-input" id="batchName" placeholder="১০ম ব্যাচ">
+      </div>
+      <div class="form-group">
+        <label class="form-label">শুরুর তারিখ *</label>
+        <input class="form-input" id="batchStart" type="date">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">আসন সংখ্যা</label>
+        <input class="form-input" id="batchSeats" type="number" placeholder="50">
+      </div>
+      <div class="form-group">
+        <label class="form-label">কোর্স ফি</label>
+        <input class="form-input" id="batchFee" type="number" placeholder="8800">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">ক্লাসের সময়সূচি</label>
+      <input class="form-input" id="batchSchedule" placeholder="রবি, মঙ্গল — রাত ১০:৩০">
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('addBatchModal')">বাতিল</button>
+      <button class="btn-primary" onclick="addBatch()">✅ তৈরি করুন</button>
+    </div>
+  </div>
+</div>
+
+<!-- Order Detail Modal -->
+<div class="modal-overlay" id="orderDetailModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">📋 অর্ডার বিস্তারিত</div>
+      <button class="btn-close-modal" onclick="closeModal('orderDetailModal')">✕</button>
+    </div>
+    <div id="orderDetailContent" style="font-size:13px;line-height:2"></div>
+    <div class="modal-footer" id="orderDetailActions"></div>
+  </div>
+</div>
+
+<!-- Student Detail Modal -->
+<div class="modal-overlay" id="studentDetailModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">👨‍🎓 স্টুডেন্ট বিস্তারিত</div>
+      <button class="btn-close-modal" onclick="closeModal('studentDetailModal')">✕</button>
+    </div>
+    <div id="studentDetailContent"></div>
+    <div class="modal-footer" id="studentDetailActions"></div>
+  </div>
+</div>
+
+<!-- Edit Course Modal -->
+<div class="modal-overlay" id="editCourseModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">✏️ কোর্স এডিট করুন</div>
+      <button class="btn-close-modal" onclick="closeModal('editCourseModal')">✕</button>
+    </div>
+    <div class="form-group"><label class="form-label">কোর্সের নাম</label><input class="form-input" value="Cyber Security & Ethical Hacking Career Track Program"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">মূল মূল্য</label><input class="form-input" type="number" value="11600" id="courseOrigPrice"></div>
+      <div class="form-group"><label class="form-label">ডিসকাউন্ট মূল্য</label><input class="form-input" type="number" value="8800" id="courseDiscPrice"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">মোট ক্লাস</label><input class="form-input" type="number" value="36"></div>
+      <div class="form-group"><label class="form-label">মোট প্রজেক্ট</label><input class="form-input" type="number" value="10"></div>
+    </div>
+    <div class="form-group"><label class="form-label">প্রোমো কোড</label><input class="form-input" value="CS24" id="coursePromo"></div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('editCourseModal')">বাতিল</button>
+      <button class="btn-primary" onclick="saveCourse()">💾 সেভ করুন</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Course Modal -->
+<div class="modal-overlay" id="addCourseModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">➕ নতুন কোর্স যোগ করুন</div>
+      <button class="btn-close-modal" onclick="closeModal('addCourseModal')">✕</button>
+    </div>
+    <div class="form-group"><label class="form-label">কোর্সের নাম *</label><input class="form-input" id="newCourseName" placeholder="কোর্সের নাম"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">মূল মূল্য</label><input class="form-input" type="number" id="newCoursePrice" placeholder="11600"></div>
+      <div class="form-group"><label class="form-label">ডিসকাউন্ট মূল্য</label><input class="form-input" type="number" id="newCourseDisc" placeholder="8800"></div>
+    </div>
+    <div class="form-group"><label class="form-label">বিবরণ</label><textarea class="form-input" id="newCourseDesc" placeholder="কোর্সের বিবরণ..."></textarea></div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('addCourseModal')">বাতিল</button>
+      <button class="btn-primary" onclick="addCourse()">✅ যোগ করুন</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="toast"></div>
+
+<script>
+// ══ State ══
+let allOrders = [];
+let allStudents = [];
+let currentOrderFilter = 'all';
+let classes = JSON.parse(localStorage.getItem('mh_classes') || '[]');
+let notifHistory = JSON.parse(localStorage.getItem('mh_notif_history') || '[]');
+
+// ══ Auth ══
+document.getElementById('btnAdminLogin').onclick = function() {
+  var email = document.getElementById('loginEmail').value.trim();
+  var pass  = document.getElementById('loginPass').value;
+  var err   = document.getElementById('loginErr');
+  err.style.display = 'none';
+  if (!email || !pass) { err.style.display='block'; err.textContent='❌ ইমেইল ও পাসওয়ার্ড দিন'; return; }
+  auth.signInWithEmailAndPassword(email, pass)
+  .then(function(r) {
+    if (!ADMIN_EMAILS.includes(r.user.email)) {
+      auth.signOut();
+      err.style.display='block'; err.textContent='❌ আপনি Admin নন';
+    }
+  })
+  .catch(function() {
+    err.style.display='block'; err.textContent='❌ ভুল ইমেইল বা পাসওয়ার্ড';
+  });
+};
+document.getElementById('loginPass').onkeydown = function(e) { if(e.key==='Enter') document.getElementById('btnAdminLogin').click(); };
+
+auth.onAuthStateChanged(function(user) {
+  if (user && ADMIN_EMAILS.includes(user.email)) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('appShell').style.display = 'block';
+    document.getElementById('adminAv').textContent = (user.displayName||user.email).charAt(0).toUpperCase();
+    document.getElementById('adminName').textContent = user.displayName || user.email;
+    initAdmin();
+  } else if (user) {
+    auth.signOut();
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('appShell').style.display = 'none';
+  } else {
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('appShell').style.display = 'none';
+  }
+});
+document.getElementById('btnSignOut').onclick = function() { if(confirm('লগআউট করবেন?')) auth.signOut(); };
+
+// ══ Navigation ══
+document.querySelectorAll('.nav-item[data-page]').forEach(function(item) {
+  item.addEventListener('click', function() {
+    switchPage(this.getAttribute('data-page'));
+  });
+});
+function switchPage(name) {
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  document.querySelector('.nav-item[data-page="'+name+'"]').classList.add('active');
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  var titles = {
+    dashboard:'ড্যাশবোর্ড',orders:'অর্ডার ম্যানেজমেন্ট',
+    students:'স্টুডেন্ট ম্যানেজমেন্ট',payments:'পেমেন্ট রিপোর্ট',
+    classes:'ক্লাস ম্যানেজমেন্ট',batches:'ব্যাচ ম্যানেজমেন্ট',
+    courses:'কোর্স ম্যানেজমেন্ট',notifications:'নোটিফিকেশন',settings:'সেটিংস'
+  };
+  document.getElementById('topbarTitle').textContent = titles[name]||name;
+  if (window.innerWidth <= 900) document.getElementById('sidebar').classList.remove('open');
+  if (name==='orders') loadOrders();
+  if (name==='students') loadStudents();
+  if (name==='payments') loadPayments();
+  if (name==='classes') renderClasses();
+  if (name==='notifications') renderNotifHistory();
+}
+document.getElementById('menuToggle').onclick = function() {
+  document.getElementById('sidebar').classList.toggle('open');
+};
+
+// ══ Init ══
+function initAdmin() {
+  loadDashboard();
+  startRealtime();
+  renderAdminList();
+  renderClasses();
+  renderNotifHistory();
+}
+
+// ══ Realtime listener ══
+function startRealtime() {
+  db.collection('orders').orderBy('createdAt','desc').onSnapshot(function(snap) {
+    allOrders = snap.docs.map(d => ({id:d.id,...d.data()}));
+    updateDashboardStats();
+    if (document.getElementById('page-orders').classList.contains('active')) renderOrdersTable(allOrders);
+    if (document.getElementById('page-payments').classList.contains('active')) renderPaymentsTable(allOrders);
+  }, function() {
+    // Fallback to localStorage
+    allOrders = JSON.parse(localStorage.getItem('mh_orders')||'[]').map((o,i)=>({id:'local_'+i,...o}));
+    updateDashboardStats();
+    renderOrdersTable(allOrders);
+  });
+
+  db.collection('enrollments').onSnapshot(function(snap) {
+    allStudents = snap.docs.map(d => ({uid:d.id,...d.data()}));
+    document.getElementById('statStudents').textContent = allStudents.length;
+    if (document.getElementById('page-students').classList.contains('active')) renderStudentsTable(allStudents);
+    document.getElementById('b9Students').textContent = allStudents.filter(s=>
+      s.courses && s.courses.some(c=>c.batch==='৯ম ব্যাচ')
+    ).length;
+  }, function() {});
+}
+
+// ══ Dashboard ══
+function loadDashboard() {
+  updateDashboardStats();
+  renderRevenueChart();
+}
+function updateDashboardStats() {
+  var pending  = allOrders.filter(o=>o.status==='pending_verification').length;
+  var approved = allOrders.filter(o=>o.status==='active').length;
+  var rejected = allOrders.filter(o=>o.status==='rejected').length;
+  var revenue  = allOrders.filter(o=>o.status==='active').reduce((s,o)=>s+(o.amount||0),0);
+  document.getElementById('statTotalOrders').textContent = allOrders.length;
+  document.getElementById('statPending').textContent     = pending;
+  document.getElementById('statApproved').textContent    = approved;
+  document.getElementById('statRejected').textContent    = rejected;
+  document.getElementById('statRevenue').textContent     = '৳'+revenue.toLocaleString();
+  document.getElementById('pendingCount').textContent    = pending;
+  document.getElementById('notifDot').style.display      = pending > 0 ? 'block' : 'none';
+
+  // Recent orders
+  var tbody = document.getElementById('recentOrdersBody');
+  var recent = allOrders.slice(0,5);
+  if (!recent.length) { tbody.innerHTML='<tr class="empty-row"><td colspan="3">কোনো অর্ডার নেই</td></tr>'; return; }
+  tbody.innerHTML = recent.map(function(o) {
+    return `<tr>
+      <td class="td-name">${o.name||'—'}</td>
+      <td style="color:var(--green);font-weight:700">৳${(o.amount||0).toLocaleString()}</td>
+      <td>${statusBadge(o.status)}</td>
+    </tr>`;
+  }).join('');
+}
+function renderRevenueChart() {
+  var chart = document.getElementById('revenueChart');
+  var labels = document.getElementById('chartLabels');
+  var days=['শনি','রবি','সোম','মঙ্গল','বুধ','বৃহঃ','আজ'];
+  var vals=[2,5,3,8,4,7,allOrders.filter(o=>o.status==='active').length];
+  var max=Math.max(...vals,1);
+  chart.innerHTML = vals.map((v,i)=>`<div class="bar" style="height:${(v/max*100)}%;opacity:${i===6?1:.6}" title="${days[i]}: ${v}টি"></div>`).join('');
+  labels.innerHTML = days.map(d=>`<span>${d}</span>`).join('');
+}
+document.getElementById('btnRefresh').onclick = function() {
+  loadDashboard();
+  showToast('ড্যাশবোর্ড আপডেট হয়েছে','success');
+};
+
+// ══ Orders ══
+function loadOrders() {
+  db.collection('orders').orderBy('createdAt','desc').get()
+  .then(function(snap) {
+    allOrders = snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderOrdersTable(filterOrders(allOrders));
+    updateDashboardStats();
+  }).catch(function() {
+    allOrders = JSON.parse(localStorage.getItem('mh_orders')||'[]').map((o,i)=>({id:'local_'+i,...o}));
+    renderOrdersTable(filterOrders(allOrders));
+  });
+}
+function filterOrders(orders) {
+  var q = document.getElementById('orderSearch').value.toLowerCase();
+  var b = document.getElementById('orderBatchFilter').value;
+  return orders.filter(function(o) {
+    var matchStatus = currentOrderFilter==='all' || o.status===currentOrderFilter;
+    var matchQ = !q || (o.name||'').toLowerCase().includes(q) || (o.trxId||'').toLowerCase().includes(q) || (o.phone||'').includes(q);
+    var matchBatch = !b || (o.batch||'')=== b;
+    return matchStatus && matchQ && matchBatch;
+  });
+}
+function renderOrdersTable(orders) {
+  var tbody = document.getElementById('ordersTableBody');
+  if (!orders.length) { tbody.innerHTML='<tr class="empty-row"><td colspan="9">কোনো অর্ডার পাওয়া যায়নি</td></tr>'; return; }
+  tbody.innerHTML = orders.map(function(o,i) {
+    var date = o.timestamp ? new Date(o.timestamp).toLocaleDateString('bn-BD') : '—';
+    return `<tr>
+      <td style="color:var(--text3)">${i+1}</td>
+      <td><div class="td-name">${o.name||'—'}</div></td>
+      <td class="td-mono">${o.phone||'—'}</td>
+      <td class="td-mono">${o.trxId||'—'}</td>
+      <td style="color:var(--green);font-weight:700">৳${(o.amount||0).toLocaleString()}</td>
+      <td><span style="font-size:12px;color:var(--purple2)">${o.batch||'—'}</span></td>
+      <td>${statusBadge(o.status)}</td>
+      <td style="font-size:12px;color:var(--text3)">${date}</td>
+      <td>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn-sm btn-view" onclick="viewOrder('${o.id}')">👁️</button>
+          ${o.status==='pending_verification'?`
+            <button class="btn-sm btn-approve" onclick="approveOrder('${o.id}','${o.name}')">✅</button>
+            <button class="btn-sm btn-reject" onclick="rejectOrder('${o.id}')">❌</button>
+          `:''}
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+function approveOrder(id, name) {
+  if (!confirm('"'+name+'" এর অর্ডার Approve করবেন?')) return;
+  db.collection('orders').doc(id).update({status:'active'})
+  .then(function() {
+    // Find enrollment and update
+    db.collection('orders').doc(id).get().then(function(doc) {
+      var data = doc.data();
+      if (!data || !data.uid) return;
+      db.collection('enrollments').doc(data.uid).get().then(function(eDoc) {
+        if (!eDoc.exists) return;
+        var courses = eDoc.data().courses || [];
+        var updated = courses.map(function(c) {
+          if (c.trxId === data.trxId) return {...c, status:'active'};
+          return c;
+        });
+        db.collection('enrollments').doc(data.uid).update({courses: updated});
+      });
+    });
+    showToast('✅ অ্যাপ্রুভ হয়েছে — স্টুডেন্টের ড্যাশবোর্ড একটিভ হয়েছে','success');
+  }).catch(function() {
+    // localStorage fallback
+    var orders = JSON.parse(localStorage.getItem('mh_orders')||'[]');
+    var idx = parseInt(id.replace('local_',''));
+    if (orders[idx]) { orders[idx].status='active'; localStorage.setItem('mh_orders',JSON.stringify(orders)); }
+    showToast('✅ অ্যাপ্রুভ হয়েছে (লোকাল)','success');
+  });
+}
+function rejectOrder(id) {
+  if (!confirm('এই অর্ডার Reject করবেন?')) return;
+  db.collection('orders').doc(id).update({status:'rejected'})
+  .then(function() { showToast('❌ অর্ডার বাতিল হয়েছে','info'); })
+  .catch(function() { showToast('অর্ডার আপডেট ব্যর্থ','error'); });
+}
+function viewOrder(id) {
+  var order = allOrders.find(o=>o.id===id);
+  if (!order) return;
+  document.getElementById('orderDetailContent').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="background:var(--bg2);border-radius:10px;padding:12px"><div style="font-size:11px;color:var(--text3)">নাম</div><div style="font-weight:700;color:var(--white);margin-top:3px">${order.name||'—'}</div></div>
+      <div style="background:var(--bg2);border-radius:10px;padding:12px"><div style="font-size:11px;color:var(--text3)">ফোন</div><div style="font-weight:700;color:var(--white);margin-top:3px">${order.phone||'—'}</div></div>
+      <div style="background:var(--bg2);border-radius:10px;padding:12px"><div style="font-size:11px;color:var(--text3)">ইমেইল</div><div style="font-weight:700;color:var(--white);margin-top:3px;font-size:12px">${order.email||'—'}</div></div>
+      <div style="background:var(--bg2);border-radius:10px;padding:12px"><div style="font-size:11px;color:var(--text3)">TrxID</div><div style="font-weight:700;color:var(--purple2);margin-top:3px;font-family:monospace">${order.trxId||'—'}</div></div>
+      <div style="background:var(--bg2);border-radius:10px;padding:12px"><div style="font-size:11px;color:var(--text3)">পরিমাণ</div><div style="font-weight:800;color:#10b981;margin-top:3px;font-size:18px">৳${(order.amount||0).toLocaleString()}</div></div>
+      <div style="background:var(--bg2);border-radius:10px;padding:12px"><div style="font-size:11px;color:var(--text3)">স্ট্যাটাস</div><div style="margin-top:5px">${statusBadge(order.status)}</div></div>
+      <div style="background:var(--bg2);border-radius:10px;padding:12px"><div style="font-size:11px;color:var(--text3)">ব্যাচ</div><div style="font-weight:700;color:var(--purple2);margin-top:3px">${order.batch||'—'}</div></div>
+      <div style="background:var(--bg2);border-radius:10px;padding:12px"><div style="font-size:11px;color:var(--text3)">প্রোমো কোড</div><div style="font-weight:700;color:var(--yellow);margin-top:3px">${order.promoUsed||'None'}</div></div>
+    </div>`;
+  var actions = document.getElementById('orderDetailActions');
+  actions.innerHTML = order.status==='pending_verification' ? `
+    <button class="btn-secondary" onclick="closeModal('orderDetailModal')">বন্ধ করুন</button>
+    <button class="btn-approve btn-sm" style="padding:10px 18px;font-size:13px" onclick="approveOrder('${order.id}','${order.name}');closeModal('orderDetailModal')">✅ Approve করুন</button>
+    <button class="btn-reject btn-sm" style="padding:10px 18px;font-size:13px" onclick="rejectOrder('${order.id}');closeModal('orderDetailModal')">❌ Reject করুন</button>
+  ` : `<button class="btn-primary" onclick="closeModal('orderDetailModal')">বন্ধ করুন</button>`;
+  openModal('orderDetailModal');
+}
+// Order search & filter
+document.getElementById('orderSearch').oninput = function() { renderOrdersTable(filterOrders(allOrders)); };
+document.getElementById('orderBatchFilter').onchange = function() { renderOrdersTable(filterOrders(allOrders)); };
+document.querySelectorAll('#orderTabs .tab-item').forEach(function(t) {
+  t.addEventListener('click', function() {
+    document.querySelectorAll('#orderTabs .tab-item').forEach(x=>x.classList.remove('active'));
+    this.classList.add('active');
+    currentOrderFilter = this.getAttribute('data-filter');
+    renderOrdersTable(filterOrders(allOrders));
+  });
+});
+
+// ══ Students ══
+function loadStudents() {
+  db.collection('enrollments').get()
+  .then(function(snap) {
+    allStudents = snap.docs.map(d=>({uid:d.id,...d.data()}));
+    renderStudentsTable(allStudents);
+  }).catch(function() {
+    renderStudentsTable([]);
+  });
+}
+function renderStudentsTable(students) {
+  var q  = document.getElementById('studentSearch').value.toLowerCase();
+  var sf = document.getElementById('studentStatusFilter').value;
+  var filtered = students.filter(function(s) {
+    var matchQ  = !q || (s.name||'').toLowerCase().includes(q) || (s.email||'').toLowerCase().includes(q);
+    var hasStat = !sf || (s.courses||[]).some(c=>c.status===sf);
+    return matchQ && hasStat;
+  });
+  var tbody = document.getElementById('studentsTableBody');
+  if (!filtered.length) { tbody.innerHTML='<tr class="empty-row"><td colspan="9">কোনো স্টুডেন্ট পাওয়া যায়নি</td></tr>'; return; }
+  tbody.innerHTML = filtered.map(function(s,i) {
+    var course = (s.courses||[])[0]||{};
+    var progress = course.status==='active' ? 15 : 0;
+    return `<tr>
+      <td style="color:var(--text3)">${i+1}</td>
+      <td><div style="display:flex;align-items:center;gap:8px">
+        <div class="av" style="background:linear-gradient(135deg,#7c3aed,#a855f7)">${(s.name||'U').charAt(0)}</div>
+        <span class="td-name">${s.name||'—'}</span>
+      </div></td>
+      <td style="font-size:12px;color:var(--text2)">${s.email||'—'}</td>
+      <td class="td-mono">${s.phone||'—'}</td>
+      <td style="font-size:12px;color:var(--purple2)">${course.course||'—'}</td>
+      <td style="font-size:12px">${course.batch||'—'}</td>
+      <td><div style="display:flex;align-items:center;gap:6px">
+        <div class="prog-bar" style="width:80px"><div class="prog-fill" style="width:${progress}%"></div></div>
+        <span style="font-size:11px;color:var(--text3)">${progress}%</span>
+      </div></td>
+      <td>${statusBadge(course.status||'pending_verification')}</td>
+      <td>
+        <div style="display:flex;gap:6px">
+          <button class="btn-sm btn-view" onclick="viewStudent('${s.uid}')">👁️</button>
+          <button class="btn-sm btn-edit" onclick="showToast('ফিচার শীঘ্রই আসছে','info')">✏️</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+function viewStudent(uid) {
+  var s = allStudents.find(x=>x.uid===uid);
+  if (!s) return;
+  var courses = s.courses||[];
+  document.getElementById('studentDetailContent').innerHTML = `
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;padding:14px;background:var(--bg2);border-radius:12px">
+      <div class="av" style="width:52px;height:52px;font-size:22px;background:linear-gradient(135deg,#7c3aed,#a855f7)">${(s.name||'U').charAt(0)}</div>
+      <div><div style="font-size:17px;font-weight:800;color:var(--white)">${s.name||'—'}</div>
+      <div style="font-size:12px;color:var(--text3);margin-top:2px">${s.email||'—'}</div>
+      <div style="font-size:12px;color:var(--text3)">${s.phone||'—'}</div></div>
+    </div>
+    <div style="font-size:13px;font-weight:700;color:var(--text2);margin-bottom:10px">এনরোল করা কোর্সসমূহ</div>
+    ${courses.map(function(c) {
+      return `<div style="background:var(--bg2);border-radius:10px;padding:12px;margin-bottom:8px;font-size:13px">
+        <div style="font-weight:700;color:var(--white);margin-bottom:6px">${c.course||'—'}</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;color:var(--text3)">
+          <span>ব্যাচ: <strong style="color:var(--purple2)">${c.batch||'—'}</strong></span>
+          <span>TrxID: <strong style="color:var(--white);font-family:monospace">${c.trxId||'—'}</strong></span>
+          <span>পরিমাণ: <strong style="color:var(--green)">৳${(c.amount||0).toLocaleString()}</strong></span>
+        </div>
+        <div style="margin-top:6px">${statusBadge(c.status)}</div>
+      </div>`;
+    }).join('')||'<div style="color:var(--text3)">কোনো কোর্স নেই</div>'}`;
+  document.getElementById('studentDetailActions').innerHTML = `<button class="btn-primary" onclick="closeModal('studentDetailModal')">বন্ধ করুন</button>`;
+  openModal('studentDetailModal');
+}
+document.getElementById('studentSearch').oninput = function() { renderStudentsTable(allStudents); };
+document.getElementById('studentStatusFilter').onchange = function() { renderStudentsTable(allStudents); };
+
+// ══ Payments ══
+function loadPayments() {
+  renderPaymentsTable(allOrders);
+}
+function renderPaymentsTable(orders) {
+  var approved = orders.filter(o=>o.status==='active');
+  var pending  = orders.filter(o=>o.status==='pending_verification');
+  var revTotal = approved.reduce((s,o)=>s+(o.amount||0),0);
+  var pendTotal= pending.reduce((s,o)=>s+(o.amount||0),0);
+  var avg = orders.length ? Math.round(orders.reduce((s,o)=>s+(o.amount||0),0)/orders.length) : 0;
+  document.getElementById('payRevenue').textContent = '৳'+revTotal.toLocaleString();
+  document.getElementById('payPending').textContent = '৳'+pendTotal.toLocaleString();
+  document.getElementById('payAvg').textContent     = '৳'+avg.toLocaleString();
+  var tbody = document.getElementById('paymentsTableBody');
+  if (!orders.length) { tbody.innerHTML='<tr class="empty-row"><td colspan="8">কোনো পেমেন্ট নেই</td></tr>'; return; }
+  tbody.innerHTML = orders.map(function(o,i) {
+    var date = o.timestamp ? new Date(o.timestamp).toLocaleDateString('bn-BD') : '—';
+    return `<tr>
+      <td style="color:var(--text3)">${i+1}</td>
+      <td class="td-name">${o.name||'—'}</td>
+      <td><span style="background:rgba(226,19,110,.15);color:#f9a8d4;border-radius:6px;padding:3px 9px;font-size:11px;font-weight:700">bKash</span></td>
+      <td class="td-mono">${o.trxId||'—'}</td>
+      <td style="color:var(--green);font-weight:700">৳${(o.amount||0).toLocaleString()}</td>
+      <td><span style="font-size:12px;color:var(--yellow)">${o.promoUsed||'None'}</span></td>
+      <td>${statusBadge(o.status)}</td>
+      <td style="font-size:12px;color:var(--text3)">${date}</td>
+    </tr>`;
+  }).join('');
+}
+function exportCSV() {
+  var rows = [['নাম','ইমেইল','ফোন','TrxID','পরিমাণ','মেথড','ব্যাচ','প্রোমো','স্ট্যাটাস','তারিখ']];
+  allOrders.forEach(function(o) {
+    rows.push([o.name,o.email,o.phone,o.trxId,o.amount,'bKash',o.batch,o.promoUsed,o.status,o.timestamp]);
+  });
+  var csv = rows.map(r=>r.map(c=>'"'+(c||'')+'"').join(',')).join('\n');
+  var blob = new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  var a = document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='mh_academy_payments.csv';
+  a.click();
+  showToast('📥 CSV ডাউনলোড হচ্ছে...','success');
+}
+
+// ══ Classes ══
+function renderClasses() {
+  var tbody = document.getElementById('classesTableBody');
+  if (!classes.length) { tbody.innerHTML='<tr class="empty-row"><td colspan="8">কোনো ক্লাস যোগ করা হয়নি</td></tr>'; return; }
+  tbody.innerHTML = classes.map(function(c,i) {
+    return `<tr>
+      <td style="color:var(--text3)">${i+1}</td>
+      <td class="td-name">${c.name||'—'}</td>
+      <td style="color:var(--purple2)">মডিউল ${c.module||'—'}</td>
+      <td>${c.date||'—'}</td>
+      <td>${c.time||'—'}</td>
+      <td>${c.link?`<a href="${c.link}" target="_blank" style="color:var(--blue);font-size:12px">লিংক</a>`:'—'}</td>
+      <td><span class="badge badge-active"><span class="bdot" style="background:var(--green)"></span>সক্রিয়</span></td>
+      <td><div style="display:flex;gap:6px">
+        <button class="btn-sm btn-edit" onclick="editClass(${i})">✏️</button>
+        <button class="btn-sm btn-del" onclick="deleteClass(${i})">🗑️</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+function addClass() {
+  var name=document.getElementById('clsName').value.trim();
+  if (!name) { showToast('ক্লাসের নাম দিন','error'); return; }
+  classes.push({
+    name, module:document.getElementById('clsModule').value,
+    date:document.getElementById('clsDate').value,
+    time:document.getElementById('clsTime').value,
+    link:document.getElementById('clsLink').value,
+    batch:document.getElementById('clsBatch').value
+  });
+  localStorage.setItem('mh_classes',JSON.stringify(classes));
+  closeModal('addClassModal');
+  renderClasses();
+  showToast('✅ ক্লাস যোগ হয়েছে','success');
+  document.getElementById('clsName').value='';
+  document.getElementById('clsLink').value='';
+}
+function deleteClass(i) {
+  if (!confirm('এই ক্লাস মুছবেন?')) return;
+  classes.splice(i,1);
+  localStorage.setItem('mh_classes',JSON.stringify(classes));
+  renderClasses();
+  showToast('🗑️ ক্লাস মুছে ফেলা হয়েছে','info');
+}
+function editClass(i) { showToast('এডিট ফিচার শীঘ্রই আসছে','info'); }
+
+// ══ Batches ══
+function addBatch() {
+  var name=document.getElementById('batchName').value.trim();
+  if (!name) { showToast('ব্যাচের নাম দিন','error'); return; }
+  var card = document.createElement('div');
+  card.className='card';
+  card.innerHTML=`<div style="font-size:16px;font-weight:800;color:var(--white);margin-bottom:8px">${name}</div>
+    <div style="font-size:12px;color:var(--text3)">শুরু: ${document.getElementById('batchStart').value||'—'}</div>
+    <div style="margin-top:10px;font-size:12px;color:var(--text3)">আসন: ${document.getElementById('batchSeats').value||'—'} | ফি: ৳${document.getElementById('batchFee').value||'—'}</div>
+    <span class="badge badge-pending" style="margin-top:10px;display:inline-flex"><span class="bdot" style="background:var(--yellow)"></span>আসন্ন</span>`;
+  document.getElementById('batchGrid').appendChild(card);
+  closeModal('addBatchModal');
+  showToast('✅ নতুন ব্যাচ তৈরি হয়েছে','success');
+}
+
+// ══ Notifications ══
+function sendBulkEmail() {
+  var to=document.getElementById('emailTo').value;
+  var sub=document.getElementById('emailSubject').value.trim();
+  var body=document.getElementById('emailBody').value.trim();
+  if (!sub||!body) { showToast('সাবজেক্ট ও বার্তা দিন','error'); return; }
+  var entry={type:'Email',to:to,subject:sub,date:new Date().toLocaleDateString('bn-BD'),status:'sent'};
+  notifHistory.unshift(entry);
+  localStorage.setItem('mh_notif_history',JSON.stringify(notifHistory));
+  renderNotifHistory();
+  showToast('📧 Email পাঠানো হচ্ছে...','success');
+  document.getElementById('emailSubject').value='';
+  document.getElementById('emailBody').value='';
+}
+function sendBulkSMS() {
+  var to=document.getElementById('smsTo').value;
+  var body=document.getElementById('smsBody').value.trim();
+  if (!body) { showToast('SMS বার্তা লিখুন','error'); return; }
+  var entry={type:'SMS',to:to,subject:body.substring(0,40)+'...',date:new Date().toLocaleDateString('bn-BD'),status:'sent'};
+  notifHistory.unshift(entry);
+  localStorage.setItem('mh_notif_history',JSON.stringify(notifHistory));
+  renderNotifHistory();
+  showToast('📱 SMS পাঠানো হচ্ছে...','success');
+  document.getElementById('smsBody').value='';
+}
+function renderNotifHistory() {
+  var tbody=document.getElementById('notifHistory');
+  if (!notifHistory.length) { tbody.innerHTML='<tr class="empty-row"><td colspan="5">কোনো নোটিফিকেশন পাঠানো হয়নি</td></tr>'; return; }
+  tbody.innerHTML=notifHistory.slice(0,20).map(function(n) {
+    return `<tr>
+      <td><span style="font-size:12px;font-weight:700;color:${n.type==='SMS'?'var(--green)':'var(--blue)'}">${n.type}</span></td>
+      <td style="font-size:12px;color:var(--text2)">${n.to}</td>
+      <td style="font-size:12px">${n.subject||'—'}</td>
+      <td style="font-size:12px;color:var(--text3)">${n.date}</td>
+      <td><span class="badge badge-active"><span class="bdot" style="background:var(--green)"></span>${n.status}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ══ Settings ══
+function saveSettings() {
+  localStorage.setItem('mh_settings',JSON.stringify({
+    siteName:document.getElementById('siteName').value,
+    phone:document.getElementById('sitePhone').value,
+    email:document.getElementById('siteEmail').value,
+    bkash:document.getElementById('bkashNum').value
+  }));
+  showToast('💾 সেটিংস সেভ হয়েছে','success');
+}
+function saveAPIKeys() {
+  localStorage.setItem('mh_api_keys',JSON.stringify({
+    emailjsKey:document.getElementById('emailjsKey').value,
+    emailjsService:document.getElementById('emailjsService').value,
+    emailjsTemplate:document.getElementById('emailjsTemplate').value,
+    smsKey:document.getElementById('smsKey').value
+  }));
+  showToast('🔑 API Keys সেভ হয়েছে','success');
+}
+function addAdmin() {
+  var email=document.getElementById('newAdminEmail').value.trim();
+  if (!email||!email.includes('@')) { showToast('সঠিক ইমেইল দিন','error'); return; }
+  if (!ADMIN_EMAILS.includes(email)) ADMIN_EMAILS.push(email);
+  renderAdminList();
+  document.getElementById('newAdminEmail').value='';
+  showToast('✅ Admin যোগ হয়েছে','success');
+}
+function renderAdminList() {
+  document.getElementById('adminList').innerHTML = ADMIN_EMAILS.map(function(e) {
+    return `<div style="display:flex;align-items:center;justify-content:space-between;background:var(--bg2);border-radius:8px;padding:9px 12px">
+      <span style="font-size:13px;color:var(--text)">${e}</span>
+      <span style="font-size:11px;background:rgba(124,58,237,.15);color:var(--purple2);border-radius:4px;padding:2px 7px;font-weight:700">Admin</span>
+    </div>`;
+  }).join('');
+}
+function saveCourse() {
+  closeModal('editCourseModal');
+  showToast('💾 কোর্স আপডেট হয়েছে','success');
+}
+function addCourse() {
+  var name=document.getElementById('newCourseName').value.trim();
+  if (!name) { showToast('কোর্সের নাম দিন','error'); return; }
+  closeModal('addCourseModal');
+  showToast('✅ নতুন কোর্স যোগ হয়েছে','success');
+}
+
+// ══ Helpers ══
+function statusBadge(status) {
+  if (status==='active') return '<span class="badge badge-active"><span class="bdot" style="background:var(--green)"></span>একটিভ</span>';
+  if (status==='rejected') return '<span class="badge badge-rejected"><span class="bdot" style="background:var(--red)"></span>বাতিল</span>';
+  return '<span class="badge badge-pending"><span class="bdot" style="background:var(--yellow)"></span>যাচাই বাকি</span>';
+}
+function openModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+document.querySelectorAll('.modal-overlay').forEach(function(el) {
+  el.addEventListener('click', function(e) { if(e.target===el) el.classList.remove('show'); });
+});
+function showToast(msg, type) {
+  var container=document.getElementById('toast');
+  var item=document.createElement('div');
+  item.className='toast-item '+(type||'info');
+  item.innerHTML=(type==='success'?'✅':type==='error'?'❌':'ℹ️')+' '+msg;
+  container.appendChild(item);
+  setTimeout(function(){ item.style.opacity='0'; item.style.transform='translateX(40px)'; item.style.transition='all .3s'; setTimeout(function(){item.remove()},300); },3000);
+}
+
+// Load saved settings
+(function(){
+  var s=JSON.parse(localStorage.getItem('mh_settings')||'{}');
+  if(s.siteName) document.getElementById('siteName').value=s.siteName;
+  if(s.phone) document.getElementById('sitePhone').value=s.phone;
+  if(s.email) document.getElementById('siteEmail').value=s.email;
+  if(s.bkash) document.getElementById('bkashNum').value=s.bkash;
+  var k=JSON.parse(localStorage.getItem('mh_api_keys')||'{}');
+  if(k.emailjsService) document.getElementById('emailjsService').value=k.emailjsService;
+  if(k.emailjsTemplate) document.getElementById('emailjsTemplate').value=k.emailjsTemplate;
+})();
+</script>
+</body>
+</html>
