@@ -646,21 +646,19 @@ footer{background:var(--dark);color:#64748b;padding:48px 16px 28px}
     </a>
     <div class="nav-actions">
       <button class="nav-link-btn" onclick="document.getElementById('sec-curriculum').scrollIntoView({behavior:'smooth'})">সব কোর্স</button>
+
+      <!-- লগইন করা থাকলে দেখাবে -->
       <div id="userBar">
         <div class="user-av" id="navAvatar" onclick="window.location.href='dashboard.html'" style="cursor:pointer" title="ড্যাশবোর্ড">U</div>
         <span class="user-nm" id="navUserName"></span>
         <button onclick="window.location.href='dashboard.html'" style="background:var(--purple-light);color:var(--purple);border-radius:8px;padding:6px 10px;font-size:12px;font-weight:700;font-family:var(--font)">📊 ড্যাশবোর্ড</button>
+        <a href="admin.html" id="adminLink" style="display:none">
+          <button style="background:#1e1b4b;color:#a855f7;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:700;font-family:var(--font)">⚙️ Admin</button>
+        </a>
         <button id="btnLogout">লগআউট</button>
       </div>
 
-
-      <a href="admin.html" style="display:none" id="adminLink">
-  <button class="topbar-btn">⚙️ Admin</button>
-</a>
-
-
-
-      
+      <!-- লগইন করা না থাকলে দেখাবে -->
       <button id="btnLogin">
         <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a7.5 7.5 0 0113 0"/></svg>
         লগইন করুন
@@ -1308,16 +1306,23 @@ const provider = new firebase.auth.GoogleAuthProvider();
 auth.onAuthStateChanged(function(user) {
   if (user) {
     document.getElementById('btnLogin').style.display = 'none';
-    const bar = document.getElementById('userBar');
+    var bar = document.getElementById('userBar');
     bar.style.display = 'flex';
     document.getElementById('navUserName').textContent = user.displayName || user.email;
     document.getElementById('navAvatar').textContent = (user.displayName || user.email).charAt(0).toUpperCase();
+
+    // Admin হলে Admin বাটন দেখাবে
+    var adminEmails = ['your@email.com', 'admin@mhacademy.com.bd'];
+    if (adminEmails.includes(user.email)) {
+      document.getElementById('adminLink').style.display = 'inline-flex';
+    }
   } else {
     document.getElementById('btnLogin').style.display = 'flex';
     document.getElementById('userBar').style.display = 'none';
   }
 });
 
+  
 // ── Helpers ──
 function openModal(id) { document.getElementById(id).classList.add('show'); }
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
