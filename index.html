@@ -1340,23 +1340,15 @@ function handleEnroll() {
 
 // ── Login ──
 document.getElementById('btnLogin').onclick = function() { openModal('modalLogin'); };
+
 document.getElementById('btnGoogleLogin').onclick = function() {
   auth.signInWithPopup(provider)
     .then(function() { closeModal('modalLogin'); goToPayment(); })
     .catch(function(e) { alert('লগইন ব্যর্থ হয়েছে: ' + e.message); });
 };
+
 document.getElementById('btnCloseLogin').onclick = function() { closeModal('modalLogin'); };
 
-
-
-  // Admin link — navbar এ
-if (ADMIN_EMAILS && ADMIN_EMAILS.includes(auth.currentUser?.email)) {
-  // admin badge দেখাবে
-}
-
-
-
-  
 document.getElementById('btnLogout').onclick = function() {
   auth.signOut().then(function() { location.reload(); });
 };
