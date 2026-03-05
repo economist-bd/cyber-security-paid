@@ -652,6 +652,15 @@ footer{background:var(--dark);color:#64748b;padding:48px 16px 28px}
         <button onclick="window.location.href='dashboard.html'" style="background:var(--purple-light);color:var(--purple);border-radius:8px;padding:6px 10px;font-size:12px;font-weight:700;font-family:var(--font)">📊 ড্যাশবোর্ড</button>
         <button id="btnLogout">লগআউট</button>
       </div>
+
+
+      <a href="admin.html" style="display:none" id="adminLink">
+  <button class="topbar-btn">⚙️ Admin</button>
+</a>
+
+
+
+      
       <button id="btnLogin">
         <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a7.5 7.5 0 0113 0"/></svg>
         লগইন করুন
@@ -1332,6 +1341,17 @@ document.getElementById('btnGoogleLogin').onclick = function() {
     .catch(function(e) { alert('লগইন ব্যর্থ হয়েছে: ' + e.message); });
 };
 document.getElementById('btnCloseLogin').onclick = function() { closeModal('modalLogin'); };
+
+
+
+  // Admin link — navbar এ
+if (ADMIN_EMAILS && ADMIN_EMAILS.includes(auth.currentUser?.email)) {
+  // admin badge দেখাবে
+}
+
+
+
+  
 document.getElementById('btnLogout').onclick = function() {
   auth.signOut().then(function() { location.reload(); });
 };
