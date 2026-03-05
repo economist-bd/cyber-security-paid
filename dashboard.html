@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>আমার ড্যাশবোর্ড | MH Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Firebase compat -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey:"AIzaSyCSVcrc2L6aVMb4GZ5pLIUufXS2k1Dem7o",
+  authDomain:"login-app-fb96c.firebaseapp.com",
+  projectId:"login-app-fb96c",
+  storageBucket:"login-app-fb96c.firebasestorage.app",
+  messagingSenderId:"377973996747",
+  appId:"1:377973996747:web:7a01d630fe75230627ef4e"
+});
+const auth = firebase.auth();
+const db   = firebase.firestore();
+</script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --purple:#7c3aed;--purple-light:#ede9fe;--purple-dark:#5b21b6;
+  --green:#10b981;--orange:#f97316;--yellow:#f59e0b;--red:#ef4444;
+  --gray-50:#f9fafb;--gray-100:#f3f4f6;--gray-200:#e5e7eb;
+  --gray-400:#9ca3af;--gray-500:#6b7280;--gray-600:#4b5563;
+  --gray-700:#374151;--gray-800:#1f2937;--gray-900:#111827;
+  --white:#fff;--font:'Hind Siliguri',sans-serif;
+}
+body{font-family:var(--font);background:#f0ebff;min-height:100vh}
+button{font-family:var(--font);cursor:pointer;border:none;outline:none;background:none}
+a{text-decoration:none;color:inherit}
+
+/* ─── TOPBAR ─── */
+.topbar{
+  background:linear-gradient(135deg,#5b21b6,#7c3aed);
+  padding:0 16px;height:58px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.topbar-left{display:flex;align-items:center;gap:10px}
+.back-btn{
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,0.15);display:flex;align-items:center;
+  justify-content:center;color:#fff;font-size:20px;
+}
+.topbar-title{color:#fff;font-size:16px;font-weight:700}
+.logo-badge{
+  background:rgba(255,255,255,0.2);border-radius:8px;
+  padding:4px 10px;color:#fff;font-size:13px;font-weight:700;
+}
+.btn-logout-top{
+  background:rgba(255,255,255,0.15);color:#fff;
+  border-radius:8px;padding:7px 14px;font-size:13px;font-weight:600;
+}
+
+/* ─── MAIN ─── */
+.main{max-width:500px;margin:0 auto;padding:16px 16px 80px}
+
+/* ─── PROFILE CARD ─── */
+.profile-card{
+  background:var(--white);border-radius:20px;padding:20px;
+  margin-bottom:16px;
+  box-shadow:0 4px 20px rgba(124,58,237,0.1);
+  border:1px solid var(--gray-200);
+  display:flex;align-items:center;gap:16px;
+}
+.profile-avatar{
+  width:60px;height:60px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--purple),#a855f7);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:24px;font-weight:800;
+  border:3px solid var(--purple-light);
+}
+.profile-name{font-size:18px;font-weight:800;color:var(--gray-900)}
+.profile-email{font-size:13px;color:var(--gray-500);margin-top:2px}
+.profile-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:#dcfce7;color:#16a34a;
+  border-radius:100px;padding:4px 11px;
+  font-size:11px;font-weight:700;margin-top:8px;
+}
+
+/* ─── STATS ROW ─── */
+.stats-row{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+  margin-bottom:16px;
+}
+.stat-card{
+  background:var(--white);border-radius:14px;padding:14px 10px;
+  text-align:center;border:1px solid var(--gray-200);
+  box-shadow:0 2px 8px rgba(0,0,0,0.04);
+}
+.stat-ico{font-size:22px;margin-bottom:6px}
+.stat-val{font-size:20px;font-weight:800;color:var(--purple)}
+.stat-lbl{font-size:11px;color:var(--gray-500);margin-top:2px}
+
+/* ─── SECTION TITLE ─── */
+.sec-title{
+  font-size:16px;font-weight:800;color:var(--gray-800);
+  margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+
+/* ─── ENROLLED BATCH CARD ─── */
+.batch-card{
+  background:var(--white);border-radius:18px;
+  border:1px solid var(--gray-200);
+  overflow:hidden;margin-bottom:12px;
+  box-shadow:0 4px 16px rgba(124,58,237,0.08);
+}
+.batch-header{
+  background:linear-gradient(135deg,#1e1b4b,#4c1d95);
+  padding:16px 18px;display:flex;align-items:center;gap:14px;
+}
+.batch-icon{
+  width:48px;height:48px;background:rgba(255,255,255,0.15);
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:24px;flex-shrink:0;
+}
+.batch-name{color:#fff;font-size:15px;font-weight:800;line-height:1.3}
+.batch-sub{color:rgba(255,255,255,0.65);font-size:12px;margin-top:3px}
+.batch-body{padding:16px 18px}
+.batch-info-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;
+}
+.bi-item{background:var(--gray-50);border-radius:10px;padding:10px 12px}
+.bi-label{font-size:11px;color:var(--gray-400);margin-bottom:2px}
+.bi-value{font-size:13px;font-weight:700;color:var(--gray-800)}
+.bi-value.green{color:#16a34a}
+.bi-value.orange{color:var(--orange)}
+.bi-value.purple{color:var(--purple)}
+
+/* status badge */
+.status-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  border-radius:100px;padding:6px 14px;
+  font-size:12px;font-weight:700;margin-bottom:14px;
+}
+.status-pending{background:#fef9c3;color:#a16207}
+.status-active{background:#dcfce7;color:#16a34a}
+.status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+/* progress bar */
+.prog-section{margin-bottom:14px}
+.prog-label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--gray-600);margin-bottom:6px}
+.prog-bar{background:var(--gray-100);border-radius:100px;height:8px;overflow:hidden}
+.prog-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--purple),#a855f7);transition:width 1s ease}
+
+/* action buttons */
+.action-row{display:flex;gap:8px}
+.btn-action{
+  flex:1;padding:11px;border-radius:12px;
+  font-size:13px;font-weight:700;font-family:var(--font);
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  transition:all .2s;
+}
+.btn-primary-sm{
+  background:var(--purple);color:#fff;
+  box-shadow:0 4px 12px rgba(124,58,237,0.25);
+}
+.btn-primary-sm:active{transform:scale(.97)}
+.btn-outline-sm{
+  border:2px solid var(--purple-light);color:var(--purple);
+  background:var(--purple-light);
+}
+
+/* ─── EMPTY STATE ─── */
+.empty-state{
+  background:var(--white);border-radius:20px;padding:40px 24px;
+  text-align:center;border:1px solid var(--gray-200);
+  box-shadow:0 4px 16px rgba(0,0,0,0.04);
+}
+.empty-ico{font-size:56px;margin-bottom:16px}
+.empty-title{font-size:18px;font-weight:800;color:var(--gray-800);margin-bottom:8px}
+.empty-desc{font-size:14px;color:var(--gray-500);line-height:1.65;margin-bottom:22px}
+.btn-enroll-now{
+  background:linear-gradient(135deg,var(--purple),#a855f7);
+  color:#fff;border-radius:14px;padding:14px 28px;
+  font-size:15px;font-weight:800;font-family:var(--font);
+  box-shadow:0 6px 20px rgba(124,58,237,0.3);
+  display:inline-flex;align-items:center;gap:8px;
+  transition:all .2s;
+}
+.btn-enroll-now:active{transform:scale(.97)}
+
+/* ─── NOTIFICATIONS ─── */
+.notif-card{
+  background:var(--white);border-radius:16px;padding:14px 16px;
+  margin-bottom:10px;border:1px solid var(--gray-200);
+  display:flex;align-items:flex-start;gap:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.04);
+}
+.notif-ico{
+  width:38px;height:38px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.notif-ico.green{background:#dcfce7}
+.notif-ico.blue{background:#dbeafe}
+.notif-ico.yellow{background:#fef9c3}
+.notif-title{font-size:13px;font-weight:700;color:var(--gray-800)}
+.notif-time{font-size:11px;color:var(--gray-400);margin-top:3px}
+.notif-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--purple);flex-shrink:0;margin-top:5px;
+}
+
+/* ─── LOADING ─── */
+.loading-screen{
+  position:fixed;inset:0;background:#f0ebff;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:16px;z-index:999;
+}
+.spinner{
+  width:48px;height:48px;border:4px solid var(--purple-light);
+  border-top-color:var(--purple);border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-txt{color:var(--gray-500);font-size:14px;font-weight:600}
+
+/* ─── LOGIN PROMPT ─── */
+.login-prompt{
+  position:fixed;inset:0;background:linear-gradient(135deg,#4c1d95,#7c3aed);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px;text-align:center;z-index:998;
+}
+.login-prompt h2{color:#fff;font-size:22px;font-weight:800;margin-bottom:10px}
+.login-prompt p{color:rgba(255,255,255,.75);font-size:14px;line-height:1.65;margin-bottom:28px}
+.btn-google-login{
+  background:#fff;color:#3c3c3c;border-radius:14px;
+  padding:14px 24px;font-size:15px;font-weight:700;font-family:var(--font);
+  display:flex;align-items:center;gap:10px;justify-content:center;
+  box-shadow:0 8px 24px rgba(0,0,0,.2);width:100%;max-width:300px;
+  transition:all .2s;
+}
+.btn-google-login:active{transform:scale(.97)}
+
+/* ─── BOTTOM NAV ─── */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:#fff;border-top:1px solid var(--gray-200);
+  display:flex;z-index:90;
+  box-shadow:0 -4px 16px rgba(0,0,0,.06);
+}
+.nav-item{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:10px 0;font-size:10px;font-weight:600;
+  color:var(--gray-400);gap:4px;transition:color .15s;
+}
+.nav-item.active{color:var(--purple)}
+.nav-item span:first-child{font-size:20px}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="spinner"></div>
+  <div class="loading-txt">লোড হচ্ছে...</div>
+</div>
+
+<!-- LOGIN PROMPT (not logged in) -->
+<div class="login-prompt" id="loginPrompt" style="display:none">
+  <div style="font-size:64px;margin-bottom:20px">🔐</div>
+  <h2>লগইন করুন</h2>
+  <p>ড্যাশবোর্ড দেখতে প্রথমে<br>আপনার Google একাউন্ট দিয়ে লগইন করুন।</p>
+  <button class="btn-google-login" id="btnGoogleSignIn">
+    <svg width="20" height="20" viewBox="0 0 48 48"><path d="M43.6 20.1H24v7.8h11.3c-1.1 5.3-5.8 9-11.3 9-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.1 8 3l5.8-5.8C34.1 7.3 29.3 5 24 5 13.5 5 5 13.5 5 24s8.5 19 19 19c10.7 0 18.4-7.5 18.4-18.5 0-1.2-.1-2.5-.4-4.4z" fill="#FFC107"/><path d="M6.3 14.7l6.6 4.8C14.5 16 18.9 13 24 13c3.1 0 5.9 1.1 8 3l5.8-5.8C34.1 7.3 29.3 5 24 5c-7.7 0-14.4 4.4-17.7 9.7z" fill="#FF3D00"/><path d="M24 43c5.2 0 9.9-1.9 13.5-5.1l-6.3-5.2C29.1 34.4 26.6 35 24 35c-5.4 0-10-3.6-11.2-8.6l-6.6 5.1C9.5 38.4 16.3 43 24 43z" fill="#4CAF50"/><path d="M43.6 20.1H24v7.8h11.3c-.5 2.7-2 5.1-4.2 6.7l6.3 5.2C40.7 36.3 44 30.6 44 24c0-1.2-.1-2.5-.4-3.9z" fill="#1976D2"/></svg>
+    Google দিয়ে লগইন করুন
+  </button>
+  <button onclick="window.location.href='index.html'" style="color:rgba(255,255,255,.6);font-size:13px;margin-top:16px;font-family:var(--font)">← হোমে ফিরুন</button>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="back-btn" onclick="window.location.href='index.html'">←</button>
+    <span class="topbar-title">আমার ড্যাশবোর্ড</span>
+  </div>
+  <button class="btn-logout-top" id="btnLogout">লগআউট</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main" id="mainContent" style="display:none">
+
+  <!-- PROFILE -->
+  <div class="profile-card">
+    <div class="profile-avatar" id="profileAv">U</div>
+    <div>
+      <div class="profile-name" id="profileName">—</div>
+      <div class="profile-email" id="profileEmail">—</div>
+      <div class="profile-badge">✅ গুগল ভেরিফাইড</div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row" id="statsRow">
+    <div class="stat-card">
+      <div class="stat-ico">🎓</div>
+      <div class="stat-val" id="statCourses">0</div>
+      <div class="stat-lbl">কোর্স</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-ico">📹</div>
+      <div class="stat-val" id="statClasses">0</div>
+      <div class="stat-lbl">ক্লাস</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-ico">📜</div>
+      <div class="stat-val" id="statCerts">0</div>
+      <div class="stat-lbl">সার্টিফিকেট</div>
+    </div>
+  </div>
+
+  <!-- ENROLLED BATCHES -->
+  <div class="sec-title">🎒 আমার ব্যাচসমূহ</div>
+  <div id="enrolledSection">
+    <!-- dynamic content -->
+  </div>
+
+  <!-- NOTIFICATIONS -->
+  <div class="sec-title" style="margin-top:24px">🔔 নোটিফিকেশন</div>
+  <div id="notifSection">
+    <!-- dynamic -->
+  </div>
+
+</div><!-- /main -->
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="nav-item active">
+    <span>📊</span>
+    <span>ড্যাশবোর্ড</span>
+  </button>
+  <button class="nav-item" onclick="window.location.href='index.html'">
+    <span>📚</span>
+    <span>কোর্স</span>
+  </button>
+  <button class="nav-item" onclick="window.location.href='payment.html'">
+    <span>💳</span>
+    <span>পেমেন্ট</span>
+  </button>
+  <button class="nav-item" id="navProfile">
+    <span>👤</span>
+    <span>প্রোফাইল</span>
+  </button>
+</div>
+
+<script>
+const provider = new firebase.auth.GoogleAuthProvider();
+
+// ─── Auth state ───
+auth.onAuthStateChanged(function(user) {
+  document.getElementById('loadingScreen').style.display = 'none';
+  if (!user) {
+    document.getElementById('loginPrompt').style.display = 'flex';
+    return;
+  }
+  // Logged in
+  document.getElementById('mainContent').style.display = 'block';
+  initDashboard(user);
+});
+
+// ─── Google login ───
+document.getElementById('btnGoogleSignIn').onclick = function() {
+  auth.signInWithPopup(provider).catch(function(e) {
+    alert('লগইন ব্যর্থ: ' + e.message);
+  });
+};
+
+// ─── Logout ───
+document.getElementById('btnLogout').onclick = function() {
+  if(confirm('লগআউট করবেন?')) auth.signOut();
+};
+
+// ─── Dashboard init ───
+function initDashboard(user) {
+  // Profile
+  document.getElementById('profileAv').textContent    = (user.displayName||user.email).charAt(0).toUpperCase();
+  document.getElementById('profileName').textContent  = user.displayName || 'ব্যবহারকারী';
+  document.getElementById('profileEmail').textContent = user.email;
+
+  // Load enrollments from Firestore
+  db.collection('enrollments').doc(user.uid).get()
+  .then(function(doc) {
+    if (doc.exists && doc.data().courses && doc.data().courses.length > 0) {
+      const courses = doc.data().courses;
+      renderEnrolledBatches(courses);
+      document.getElementById('statCourses').textContent = courses.length;
+      document.getElementById('statClasses').textContent = courses.length * 36;
+      document.getElementById('statCerts').textContent   = courses.filter(c=>c.status==='completed').length;
+    } else {
+      // localStorage fallback check
+      const orders = JSON.parse(localStorage.getItem('mh_orders') || '[]');
+      const userOrders = orders.filter(o => o.email === user.email);
+      if (userOrders.length > 0) {
+        renderFromLocalStorage(userOrders);
+        document.getElementById('statCourses').textContent = userOrders.length;
+        document.getElementById('statClasses').textContent = userOrders.length * 36;
+      } else {
+        renderEmptyState();
+      }
+    }
+  })
+  .catch(function(err) {
+    console.warn('Firestore error:', err);
+    // Fallback localStorage
+    const orders = JSON.parse(localStorage.getItem('mh_orders') || '[]');
+    const userOrders = orders.filter(o => o.email === user.email);
+    if (userOrders.length > 0) {
+      renderFromLocalStorage(userOrders);
+    } else {
+      renderEmptyState();
+    }
+  });
+
+  // Notifications
+  renderNotifications(user);
+}
+
+// ─── Render enrolled batches ───
+function renderEnrolledBatches(courses) {
+  const container = document.getElementById('enrolledSection');
+  container.innerHTML = courses.map(function(c, i) {
+    var statusClass = c.status === 'active' ? 'status-active' : 'status-pending';
+    var statusLabel = c.status === 'active' ? '✅ একটিভ' : '⏳ যাচাই চলছে';
+    var dotColor    = c.status === 'active' ? '#10b981' : '#f59e0b';
+    var progress    = c.status === 'active' ? 15 : 0;
+    return `
+    <div class="batch-card">
+      <div class="batch-header">
+        <div class="batch-icon">🔐</div>
+        <div>
+          <div class="batch-name">${c.course}</div>
+          <div class="batch-sub">ব্যাচ: ${c.batch} &nbsp;|&nbsp; শুরু: ${c.batchDate||'১০ মার্চ'}</div>
+        </div>
+      </div>
+      <div class="batch-body">
+        <span class="status-badge ${statusClass}">
+          <span class="status-dot" style="background:${dotColor}"></span>
+          ${statusLabel}
+        </span>
+        <div class="batch-info-grid">
+          <div class="bi-item">
+            <div class="bi-label">পেমেন্ট পদ্ধতি</div>
+            <div class="bi-value purple">bKash</div>
+          </div>
+          <div class="bi-item">
+            <div class="bi-label">পরিমাণ</div>
+            <div class="bi-value green">৳${(c.amount||8800).toLocaleString('bn')}</div>
+          </div>
+          <div class="bi-item">
+            <div class="bi-label">TrxID</div>
+            <div class="bi-value" style="font-size:12px">${c.trxId||'—'}</div>
+          </div>
+          <div class="bi-item">
+            <div class="bi-label">ক্লাস শিডিউল</div>
+            <div class="bi-value" style="font-size:12px">রবি, মঙ্গল — রাত ১০:৩০</div>
+          </div>
+        </div>
+        <div class="prog-section">
+          <div class="prog-label">
+            <span>কোর্স প্রগ্রেস</span>
+            <span>${progress}%</span>
+          </div>
+          <div class="prog-bar">
+            <div class="prog-fill" style="width:${progress}%"></div>
+          </div>
+        </div>
+        <div class="action-row">
+          <button class="btn-action btn-primary-sm" onclick="alert('ক্লাস শুরু হলে এই বাটন একটিভ হবে')">
+            📹 ক্লাস জয়েন করুন
+          </button>
+          <button class="btn-action btn-outline-sm" onclick="alert('ক্লাস রেকর্ডিং শীঘ্রই পাওয়া যাবে')">
+            🎬 রেকর্ডিং
+          </button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── Render from localStorage ───
+function renderFromLocalStorage(orders) {
+  const courses = orders.map(function(o) {
+    return {
+      course: o.course || 'Cyber Security & Ethical Hacking',
+      batch: o.batch || '৯ম ব্যাচ',
+      batchDate: '১০ মার্চ',
+      trxId: o.trxId,
+      amount: o.amount || 8800,
+      status: 'pending_verification'
+    };
+  });
+  renderEnrolledBatches(courses);
+}
+
+// ─── Empty state ───
+function renderEmptyState() {
+  document.getElementById('enrolledSection').innerHTML = `
+  <div class="empty-state">
+    <div class="empty-ico">📭</div>
+    <div class="empty-title">এখনো কোনো ব্যাচে ভর্তি হননি</div>
+    <div class="empty-desc">
+      আপনার পছন্দের কোর্সে ভর্তি হোন<br>
+      এবং ক্যারিয়ার গড়ার যাত্রা শুরু করুন।
+    </div>
+    <button class="btn-enroll-now" onclick="window.location.href='index.html'">
+      🚀 কোর্স দেখুন ও ভর্তি হোন
+    </button>
+  </div>`;
+}
+
+// ─── Notifications ───
+function renderNotifications(user) {
+  const orders = JSON.parse(localStorage.getItem('mh_orders') || '[]');
+  const hasOrder = orders.some(o => o.email === user.email);
+
+  const notifs = [];
+  if (hasOrder) {
+    notifs.push({ico:'✅', cls:'green', title:'পেমেন্ট গ্রহণ করা হয়েছে', time:'এইমাত্র'});
+    notifs.push({ico:'📧', cls:'blue',  title:'ইমেইল কনফার্মেশন পাঠানো হয়েছে', time:'এইমাত্র'});
+    notifs.push({ico:'📱', cls:'yellow',title:'SMS নোটিফিকেশন পাঠানো হয়েছে', time:'এইমাত্র'});
+    notifs.push({ico:'⏳', cls:'yellow',title:'পেমেন্ট যাচাই চলছে — ২৪ ঘণ্টার মধ্যে ব্যাচ একটিভ হবে', time:'অপেক্ষমাণ'});
+  } else {
+    notifs.push({ico:'🔔', cls:'blue', title:'কোনো নোটিফিকেশন নেই', time:'—'});
+  }
+
+  document.getElementById('notifSection').innerHTML = notifs.map(function(n) {
+    return `
+    <div class="notif-card">
+      <div class="notif-ico ${n.cls}">${n.ico}</div>
+      <div style="flex:1">
+        <div class="notif-title">${n.title}</div>
+        <div class="notif-time">${n.time}</div>
+      </div>
+      ${n.cls!=='blue'?'<div class="notif-dot"></div>':''}
+    </div>`;
+  }).join('');
+}
+
+// ─── Real-time listener for enrollment status update ───
+auth.onAuthStateChanged(function(user) {
+  if (!user) return;
+  db.collection('enrollments').doc(user.uid).onSnapshot(function(doc) {
+    if (!doc.exists) return;
+    const data = doc.data();
+    if (data && data.courses && data.courses.length > 0) {
+      renderEnrolledBatches(data.courses);
+      document.getElementById('statCourses').textContent = data.courses.length;
+    }
+  });
+});
+</script>
+</body>
+</html>

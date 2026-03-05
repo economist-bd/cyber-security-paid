@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Security & Ethical Hacking Career Track Program | MH Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --purple:#7c3aed;--purple-light:#ede9fe;--purple-dark:#5b21b6;
+  --green:#10b981;--orange:#f97316;--yellow:#f59e0b;--red:#ef4444;
+  --gray-50:#f9fafb;--gray-100:#f3f4f6;--gray-200:#e5e7eb;
+  --gray-400:#9ca3af;--gray-500:#6b7280;--gray-600:#4b5563;
+  --gray-700:#374151;--gray-800:#1f2937;--gray-900:#111827;
+  --dark:#0f172a;--dark2:#1e293b;
+  --white:#fff;--font:'Hind Siliguri',sans-serif;
+}
+body{font-family:var(--font);background:#f5f3ff;color:var(--gray-800);overflow-x:hidden}
+img{max-width:100%}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--font);cursor:pointer;border:none;outline:none;background:none}
+
+/* ─── PROMO BAR ─── */
+#promoBanner{
+  background:linear-gradient(90deg,#4f46e5,#7c3aed);
+  color:#fff;padding:10px 16px;
+  display:flex;align-items:center;justify-content:center;
+  gap:10px;flex-wrap:wrap;font-size:13px;font-weight:500;
+  position:relative;
+}
+.promo-code{
+  background:rgba(255,255,255,0.25);border-radius:6px;
+  padding:2px 9px;font-weight:800;font-size:13px;letter-spacing:1px;
+}
+.btn-promo-apply{
+  background:#fff;color:#4f46e5;border-radius:8px;
+  padding:5px 14px;font-weight:700;font-size:12px;font-family:var(--font);
+}
+#closePromoBanner{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  color:rgba(255,255,255,0.7);font-size:18px;line-height:1;padding:4px;
+}
+
+/* ─── NAVBAR ─── */
+.navbar{
+  background:#fff;border-bottom:1px solid var(--gray-200);
+  position:sticky;top:0;z-index:999;
+}
+.nav-wrap{
+  max-width:1200px;margin:0 auto;padding:0 16px;
+  display:flex;align-items:center;justify-content:space-between;height:60px;
+}
+.nav-logo{display:flex;align-items:center;gap:8px}
+.logo-box{
+  width:34px;height:34px;background:linear-gradient(135deg,#7c3aed,#a855f7);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:800;font-size:13px;
+}
+.logo-name{font-size:17px;font-weight:800;color:var(--gray-900)}
+.logo-name span{color:var(--purple)}
+.nav-actions{display:flex;align-items:center;gap:8px}
+.nav-link-btn{
+  padding:7px 14px;border-radius:8px;font-size:14px;
+  font-weight:500;color:var(--gray-700);display:none;
+  transition:background 0.15s;
+}
+.nav-link-btn:hover{background:var(--gray-100)}
+@media(min-width:700px){.nav-link-btn{display:block}}
+
+/* Login / User */
+#btnLogin{
+  background:var(--purple);color:#fff;border-radius:10px;
+  padding:9px 18px;font-size:14px;font-weight:700;
+  display:flex;align-items:center;gap:7px;
+  transition:background 0.2s;
+}
+#btnLogin:hover{background:var(--purple-dark)}
+#userBar{
+  display:none;align-items:center;gap:8px;
+}
+.user-av{
+  width:33px;height:33px;border-radius:50%;
+  background:linear-gradient(135deg,var(--purple),#a855f7);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:700;font-size:13px;flex-shrink:0;
+}
+.user-nm{font-size:13px;font-weight:700;color:var(--gray-800);
+  max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#btnLogout{
+  border:1px solid var(--gray-200);border-radius:8px;
+  padding:6px 10px;font-size:12px;color:var(--gray-500);
+  transition:all 0.15s;
+}
+#btnLogout:hover{border-color:var(--red);color:var(--red)}
+
+/* ─── HERO ─── */
+.hero{
+  background:var(--dark);
+  background-image:
+    radial-gradient(ellipse at 10% 70%,rgba(124,58,237,.3) 0%,transparent 55%),
+    radial-gradient(ellipse at 90% 10%,rgba(168,85,247,.15) 0%,transparent 50%);
+  padding:40px 16px 0;
+}
+.hero-wrap{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1fr;gap:32px;
+}
+@media(min-width:900px){
+  .hero-wrap{grid-template-columns:1fr 360px}
+}
+.hero-left{padding-bottom:40px}
+
+.live-tag{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(124,58,237,.2);border:1px solid rgba(124,58,237,.4);
+  border-radius:100px;padding:5px 14px;
+  color:#c4b5fd;font-size:12px;font-weight:600;margin-bottom:16px;
+}
+.ldot{width:7px;height:7px;border-radius:50%;background:#10b981;
+  animation:ldot 1.8s infinite}
+@keyframes ldot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+
+.hero h1{
+  font-size:clamp(22px,5vw,36px);font-weight:800;color:#fff;
+  line-height:1.3;margin-bottom:14px;
+}
+.hero h1 span{color:#c4b5fd}
+.rating-row{
+  display:flex;align-items:center;gap:10px;margin-bottom:14px;
+}
+.stars{color:#f59e0b;letter-spacing:2px;font-size:16px}
+.r-num{color:#fff;font-weight:800;font-size:17px}
+.r-count{color:#94a3b8;font-size:13px}
+
+.hero-desc{
+  color:#cbd5e1;font-size:15px;line-height:1.75;
+  margin-bottom:24px;max-width:600px;
+}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+.hero-chip{
+  display:flex;align-items:center;gap:6px;
+  color:#cbd5e1;font-size:13px;font-weight:500;
+}
+.hero-chip svg{width:16px;height:16px;color:#10b981;flex-shrink:0}
+
+/* ─── ENROLL CARD ─── */
+.enroll-card{
+  background:#fff;border-radius:20px;padding:20px;
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
+  position:sticky;top:72px;
+}
+.demo-thumb{
+  border-radius:12px;overflow:hidden;
+  aspect-ratio:16/9;background:#1e1b4b;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;position:relative;margin-bottom:16px;
+}
+.demo-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,#0f0a1e,#2d1b69);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+}
+.play-circle{
+  width:52px;height:52px;background:rgba(255,255,255,.9);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  transition:transform .2s;box-shadow:0 8px 24px rgba(0,0,0,.3);
+}
+.demo-thumb:hover .play-circle{transform:scale(1.1)}
+.demo-label{
+  position:absolute;bottom:10px;left:0;right:0;
+  text-align:center;color:rgba(255,255,255,.7);font-size:11px;
+}
+
+.batch-box{
+  background:var(--gray-50);border-radius:12px;padding:14px;
+  margin-bottom:14px;
+}
+.batch-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.batch-row:last-child{margin-bottom:0}
+.bl{font-size:11px;color:var(--gray-500);margin-bottom:2px}
+.bv{font-size:14px;font-weight:700;color:var(--gray-800)}
+.bv-big{font-size:19px;font-weight:800;color:var(--purple)}
+.badge-seats{
+  background:#fef3c7;color:#92400e;border-radius:8px;
+  padding:4px 10px;font-size:12px;font-weight:700;
+  display:flex;align-items:center;gap:4px;
+}
+.badge-batch{
+  background:var(--purple-light);color:var(--purple);border-radius:8px;
+  padding:4px 10px;font-size:12px;font-weight:700;
+}
+.price-row2{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:14px;
+}
+.final-price{font-size:30px;font-weight:800;color:var(--purple)}
+.promo-trigger{
+  display:flex;align-items:center;gap:6px;
+  background:var(--purple-light);color:var(--purple);
+  border-radius:10px;padding:8px 14px;font-size:13px;font-weight:700;
+}
+.btn-enroll{
+  width:100%;padding:15px;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  color:#fff;border-radius:14px;font-size:16px;font-weight:700;
+  box-shadow:0 8px 24px rgba(124,58,237,.35);
+  transition:all .2s;margin-bottom:14px;font-family:var(--font);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-enroll:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(124,58,237,.45)}
+.btn-enroll:active{transform:scale(.97)}
+.card-features{list-style:none}
+.card-features li{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 0;border-bottom:1px solid var(--gray-100);
+  font-size:13px;color:var(--gray-700);
+}
+.card-features li:last-child{border-bottom:none}
+.fi{
+  width:28px;height:28px;border-radius:8px;
+  background:var(--purple-light);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;flex-shrink:0;
+}
+
+/* ─── STICKY TABS ─── */
+.sticky-tabs{
+  background:var(--dark);
+  border-bottom:1px solid rgba(255,255,255,.1);
+  position:sticky;top:60px;z-index:900;overflow-x:auto;
+}
+.sticky-tabs::-webkit-scrollbar{display:none}
+.tabs-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;gap:0;white-space:nowrap;
+  padding:0 4px;
+}
+.tab-btn{
+  padding:15px 18px;background:none;
+  color:#94a3b8;font-family:var(--font);
+  font-size:14px;font-weight:600;
+  border-bottom:3px solid transparent;
+  transition:all .2s;white-space:nowrap;flex-shrink:0;
+}
+.tab-btn.active,.tab-btn:hover{color:#fff}
+.tab-btn.active{border-bottom-color:var(--purple)}
+
+/* ─── MAIN LAYOUT ─── */
+.page-body{max-width:1200px;margin:0 auto;padding:32px 16px 60px;
+  display:grid;grid-template-columns:1fr;gap:32px}
+@media(min-width:900px){.page-body{grid-template-columns:1fr 360px}}
+.content{min-width:0}
+.right-col{display:none}
+@media(min-width:900px){.right-col{display:block}}
+
+/* ─── SECTION ─── */
+.sec{margin-bottom:44px}
+.sec-title{
+  font-size:20px;font-weight:800;color:var(--gray-900);
+  padding-bottom:12px;border-bottom:2px solid var(--gray-200);
+  margin-bottom:20px;
+}
+
+/* Demo videos */
+.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.dv-card{
+  border-radius:12px;overflow:hidden;
+  aspect-ratio:16/9;background:#1e1b4b;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;position:relative;
+}
+.dv-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,#0f0a1e,#3b1d8a);
+  display:flex;align-items:center;justify-content:center;
+}
+.dv-play{
+  width:44px;height:44px;background:rgba(255,255,255,.9);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  transition:transform .2s;
+}
+.dv-card:hover .dv-play{transform:scale(1.12)}
+.free-demo-box{
+  background:linear-gradient(135deg,#ede9fe,#dbeafe);
+  border:1px solid rgba(124,58,237,.2);border-radius:14px;
+  padding:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.free-demo-text{flex:1;min-width:0}
+.free-demo-title{font-size:15px;font-weight:800;color:var(--gray-900)}
+.free-demo-sub{font-size:13px;color:var(--gray-500);margin-top:2px}
+.btn-reg{
+  background:var(--purple);color:#fff;border-radius:10px;
+  padding:10px 18px;font-size:13px;font-weight:700;font-family:var(--font);
+  white-space:nowrap;transition:all .2s;
+}
+.btn-reg:hover{background:var(--purple-dark)}
+
+/* ─── CURRICULUM ─── */
+.module-wrap{margin-bottom:24px}
+.module-hdr{
+  background:var(--dark2);color:#fff;
+  border-radius:12px;padding:12px 16px;
+  font-size:14px;font-weight:700;margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.inst-row{
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:10px;padding:0 2px;
+}
+.inst-av{
+  width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,var(--purple),#a855f7);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:700;font-size:12px;flex-shrink:0;
+}
+.inst-nm-txt{font-size:13px;font-weight:700;color:var(--gray-700)}
+.inst-role-txt{font-size:11px;color:var(--gray-400)}
+
+.week-card{
+  border:1px solid var(--gray-200);border-radius:14px;
+  background:#fff;margin-bottom:8px;overflow:hidden;
+}
+.week-hdr{
+  display:flex;align-items:center;gap:10px;
+  padding:14px 16px;cursor:pointer;
+  transition:background .15s;user-select:none;
+}
+.week-hdr:hover{background:var(--gray-50)}
+.week-num{
+  background:var(--purple-light);color:var(--purple);
+  border-radius:8px;padding:4px 10px;
+  font-size:11px;font-weight:800;white-space:nowrap;flex-shrink:0;
+}
+.week-nm{font-size:14px;font-weight:700;color:var(--gray-800);flex:1;min-width:0}
+.week-meta{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.wm-item{
+  display:flex;align-items:center;gap:4px;
+  font-size:11px;color:var(--gray-500);font-weight:500;white-space:nowrap;
+}
+.chev{color:var(--gray-400);font-size:16px;transition:transform .3s;flex-shrink:0}
+.week-card.open .chev{transform:rotate(180deg)}
+.week-body{
+  max-height:0;overflow:hidden;
+  transition:max-height .4s ease,padding .3s;
+  padding:0 16px;
+}
+.week-card.open .week-body{max-height:1000px;padding:4px 16px 16px}
+.cls-block{margin-bottom:12px}
+.cls-lbl{font-size:12px;font-weight:800;color:var(--purple);margin-bottom:4px}
+.cls-txt{font-size:13px;color:var(--gray-600);line-height:1.65}
+.assign-box{
+  background:#fefce8;border:1px solid #fde68a;border-radius:10px;
+  padding:10px 12px;margin-top:10px;
+  display:flex;align-items:flex-start;gap:8px;font-size:13px;
+}
+.assign-lbl{font-weight:700;color:#92400e;flex-shrink:0}
+.assign-txt{color:var(--gray-600)}
+
+/* Features grid */
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.feat-grid{grid-template-columns:1fr}}
+.feat-card{
+  background:#fff;border:1px solid var(--gray-200);border-radius:14px;
+  padding:16px;display:flex;align-items:flex-start;gap:12px;
+  transition:box-shadow .2s;
+}
+.feat-card:hover{box-shadow:0 4px 20px rgba(124,58,237,.1)}
+.feat-ico{
+  width:40px;height:40px;border-radius:10px;
+  background:var(--purple-light);display:flex;align-items:center;
+  justify-content:center;font-size:20px;flex-shrink:0;
+}
+.feat-title{font-size:14px;font-weight:700;color:var(--gray-900);margin-bottom:3px}
+.feat-desc{font-size:12px;color:var(--gray-500);line-height:1.5}
+
+/* Tools */
+.tools-wrap{display:flex;flex-wrap:wrap;gap:10px}
+.tool-tag{
+  background:#fff;border:1px solid var(--gray-200);
+  border-radius:10px;padding:9px 14px;
+  display:flex;align-items:center;gap:7px;
+  font-size:13px;font-weight:600;color:var(--gray-700);
+  transition:all .15s;
+}
+.tool-tag:hover{border-color:var(--purple);color:var(--purple);background:var(--purple-light)}
+
+/* Projects */
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.proj-grid{grid-template-columns:1fr}}
+.proj-card{
+  background:#fff;border:1px solid var(--gray-200);
+  border-radius:14px;overflow:hidden;cursor:pointer;
+  transition:all .2s;
+}
+.proj-card:hover{box-shadow:0 6px 24px rgba(124,58,237,.12);transform:translateY(-3px)}
+.proj-img{
+  aspect-ratio:16/9;
+  background:linear-gradient(135deg,#1e1b4b,#4c1d95);
+  display:flex;align-items:center;justify-content:center;font-size:36px;
+}
+.proj-info{padding:12px 14px}
+.proj-title{font-size:13px;font-weight:700;color:var(--gray-800);line-height:1.4}
+.proj-arrow{color:var(--purple);font-size:16px;margin-top:6px;display:block}
+
+/* Job placement */
+.jp-box{
+  background:linear-gradient(135deg,#1e1b4b,#2d1b69);
+  border-radius:20px;padding:28px;margin-bottom:32px;
+}
+.jp-title{font-size:18px;font-weight:800;color:#fff;text-align:center;margin-bottom:18px}
+.jp-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:480px){.jp-grid{grid-template-columns:1fr}}
+.jp-item{
+  display:flex;align-items:flex-start;gap:8px;
+  font-size:13px;color:#c4b5fd;line-height:1.5;
+}
+
+/* For whom */
+.whom-list{list-style:none}
+.whom-list li{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:12px 0;border-bottom:1px solid var(--gray-100);
+  font-size:14px;
+}
+.whom-list li:last-child{border-bottom:none}
+.check-ic{color:#10b981;font-size:18px;flex-shrink:0;margin-top:1px}
+
+/* Requirements */
+.req-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:480px){.req-grid{grid-template-columns:1fr}}
+.req-card{
+  background:#fff;border:1px solid var(--gray-200);
+  border-radius:14px;padding:18px 12px;text-align:center;
+}
+.req-ico{font-size:32px;margin-bottom:8px}
+.req-txt{font-size:13px;font-weight:600;color:var(--gray-700)}
+
+/* Instructors */
+.inst-card{
+  background:#fff;border:1px solid var(--gray-200);
+  border-radius:18px;padding:20px;margin-bottom:12px;
+  display:flex;align-items:flex-start;gap:16px;
+}
+.inst-photo{
+  width:60px;height:60px;border-radius:14px;
+  background:linear-gradient(135deg,var(--purple),#a855f7);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:800;font-size:20px;flex-shrink:0;
+}
+.inst-role-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--purple-light);color:var(--purple);
+  border-radius:100px;padding:3px 10px;font-size:11px;font-weight:700;
+  margin-bottom:6px;
+}
+.ta-tag{background:#dcfce7;color:#16a34a}
+.inst-full-name{font-size:16px;font-weight:800;color:var(--gray-900);margin-bottom:5px}
+.inst-bio{font-size:12px;color:var(--gray-500);line-height:1.6}
+.inst-companies{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.co-tag{
+  background:var(--gray-50);border:1px solid var(--gray-200);
+  border-radius:7px;padding:4px 10px;font-size:11px;font-weight:600;color:var(--gray-600);
+}
+
+/* Reviews */
+.rev-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.rev-grid{grid-template-columns:1fr}}
+.rev-card{
+  background:#fff;border:1px solid var(--gray-200);
+  border-radius:14px;padding:16px;
+}
+.rev-av{
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,var(--purple),#a855f7);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:700;font-size:14px;margin-bottom:10px;
+}
+.rev-name{font-size:13px;font-weight:700;color:var(--gray-800);margin-bottom:6px}
+.rev-txt{font-size:12px;color:var(--gray-500);line-height:1.65}
+.quote{color:var(--purple);font-size:22px;line-height:1;margin-bottom:4px}
+
+/* Certificate */
+.cert-wrap{
+  background:linear-gradient(135deg,#0f172a,#1e1b4b);
+  border-radius:20px;padding:32px;text-align:center;
+}
+.cert-title{font-size:22px;font-weight:800;color:#fff;margin-bottom:10px}
+.cert-desc{color:#94a3b8;font-size:14px;line-height:1.65;margin-bottom:24px}
+.cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:440px){.cert-grid{grid-template-columns:1fr}}
+.cert-card{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;padding:18px;
+}
+.cert-ico{font-size:30px;margin-bottom:8px}
+.cert-nm{font-size:13px;font-weight:700;color:#e2e8f0}
+.cert-sub{font-size:12px;color:#64748b;margin-top:4px}
+
+/* FAQ */
+.faq-item{
+  background:#fff;border:1px solid var(--gray-200);
+  border-radius:12px;margin-bottom:8px;overflow:hidden;
+}
+.faq-q{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:15px 16px;cursor:pointer;
+  font-size:14px;font-weight:700;color:var(--gray-800);
+  user-select:none;
+}
+.faq-q:hover{background:var(--gray-50)}
+.faq-chev{color:var(--gray-400);font-size:16px;transition:transform .3s;flex-shrink:0}
+.faq-item.open .faq-chev{transform:rotate(180deg)}
+.faq-ans{
+  max-height:0;overflow:hidden;
+  transition:max-height .3s,padding .3s;
+  padding:0 16px;
+}
+.faq-item.open .faq-ans{max-height:200px;padding:0 16px 16px}
+.faq-ans-txt{font-size:13px;color:var(--gray-600);line-height:1.7}
+
+/* Community */
+.community-box{
+  background:linear-gradient(135deg,#1877f2,#0c4fb8);
+  border-radius:18px;padding:22px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;margin-bottom:32px;
+}
+.btn-join-fb{
+  background:#fff;color:#1877f2;border-radius:10px;
+  padding:11px 22px;font-size:14px;font-weight:800;font-family:var(--font);
+  white-space:nowrap;transition:all .2s;flex-shrink:0;
+}
+.btn-join-fb:hover{background:#e7f0fd}
+
+/* ─── FLOATING CTA (Mobile) ─── */
+.floating-cta{
+  position:fixed;bottom:16px;left:16px;right:16px;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  color:#fff;border-radius:14px;padding:15px;
+  font-size:16px;font-weight:800;font-family:var(--font);
+  box-shadow:0 8px 28px rgba(124,58,237,.45);
+  z-index:888;display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:all .2s;
+}
+.floating-cta:active{transform:scale(.97)}
+@media(min-width:900px){.floating-cta{display:none}}
+
+/* ─── MODALS ─── */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,.65);
+  z-index:1100;display:none;align-items:flex-end;justify-content:center;
+  padding:0;
+}
+.modal-bg.show{display:flex}
+@media(min-width:600px){
+  .modal-bg{align-items:center;padding:16px}
+}
+.modal-box{
+  background:#fff;border-radius:24px 24px 0 0;
+  padding:28px 20px 36px;width:100%;max-width:440px;
+  animation:slideUp .3s ease;
+}
+@media(min-width:600px){
+  .modal-box{border-radius:20px;padding:28px 28px 28px}
+}
+@keyframes slideUp{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-drag{
+  width:40px;height:4px;background:var(--gray-200);
+  border-radius:100px;margin:0 auto 20px;
+}
+@media(min-width:600px){.modal-drag{display:none}}
+.modal-ico{font-size:44px;text-align:center;margin-bottom:12px}
+.modal-title{font-size:20px;font-weight:800;color:var(--gray-900);text-align:center;margin-bottom:8px}
+.modal-desc{font-size:14px;color:var(--gray-500);text-align:center;line-height:1.65;margin-bottom:22px}
+.modal-btn-primary{
+  width:100%;padding:15px;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  color:#fff;border-radius:12px;
+  font-size:16px;font-weight:800;font-family:var(--font);
+  margin-bottom:10px;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.modal-btn-primary:active{transform:scale(.97)}
+.modal-btn-sec{
+  width:100%;padding:13px;
+  border:1px solid var(--gray-200);border-radius:12px;
+  font-size:14px;font-weight:600;color:var(--gray-500);font-family:var(--font);
+  transition:all .15s;
+}
+.modal-btn-sec:hover{background:var(--gray-50)}
+.promo-input-field{
+  width:100%;border:2px solid var(--gray-200);border-radius:12px;
+  padding:13px 16px;font-size:15px;font-family:var(--font);
+  outline:none;margin-bottom:12px;transition:border-color .2s;
+  color:var(--gray-800);
+}
+.promo-input-field:focus{border-color:var(--purple)}
+
+/* ─── FOOTER ─── */
+footer{background:var(--dark);color:#64748b;padding:48px 16px 28px}
+.footer-wrap{max-width:1200px;margin:0 auto}
+.footer-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:36px;
+}
+@media(min-width:700px){.footer-grid{grid-template-columns:2fr 1fr 1fr 1fr}}
+.f-tagline{font-size:13px;color:#475569;line-height:1.7;margin-bottom:18px;margin-top:10px}
+.f-socials{display:flex;gap:10px}
+.f-social{
+  width:34px;height:34px;border-radius:9px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  color:#64748b;font-size:13px;font-weight:700;transition:all .2s;
+}
+.f-social:hover{background:var(--purple);color:#fff;border-color:var(--purple)}
+.f-col h5{color:#f1f5f9;font-size:14px;font-weight:700;margin-bottom:14px}
+.f-link{
+  display:block;font-size:13px;color:#475569;margin-bottom:9px;
+  transition:color .15s;
+}
+.f-link:hover{color:#94a3b8}
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.07);padding-top:20px;
+  display:flex;flex-direction:column;gap:6px;align-items:center;
+  text-align:center;font-size:12px;
+}
+@media(min-width:600px){.footer-bottom{flex-direction:row;justify-content:space-between;text-align:left}}
+</style>
+</head>
+<body>
+
+<!-- ═══ PROMO BANNER ═══ -->
+<div id="promoBanner">
+  <span class="promo-code">CS24</span>
+  <span>প্রোমো এপ্লাই করলে <strong>২৪% ডিসকাউন্ট</strong> — আর বাকি মাত্র <strong>১ দিন!</strong></span>
+  <button class="btn-promo-apply" id="btnPromoApply">এপ্লাই করুন</button>
+  <button id="closePromoBanner">✕</button>
+</div>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav class="navbar">
+  <div class="nav-wrap">
+    <a href="#" class="nav-logo">
+      <div class="logo-box">MH</div>
+      <span class="logo-name">MH <span>Academy</span></span>
+    </a>
+    <div class="nav-actions">
+      <button class="nav-link-btn" onclick="document.getElementById('sec-curriculum').scrollIntoView({behavior:'smooth'})">সব কোর্স</button>
+      <div id="userBar">
+        <div class="user-av" id="navAvatar" onclick="window.location.href='dashboard.html'" style="cursor:pointer" title="ড্যাশবোর্ড">U</div>
+        <span class="user-nm" id="navUserName"></span>
+        <button onclick="window.location.href='dashboard.html'" style="background:var(--purple-light);color:var(--purple);border-radius:8px;padding:6px 10px;font-size:12px;font-weight:700;font-family:var(--font)">📊 ড্যাশবোর্ড</button>
+        <button id="btnLogout">লগআউট</button>
+      </div>
+      <button id="btnLogin">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a7.5 7.5 0 0113 0"/></svg>
+        লগইন করুন
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-wrap">
+    <!-- LEFT -->
+    <div class="hero-left">
+      <div class="live-tag"><div class="ldot"></div> লাইভ কোর্স</div>
+      <h1>Cyber Security &<br><span>Ethical Hacking</span><br>Career Track Program</h1>
+      <div class="rating-row">
+        <span class="stars">★★★★★</span>
+        <span class="r-num">4.8</span>
+        <span class="r-count">(৩১৩ টি রিভিউ)</span>
+      </div>
+      <p class="hero-desc">
+        সাইবার সিকিউরিটি ও এথিকাল হ্যাকিং নিয়ে ক্যারিয়ার গড়তে চাইলে এই কোর্স আপনার জন্যই। ১৮ সপ্তাহে শেখানো হবে Network Security, Penetration Testing, Kali Linux, Burp Suite, Metasploit সহ আরও অনেক কিছু।
+      </p>
+      <div class="hero-chips">
+        <div class="hero-chip"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ৩৬ টি লাইভ ক্লাস</div>
+        <div class="hero-chip"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ১০ টি রিয়েল প্রজেক্ট</div>
+        <div class="hero-chip"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> জব প্লেসমেন্ট সাপোর্ট</div>
+        <div class="hero-chip"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> লাইফটাইম এক্সেস</div>
+      </div>
+    </div>
+
+    <!-- ENROLL CARD -->
+    <div class="enroll-card">
+      <div class="demo-thumb" id="heroDemo">
+        <div class="demo-bg">
+          <span style="font-size:44px">🔐</span>
+          <div class="play-circle" style="position:relative;z-index:1">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#7c3aed"><polygon points="5 3 19 12 5 21"/></svg>
+          </div>
+        </div>
+        <div class="demo-label">ক্লিক করে ডেমো ক্লাস দেখুন</div>
+      </div>
+
+      <div class="batch-box">
+        <div class="batch-row">
+          <div>
+            <div class="bl">ব্যাচ শুরু</div>
+            <div class="bv-big">১০ মার্চ</div>
+          </div>
+          <div class="badge-batch">৯ম ব্যাচ</div>
+        </div>
+        <div class="batch-row">
+          <div>
+            <div class="bl">লাইভ ক্লাস</div>
+            <div class="bv">রাত ১০:৩০–১২:০০ (রবি, মঙ্গল)</div>
+          </div>
+          <div class="badge-seats">🪑 ৫টি সিট বাকি</div>
+        </div>
+        <div class="batch-row" style="margin-bottom:0">
+          <div>
+            <div class="bl">সাপোর্ট ক্লাস</div>
+            <div class="bv" style="font-size:12px">শনি, সোম, বুধ, বৃহস্পতি রাত ১০টা</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="price-row2">
+        <div class="final-price">৳৮,৮০০</div>
+        <button class="promo-trigger" id="btnPromoTrigger">🏷️ প্রোমো কোড</button>
+      </div>
+
+      <button class="btn-enroll" id="btnEnrollHero">
+        ব্যাচে ভর্তি হোন <span>→</span>
+      </button>
+
+      <ul class="card-features">
+        <li><div class="fi">📹</div> ৩৬ টি লাইভ ক্লাস</li>
+        <li><div class="fi">🛠️</div> ১০ টি রিয়েল প্রজেক্ট</li>
+        <li><div class="fi">♾️</div> ক্লাস রেকর্ডিং লাইফটাইম এক্সেস</li>
+        <li><div class="fi">🆘</div> সপ্তাহে ৪ দিন সাপোর্ট ক্লাস</li>
+        <li><div class="fi">🏆</div> কোর্স কমপ্লিশন সার্টিফিকেট</li>
+        <li><div class="fi">💼</div> জব প্লেসমেন্ট সাপোর্ট</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STICKY TABS ═══ -->
+<div class="sticky-tabs">
+  <div class="tabs-inner">
+    <button class="tab-btn active" data-target="sec-curriculum">কারিকুলাম</button>
+    <button class="tab-btn" data-target="sec-features">কোর্সে যা পাচ্ছেন</button>
+    <button class="tab-btn" data-target="sec-projects">প্রজেক্ট</button>
+    <button class="tab-btn" data-target="sec-whom">যাদের জন্য</button>
+    <button class="tab-btn" data-target="sec-reviews">রিভিউ</button>
+    <button class="tab-btn" data-target="sec-faq">FAQ</button>
+    <button class="tab-btn" data-target="sec-payment">পেমেন্ট</button>
+  </div>
+</div>
+
+<!-- ═══ PAGE BODY ═══ -->
+<div class="page-body">
+<div class="content">
+
+  <!-- DEMO VIDEOS -->
+  <div class="sec">
+    <h2 class="sec-title">কোর্সে জয়েন করার আগে ডেমো ক্লাস দেখে নিন</h2>
+    <div class="demo-grid">
+      <div class="dv-card" id="demo1">
+        <div class="dv-bg">
+          <span style="font-size:36px">🛡️</span>
+          <div class="dv-play" style="position:absolute">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#7c3aed"><polygon points="5 3 19 12 5 21"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="dv-card" id="demo2">
+        <div class="dv-bg">
+          <span style="font-size:36px">🔐</span>
+          <div class="dv-play" style="position:absolute">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#7c3aed"><polygon points="5 3 19 12 5 21"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="free-demo-box">
+      <div style="font-size:30px">🎓</div>
+      <div class="free-demo-text">
+        <div class="free-demo-title">ফ্রী লাইভ ডেমো ক্লাস</div>
+        <div class="free-demo-sub">Crack the Code: Your Cyber Security Career Blueprint — ৮ মার্চ, রাত ১০:৩০</div>
+      </div>
+      <button class="btn-reg" id="btnFreeDemo">রেজিস্ট্রেশন</button>
+    </div>
+  </div>
+
+  <!-- CURRICULUM -->
+  <div class="sec" id="sec-curriculum">
+    <h2 class="sec-title">কারিকুলাম — ১৮ মডিউল | ৩৬ লাইভ ক্লাস</h2>
+
+    <!-- Module 1-2 -->
+    <div class="module-wrap">
+      <div class="module-hdr">📌 Introduction & Environment Setup (Module 1-2)</div>
+      <div class="inst-row">
+        <div class="inst-av">MR</div>
+        <div>
+          <div class="inst-role-txt">ক্লাস নিবেনঃ</div>
+          <div class="inst-nm-txt">MD. MARUFUR RAHMAN</div>
+        </div>
+      </div>
+
+      <div class="week-card" data-week>
+        <div class="week-hdr">
+          <span class="week-num">সপ্তাহ ১</span>
+          <span class="week-nm">Foundation of Cyber Security and Networking</span>
+          <div class="week-meta">
+            <span class="wm-item">📹 2 ক্লাস</span>
+            <span class="wm-item">✅ 1 Quiz</span>
+          </div>
+          <span class="chev">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="cls-block">
+            <div class="cls-lbl">Live Class 1:</div>
+            <div class="cls-txt">Understanding Cyber Security: Importance and Principles | Overview of Cyber Threats and Attack Vectors | Introduction to Information Security Concepts | Defining Ethical Hacking and Its Legal Implications | Different Types of Hackers: White Hat, Black Hat, and Gray Hat | Ethical Hacking Methodology and Phases | Risk Management</div>
+          </div>
+          <div class="cls-block">
+            <div class="cls-lbl">Live Class 2:</div>
+            <div class="cls-txt">Computer Networking | Network Diagram | Networking types | LAN, MAN, WAN | Computer Network Architecture | TCP & UDP protocol | OSI & TCP/IP Model | Network Topologies | IP Address | IP Classes | Networking devices: Switch, Router, Firewall, Bridge | Private and Public IP address</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-card" data-week>
+        <div class="week-hdr">
+          <span class="week-num">সপ্তাহ ২</span>
+          <span class="week-nm">Ethical Hacking Lab Setup, Virtualization</span>
+          <div class="week-meta">
+            <span class="wm-item">📹 2 ক্লাস</span>
+            <span class="wm-item">📝 Assignment</span>
+          </div>
+          <span class="chev">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="cls-block">
+            <div class="cls-lbl">Live Class 1:</div>
+            <div class="cls-txt">Discussion on Virtualization | VMware & Oracle VirtualBox | Clone and Snapshot | Installation & setup Kali Linux, Nessus, Acunetix, Metasploit Server & Application, Mobexler</div>
+          </div>
+          <div class="cls-block">
+            <div class="cls-lbl">Live Class 2:</div>
+            <div class="cls-txt">Linux Operating System | Overview of Kali system | Linux Filesystem | Linux Commands | User Management | File & Directory & permission management | Putty, SSH & Telnet | Github | Package Installation</div>
+          </div>
+          <div class="assign-box">
+            <span class="assign-lbl">📝 Assignment:</span>
+            <span class="assign-txt">Create a report on Linux command output after running the VM.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 3-5 -->
+    <div class="module-wrap">
+      <div class="module-hdr">🔍 Reconnaissance & Information Gathering (Module 3-5)</div>
+      <div class="inst-row">
+        <div class="inst-av">MR</div>
+        <div>
+          <div class="inst-role-txt">ক্লাস নিবেনঃ</div>
+          <div class="inst-nm-txt">MD. MARUFUR RAHMAN</div>
+        </div>
+      </div>
+
+      <div class="week-card" data-week>
+        <div class="week-hdr">
+          <span class="week-num">সপ্তাহ ৩</span>
+          <span class="week-nm">Reconnaissance and Information Gathering</span>
+          <div class="week-meta"><span class="wm-item">📹 2 ক্লাস</span><span class="wm-item">📝 Assignment</span></div>
+          <span class="chev">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="cls-block"><div class="cls-lbl">Live Class 1:</div><div class="cls-txt">Footprinting Concepts | Footprinting through Search Engines | Footprinting through Web Services | Whois Footprinting | Footprinting Tools | Footprinting Countermeasures</div></div>
+          <div class="cls-block"><div class="cls-lbl">Live Class 2:</div><div class="cls-txt">Network Scanning Concepts | Scanning Tools | Host Discovery | Port and Service Discovery | nmap | arp-scan | Netdiscover | OSINT | Recon-ng</div></div>
+          <div class="assign-box"><span class="assign-lbl">📝 Assignment:</span><span class="assign-txt">Gather information of a website using advanced google search and different tools.</span></div>
+        </div>
+      </div>
+
+      <div class="week-card" data-week>
+        <div class="week-hdr">
+          <span class="week-num">সপ্তাহ ৪</span>
+          <span class="week-nm">Directory Enumeration & Bruteforcing</span>
+          <div class="week-meta"><span class="wm-item">📹 2 ক্লাস</span><span class="wm-item">📝 Assignment</span></div>
+          <span class="chev">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="cls-block"><div class="cls-lbl">Live Class 1:</div><div class="cls-txt">Directory Traversal Attack | Dirbuster, Gobuster, FFuf, dirsearch | Brute Force Attack | Wordlist Creation | Perform Brute force attack with Hydra</div></div>
+          <div class="cls-block"><div class="cls-lbl">Live Class 2:</div><div class="cls-txt">Brute force attack using Burp suite | Intruder Attack | Bruteforce via Metasploit (FTP, Telnet, SSH) | How to Protect from Bruteforce Attack</div></div>
+          <div class="assign-box"><span class="assign-lbl">📝 Assignment:</span><span class="assign-txt">Solve some problems of CTF competition.</span></div>
+        </div>
+      </div>
+
+      <div class="week-card" data-week>
+        <div class="week-hdr">
+          <span class="week-num">সপ্তাহ ৫</span>
+          <span class="week-nm">Vulnerability Assessment</span>
+          <div class="week-meta"><span class="wm-item">📹 2 ক্লাস</span><span class="wm-item">📝 Assignment</span></div>
+          <span class="chev">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="cls-block"><div class="cls-lbl">Live Class 1:</div><div class="cls-txt">Vulnerability Assessment Concepts | Classification and Assessment Types | Methodology of VA | Vulnerability Assessment tools: Acunetix, Nessus, Burpsuite, Namp Automator, Nikto</div></div>
+          <div class="cls-block"><div class="cls-lbl">Live Class 2:</div><div class="cls-txt">Vulnerability Assessment Report Generate and Analysis | Prepare a Professional Report | CVE, CVSS, Risk Category</div></div>
+          <div class="assign-box"><span class="assign-lbl">📝 Assignment:</span><span class="assign-txt">Perform vulnerability research on NVD (National Vulnerability Database).</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 6-10 -->
+    <div class="module-wrap">
+      <div class="module-hdr">🌐 Web Pentesting & API Exploitation [Bug Bounty] (Module 6-10)</div>
+      <div class="inst-row">
+        <div class="inst-av">MR</div>
+        <div>
+          <div class="inst-role-txt">ক্লাস নিবেনঃ</div>
+          <div class="inst-nm-txt">MD. MARUFUR RAHMAN</div>
+        </div>
+      </div>
+
+      <div class="week-card" data-week>
+        <div class="week-hdr">
+          <span class="week-num">সপ্তাহ ৬</span>
+          <span class="week-nm">Web App Security: Metasploit & Burp Suite Setup</span>
+          <div class="week-meta"><span class="wm-item">📹 2 ক্লাস</span></div>
+          <span class="chev">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="cls-block"><div class="cls-lbl">Live Class 1:</div><div class="cls-txt">Web Application Concepts | Web App Threats & Hacking Methodology | HTTP, HTTPS, Session, Cookie | OWASP Top 10 | How to protect web application from Cyber attack</div></div>
+          <div class="cls-block"><div class="cls-lbl">Live Class 2:</div><div class="cls-txt">Overview of Metasploit Framework | exploit, Payload, Auxiliary | Installation Burp suite on Windows and Linux | Proxy configuration | Intercept request</div></div>
+        </div>
+      </div>
+
+      <div class="week-card" data-week>
+        <div class="week-hdr">
+          <span class="week-num">সপ্তাহ ৭</span>
+          <span class="week-nm">Web Pentesting: SQL Injection & DDOS Attack</span>
+          <div class="week-meta"><span class="wm-item">📹 2 ক্লাস</span><span class="wm-item">📝 Assignment</span></div>
+          <span class="chev">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="cls-block"><div class="cls-lbl">Live Class 1:</div><div class="cls-txt">SQL Injection Concepts | Types of SQL Injection | SQL Injection Tools | Evasion Techniques | SQL Injection Countermeasures | Perform SQL injection attack | Manipulate Database</div></div>
+          <div class="cls-block"><div class="cls-lbl">Live Class 2:</div><div class="cls-txt">DOS & DDOS attack | Perform DOS & DDOS attack | Protection strategies | Report Analysis</div></div>
+          <div class="assign-box"><span class="assign-lbl">📝 Assignment:</span><span class="assign-txt">Report on an SQL injection attack on a website.</span></div>
+        </div>
+      </div>
+
+      <div class="week-card" data-week>
+        <div class="week-hdr">
+          <span class="week-num">সপ্তাহ ৮</span>
+          <span class="week-nm">Web Pentesting: XSS, CSRF, SSRF, LFI</span>
+          <div class="week-meta"><span class="wm-item">📹 2 ক্লাস</span></div>
+          <span class="chev">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="cls-block"><div class="cls-lbl">Live Class 1:</div><div class="cls-txt">Cross Site Scripting Overview | DOM Based XSS | Stored XSS | Reflected XSS | Blind XSS | HTML Injection</div></div>
+          <div class="cls-block"><div class="cls-lbl">Live Class 2:</div><div class="cls-txt">Cross Site Request Forgery | LFI Exploitation | Server Side Request Forgery | Mitigations | LFI to Remote Code Execution | LFI vs RFI</div></div>
+        </div>
+      </div>
+
+      <div class="week-card" data-week>
+        <div class="week-hdr">
+          <span class="week-num">সপ্তাহ ৯</span>
+          <span class="week-nm">TryHackMe, Vulnhub, Cyber Security Game</span>
+          <div class="week-meta"><span class="wm-item">📹 2 ক্লাস</span><span class="wm-item">📝 Assignment</span></div>
+          <span class="chev">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="cls-block"><div class="cls-lbl">Live Class 1:</div><div class="cls-txt">TryHackme Account Creation | Overview of TryHackMe | Room Solve</div></div>
+          <div class="cls-block"><div class="cls-lbl">Live Class 2:</div><div class="cls-txt">TryHackMe Room Solve and Hacking Game | Bandit etc</div></div>
+          <div class="assign-box"><span class="assign-lbl">📝 Assignment:</span><span class="assign-txt">Solve some problems of CTF competition.</span></div>
+        </div>
+      </div>
+
+      <div class="week-card" data-week>
+        <div class="week-hdr">
+          <span class="week-num">সপ্তাহ ১০</span>
+          <span class="week-nm">Live Server Hacking</span>
+          <div class="week-meta"><span class="wm-item">📹 2 ক্লাস</span></div>
+          <span class="chev">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="cls-block"><div class="cls-lbl">Live Class 1:</div><div class="cls-txt">Setup Server in Lab | Hack the server | Prepare Report (write up the process of Hacking)</div></div>
+          <div class="cls-block"><div class="cls-lbl">Live Class 2:</div><div class="cls-txt">Man in The Middle Attack with Wireshark | Cross site scripting Attack | File upload attack | How to protect from XSS, MITM, File Uploading Attack</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="sec" id="sec-features">
+    <h2 class="sec-title">কোর্সে আপনি পাচ্ছেন</h2>
+    <div class="feat-grid">
+      <div class="feat-card"><div class="feat-ico">📅</div><div><div class="feat-title">৫ মাসের স্টাডিপ্ল্যান</div><div class="feat-desc">বিগিনার ফ্রেন্ডলি আপডেটেড কারিকুলাম</div></div></div>
+      <div class="feat-card"><div class="feat-ico">📹</div><div><div class="feat-title">৩৬ টি লাইভ ক্লাস</div><div class="feat-desc">ইন্ডাস্ট্রি এক্সপার্টের কাছে লাইভে শিখুন</div></div></div>
+      <div class="feat-card"><div class="feat-ico">📊</div><div><div class="feat-title">প্রোগ্রেস ট্র্যাকিং</div><div class="feat-desc">লিডারবোর্ডে দেখুন নিজের পজিশন</div></div></div>
+      <div class="feat-card"><div class="feat-ico">🆘</div><div><div class="feat-title">সপ্তাহে ৪ দিন সাপোর্ট</div><div class="feat-desc">প্রবলেমে পড়লে লাইভ সাপোর্ট নিন</div></div></div>
+      <div class="feat-card"><div class="feat-ico">👥</div><div><div class="feat-title">কমিউনিটি সাপোর্ট</div><div class="feat-desc">প্রোগ্রেসিভ কমিউনিটির সাথে সংযুক্ত থাকুন</div></div></div>
+      <div class="feat-card"><div class="feat-ico">♾️</div><div><div class="feat-title">লাইফটাইম এক্সেস</div><div class="feat-desc">ভিডিও, রিসোর্স ও ক্লাস রেকর্ডিং</div></div></div>
+      <div class="feat-card"><div class="feat-ico">📖</div><div><div class="feat-title">ইন্টারভিউ হ্যান্ডবুক</div><div class="feat-desc">১০০+ ইন্টারভিউ প্রশ্ন ও উত্তর</div></div></div>
+      <div class="feat-card"><div class="feat-ico">🏆</div><div><div class="feat-title">সার্টিফিকেট</div><div class="feat-desc">শেয়ারেবল কোর্স কমপ্লিশন সার্টিফিকেট</div></div></div>
+    </div>
+  </div>
+
+  <!-- TOOLS -->
+  <div class="sec">
+    <h2 class="sec-title">যেসব টুলস ও টেকনোলোজি শিখবেন</h2>
+    <div class="tools-wrap">
+      <div class="tool-tag">🐉 Kali Linux</div><div class="tool-tag">💻 VMware</div>
+      <div class="tool-tag">📦 Oracle VirtualBox</div><div class="tool-tag">🔍 Nessus</div>
+      <div class="tool-tag">🌐 Acunetix</div><div class="tool-tag">🔫 Metasploit</div>
+      <div class="tool-tag">📱 MobSF</div><div class="tool-tag">📡 Wireshark</div>
+      <div class="tool-tag">🕷️ Burp Suite</div><div class="tool-tag">📮 Postman</div>
+      <div class="tool-tag">🐙 GitHub</div><div class="tool-tag">🔑 Putty</div>
+      <div class="tool-tag">🗺️ Nmap</div><div class="tool-tag">⚔️ Hydra</div>
+      <div class="tool-tag">📂 Dirsearch</div><div class="tool-tag">💥 Dirbuster</div>
+      <div class="tool-tag">🏃 Gobuster</div><div class="tool-tag">⚡ FFuf</div>
+      <div class="tool-tag">🎯 Nikto</div><div class="tool-tag">💉 SQLMap</div>
+      <div class="tool-tag">🎮 TryHackMe</div><div class="tool-tag">🏛️ VulnHub</div>
+      <div class="tool-tag">🖥️ Windows Server</div><div class="tool-tag">🐧 Linux</div>
+      <div class="tool-tag">🔒 OpenSSH</div><div class="tool-tag">🌍 OWASP</div>
+      <div class="tool-tag">📋 NIST</div><div class="tool-tag">🏅 ISO27001</div>
+      <div class="tool-tag">💳 PCI DSS</div><div class="tool-tag">📈 CVSS</div>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="sec" id="sec-projects">
+    <h2 class="sec-title">যেসকল রিয়েল লাইফ প্রজেক্ট করানো হবে</h2>
+    <div class="proj-grid">
+      <div class="proj-card"><div class="proj-img">🛡️</div><div class="proj-info"><div class="proj-title">Cybersecurity Foundations and Real-World Threat Analysis</div><span class="proj-arrow">→</span></div></div>
+      <div class="proj-card"><div class="proj-img">🐉</div><div class="proj-info"><div class="proj-title">Command-Line Proficiency in Kali Linux</div><span class="proj-arrow">→</span></div></div>
+      <div class="proj-card"><div class="proj-img">🔍</div><div class="proj-info"><div class="proj-title">Information Gathering & Footprinting Techniques</div><span class="proj-arrow">→</span></div></div>
+      <div class="proj-card"><div class="proj-img">🔬</div><div class="proj-info"><div class="proj-title">Vulnerability Assessment of Server, Web, and Mobile</div><span class="proj-arrow">→</span></div></div>
+      <div class="proj-card"><div class="proj-img">🕷️</div><div class="proj-info"><div class="proj-title">Burp Suite Configuration and Web Request Interception</div><span class="proj-arrow">→</span></div></div>
+      <div class="proj-card"><div class="proj-img">💥</div><div class="proj-info"><div class="proj-title">Brute Force and Directory Traversal Attack Simulation</div><span class="proj-arrow">→</span></div></div>
+    </div>
+  </div>
+
+  <!-- JOB PLACEMENT -->
+  <div class="jp-box">
+    <div class="jp-title">কোর্স শেষে পাচ্ছেন এক্সক্লুসিভ জব প্লেসমেন্ট সাপোর্ট!</div>
+    <div class="jp-grid">
+      <div class="jp-item"><span style="color:#10b981">●</span> সিভি এবং কভার লেটার বিল্ডিং সাপোর্ট</div>
+      <div class="jp-item"><span style="color:#10b981">●</span> পোর্টফোলিও বিল্ডিং এন্ড ইন্টার্ভিউ গাইডলাইন</div>
+      <div class="jp-item"><span style="color:#10b981">●</span> 1-to-1 কাস্টমাইজড ক্যারিয়ার কনসালটেশন</div>
+      <div class="jp-item"><span style="color:#10b981">●</span> লোকাল ও ইন্টারন্যাশনাল জব অপারচুনিটি হান্টিং</div>
+      <div class="jp-item"><span style="color:#10b981">●</span> জব অ্যাপ্লিকেশন গাইডলাইন ও সাপোর্ট</div>
+      <div class="jp-item"><span style="color:#10b981">●</span> পার্টনার কোম্পানিগুলোর মাধ্যমে ডিরেক্ট প্লেসমেন্ট</div>
+    </div>
+  </div>
+
+  <!-- FOR WHOM -->
+  <div class="sec" id="sec-whom">
+    <h2 class="sec-title">কোর্সটি আপনারই জন্য</h2>
+    <ul class="whom-list">
+      <li><span class="check-ic">✅</span> যারা সাইবার সিকিউরিটি ফিল্ডে একদম নতুন এবং এই সেক্টরে ক্যারিয়ার বিল্ড করতে চান</li>
+      <li><span class="check-ic">✅</span> যারা সাইবার সিকিউরিটি এনালিস্ট বা এক্সপার্ট হিসেবে ক্যারিয়ার স্টার্ট করতে চান</li>
+      <li><span class="check-ic">✅</span> প্রোগ্রামিং বা কোডিংয়ে নতুন কিন্তু সাইবার সিকিউরিটি সেক্টরে ক্যারিয়ার গড়তে চান</li>
+    </ul>
+
+    <!-- Requirements -->
+    <div style="margin-top:24px">
+      <div style="font-size:16px;font-weight:800;color:var(--gray-900);margin-bottom:14px">কী কী থাকতে হবে</div>
+      <div class="req-grid">
+        <div class="req-card"><div class="req-ico">💻</div><div class="req-txt">ল্যাপটপ/ডেস্কটপ (৮ জিবি র‍্যাম)</div></div>
+        <div class="req-card"><div class="req-ico">📶</div><div class="req-txt">ভালো ইন্টারনেট কানেকশন</div></div>
+        <div class="req-card"><div class="req-ico">🧠</div><div class="req-txt">লেগে থাকার মানসিকতা</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSTRUCTORS -->
+  <div class="sec">
+    <h2 class="sec-title">ইন্সট্রাক্টর</h2>
+    <div class="inst-card">
+      <div class="inst-photo">SM</div>
+      <div>
+        <div class="inst-role-tag">✅ Lead Instructor</div>
+        <div class="inst-full-name">Safwan Muntasir</div>
+        <div class="inst-bio">SOC Analyst (Detection & Response) at Shoroborno Holdings Limited | ex-Smart Technologies | Augmented Resource at Grameenphone</div>
+        <div class="inst-companies"><span class="co-tag">Shoroborno Holdings</span><span class="co-tag">Grameenphone</span></div>
+      </div>
+    </div>
+    <div class="inst-card">
+      <div class="inst-photo">ST</div>
+      <div>
+        <div class="inst-role-tag">✅ Lead Instructor</div>
+        <div class="inst-full-name">Shaikh Tariqul Islam</div>
+        <div class="inst-bio">Cyber Security Specialist | Trainer | VAPT | SO | IT Audit | ICT Security Policy | PAM | SWIFT Audit</div>
+        <div class="inst-companies"><span class="co-tag">Security Specialist</span><span class="co-tag">VAPT Expert</span></div>
+      </div>
+    </div>
+    <div class="inst-card">
+      <div class="inst-photo">MR</div>
+      <div>
+        <div class="inst-role-tag">✅ Lead Instructor</div>
+        <div class="inst-full-name">MD. MARUFUR RAHMAN</div>
+        <div class="inst-bio">SOC Analyst at Shorborno Holdings (Grameenphone Security Operation Center) | Former System Engineer at Wipro IT Service Bangladesh</div>
+        <div class="inst-companies"><span class="co-tag">Shorborno Holdings</span><span class="co-tag">Wipro IT</span></div>
+      </div>
+    </div>
+    <div class="inst-card">
+      <div class="inst-photo" style="background:linear-gradient(135deg,#059669,#10b981)">DD</div>
+      <div>
+        <div class="inst-role-tag ta-tag">🎓 Teaching Assistant</div>
+        <div class="inst-full-name">Dipto Dutta</div>
+        <div class="inst-bio">CyberTech Shield LLC</div>
+      </div>
+    </div>
+    <div class="inst-card">
+      <div class="inst-photo" style="background:linear-gradient(135deg,#059669,#10b981)">AI</div>
+      <div>
+        <div class="inst-role-tag ta-tag">🎓 Teaching Assistant</div>
+        <div class="inst-full-name">Arafat Ul Islam</div>
+        <div class="inst-bio">Cybersecurity Specialist | Former Jr Penetration Tester at Web Developer Guru</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEWS -->
+  <div class="sec" id="sec-reviews">
+    <h2 class="sec-title">আমাদের লার্নারদের কাছে শুনুন</h2>
+    <div class="rev-grid">
+      <div class="rev-card"><div class="rev-av">MN</div><div class="quote">"</div><div class="rev-name">Muhammad Nazmul Alam Kaisar</div><div class="rev-txt">কারিকুলাম অত্যন্ত সুন্দরভাবে গঠিত, এবং মডিউলভিত্তিক পরীক্ষাগুলো সত্যিই কার্যকর ছিল। শেখার মান ও পরিকল্পনায় অত্যন্ত সন্তুষ্ট।</div></div>
+      <div class="rev-card"><div class="rev-av">DD</div><div class="quote">"</div><div class="rev-name">Dipto Dutta</div><div class="rev-txt">একটি দারুণ প্ল্যাটফর্ম — একেবারে গোছানো এবং সুন্দরভাবে গঠিত। কোর্সটি সবার জন্য রিকোমেন্ডেড।</div></div>
+      <div class="rev-card"><div class="rev-av">EK</div><div class="quote">"</div><div class="rev-name">Enayet Kabir</div><div class="rev-txt">অনেক কিছু জানতে ও শিখতে পেরেছি। ইনস্ট্রাক্টর সবকিছু অনেক সুন্দরভাবে বুঝানোর চেষ্টা করেছেন।</div></div>
+      <div class="rev-card"><div class="rev-av">SS</div><div class="quote">"</div><div class="rev-name">Sadik Saroar Shovon</div><div class="rev-txt">বিগিনার লেভেল থেকে শুরু করেছি। ইনস্ট্রাক্টর খুবই সাপোর্টিভ — এটাই আমাকে সবচেয়ে বেশি অনুপ্রেরণা দিয়েছে।</div></div>
+      <div class="rev-card"><div class="rev-av">TH</div><div class="quote">"</div><div class="rev-name">Tanvir Hassan</div><div class="rev-txt">প্রতিটা ক্লাসে সব কিছু ইজিলি এক্সপ্লেইন করে দেওয়া হয়, বেসিক কনসেপ্ট ক্লিয়ার করতে অনেক সাহায্য করেছে।</div></div>
+      <div class="rev-card"><div class="rev-av">NU</div><div class="quote">"</div><div class="rev-name">Nazim Uddin Tarif</div><div class="rev-txt">বিগিনার থেকে ইন্টারমিডিয়েট লেভেল পর্যন্ত শেখার জন্য সত্যিই দারুণ। ইনস্ট্রাক্টর অত্যন্ত সাপোর্টিভ ছিলেন।</div></div>
+    </div>
+  </div>
+
+  <!-- CERTIFICATE -->
+  <div class="sec">
+    <div class="cert-wrap">
+      <div class="cert-title">সার্টিফিকেট</div>
+      <p class="cert-desc">কোর্স শেষে পেয়ে যান শেয়ারেবল কোর্স কমপ্লিশন এবং এসেসমেন্ট সার্টিফিকেট</p>
+      <div class="cert-grid">
+        <div class="cert-card"><div class="cert-ico">🏅</div><div class="cert-nm">কোর্স কমপ্লিশন সার্টিফিকেট</div><div class="cert-sub">কোর্স শেষ করে পান শেয়ারেবল সার্টিফিকেট</div></div>
+        <div class="cert-card"><div class="cert-ico">📜</div><div class="cert-nm">এসেসমেন্ট সার্টিফিকেট</div><div class="cert-sub">এসেসমেন্টের রেজাল্টের ওপর ভিত্তি করে</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMMUNITY -->
+  <div class="community-box">
+    <div>
+      <div style="font-size:16px;font-weight:800;color:#fff">📘 জয়েন করুন আমাদের ফেসবুক গ্রুপে</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.7);margin-top:4px">১,৫০০+ মেম্বার — Cyber Security Engineers@Bangladesh</div>
+    </div>
+    <button class="btn-join-fb" id="btnJoinFb">জয়েন করুন</button>
+  </div>
+
+  <!-- FAQ -->
+  <div class="sec" id="sec-faq">
+    <h2 class="sec-title">প্রায়ই জিজ্ঞেস করা প্রশ্ন</h2>
+    <div class="faq-item" data-faq><div class="faq-q">আমি কি ভিডিওগুলো ডাউনলোড করতে পারবো?<span class="faq-chev">▼</span></div><div class="faq-ans"><p class="faq-ans-txt">হ্যা, MH Academy-র অ্যাপে আপনি ভিডিও ডাউনলোড করে রাখতে পারবেন।</p></div></div>
+    <div class="faq-item" data-faq><div class="faq-q">আমি কি মোবাইল দিয়ে জয়েন করতে পারবো?<span class="faq-chev">▼</span></div><div class="faq-ans"><p class="faq-ans-txt">মোবাইল দিয়ে লাইভ ক্লাসে জয়েন করতে পারবেন, তবে প্র্যাকটিসের জন্য ল্যাপটপ প্রয়োজন।</p></div></div>
+    <div class="faq-item" data-faq><div class="faq-q">আমার কি ভিডিওগুলোর লাইফটাইম এক্সেস থাকবে?<span class="faq-chev">▼</span></div><div class="faq-ans"><p class="faq-ans-txt">জ্বি, ভিডিও এবং রিসোর্সের লাইফ টাইম এক্সেস পাচ্ছেন।</p></div></div>
+    <div class="faq-item" data-faq><div class="faq-q">লাইভ ক্লাস কোথায় হবে?<span class="faq-chev">▼</span></div><div class="faq-ans"><p class="faq-ans-txt">লাইভ ক্লাসে একটি সিঙ্গেল ক্লিকে জয়েন করে ফেলতে পারবেন MH Academy প্ল্যাটফর্ম থেকেই।</p></div></div>
+    <div class="faq-item" data-faq><div class="faq-q">এসেসমেন্ট কিভাবে হবে?<span class="faq-chev">▼</span></div><div class="faq-ans"><p class="faq-ans-txt">প্রতি সপ্তাহে একটি করে কুইজ এবং এক্সাম উইকে এসাইনমেন্ট থাকবে।</p></div></div>
+    <div class="faq-item" data-faq><div class="faq-q">প্রো ব্যাচে কাদেরকে নেওয়া হবে?<span class="faq-chev">▼</span></div><div class="faq-ans"><p class="faq-ans-txt">৭০% বা তার বেশি মার্ক নিয়ে যারা কোর্স কমপ্লিট করবেন তাদেরকে নিয়ে প্রো ব্যাচ হবে।</p></div></div>
+    <div class="faq-item" data-faq><div class="faq-q">লাইভ ক্লাসের রেকর্ডিং থাকবে?<span class="faq-chev">▼</span></div><div class="faq-ans"><p class="faq-ans-txt">জ্বী, পাবেন লাইভ ক্লাস রেকর্ডিং এর লাইফ টাইম এক্সেস।</p></div></div>
+    <div class="faq-item" data-faq><div class="faq-q">সমস্যায় পড়লে সাপোর্ট পাবো কোথায়?<span class="faq-chev">▼</span></div><div class="faq-ans"><p class="faq-ans-txt">দুইবেলা সাপোর্ট ক্লাসে স্ক্রিন শেয়ার করে সাপোর্ট নিবেন দক্ষ সাবজেক্ট ম্যাটার এক্সপার্টদের থেকে।</p></div></div>
+  </div>
+
+  <!-- PAYMENT FAQ -->
+  <div class="sec" id="sec-payment">
+    <h2 class="sec-title">কিভাবে পেমেন্ট করবো?</h2>
+    <div class="faq-item" data-faq><div class="faq-q">পেমেন্ট মেথড কি কি?<span class="faq-chev">▼</span></div><div class="faq-ans"><p class="faq-ans-txt">bKash, Nagad, Rocket, Visa, Mastercard, Debit ও Credit কার্ড দিয়ে পেমেন্ট করতে পারবেন।</p></div></div>
+    <div class="faq-item" data-faq><div class="faq-q">পেমেন্ট প্রসেস কি?<span class="faq-chev">▼</span></div><div class="faq-ans"><p class="faq-ans-txt">"ব্যাচে ভর্তি হোন" বাটনে ক্লিক করুন। পেমেন্ট পেইজ থেকে পদ্ধতি বেছে পেমেন্ট সম্পন্ন করুন।</p></div></div>
+    <div class="faq-item" data-faq><div class="faq-q">ডিসকাউন্ট কিভাবে পাবো?<span class="faq-chev">▼</span></div><div class="faq-ans"><p class="faq-ans-txt">প্রোমো কোড CS24 বসিয়ে ২৪% ডিসকাউন্ট পেতে পারেন ভর্তির আগেই।</p></div></div>
+    <div class="faq-item" data-faq><div class="faq-q">পেমেন্ট কনফার্মেশন কিভাবে পাবো?<span class="faq-chev">▼</span></div><div class="faq-ans"><p class="faq-ans-txt">পেমেন্ট সম্পন্ন হলে আপনার ইমেইল ও SMS-এ কনফার্মেশন আসবে এবং ড্যাশবোর্ডে ব্যাচ দেখাবে।</p></div></div>
+
+    <!-- Contact Help -->
+    <div style="background:var(--purple-light);border-radius:14px;padding:20px;margin-top:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <div style="font-size:30px">📞</div>
+      <div style="flex:1">
+        <div style="font-size:15px;font-weight:800;color:var(--purple);margin-bottom:4px">ক্যারিয়ার কাউন্সিলরের সাথে কথা বলুন</div>
+        <a href="tel:+8801343914432" style="font-size:14px;font-weight:700;color:var(--gray-800)">কল: 01343914432</a>
+        &nbsp;|&nbsp;
+        <a href="https://wa.me/8801343914432" style="font-size:14px;font-weight:700;color:#16a34a">WhatsApp</a>
+      </div>
+      <button class="btn-enroll" id="btnEnrollBottom" style="width:auto;padding:12px 22px;font-size:14px;margin-bottom:0">ভর্তি হোন →</button>
+    </div>
+  </div>
+
+</div><!-- /content -->
+<div class="right-col"></div>
+</div><!-- /page-body -->
+
+<!-- FLOATING CTA (mobile) -->
+<button class="floating-cta" id="btnEnrollFloat">
+  🚀 ব্যাচে ভর্তি হোন — ৳৮,৮০০
+</button>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-wrap">
+    <div class="footer-grid">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <div class="logo-box" style="width:30px;height:30px;font-size:12px">MH</div>
+          <span style="color:#f1f5f9;font-size:16px;font-weight:800">MH <span style="color:#a855f7">Academy</span></span>
+        </div>
+        <p class="f-tagline">অনলাইন লাইভ স্কিল ডেভেলপমেন্ট প্ল্যাটফর্ম। ক্যারিয়ার গড়তে সাহায্য করি।</p>
+        <div class="f-socials">
+          <a href="#" class="f-social">f</a>
+          <a href="#" class="f-social">in</a>
+          <a href="#" class="f-social">▶</a>
+        </div>
+      </div>
+      <div>
+        <h5>কুইক লিংক</h5>
+        <a href="#" class="f-link">আপকামিং লাইভ ব্যাচ</a>
+        <a href="#" class="f-link">ফ্রি কোর্সসমূহ</a>
+        <a href="#" class="f-link">লাইভ ওয়ার্কশপ</a>
+        <a href="#" class="f-link">ব্লগ</a>
+      </div>
+      <div>
+        <h5>কোম্পানি</h5>
+        <a href="#" class="f-link">আমাদের সম্পর্কে</a>
+        <a href="#" class="f-link">রিফান্ড পলিসি</a>
+        <a href="#" class="f-link">প্রাইভেসী পলিসি</a>
+        <a href="#" class="f-link">টার্মস ও শর্তাবলী</a>
+      </div>
+      <div>
+        <h5>যোগাযোগ</h5>
+        <a href="/cdn-cgi/l/email-protection#a3d0d6d3d3ccd1d7e3cecbc2c0c2c7c6ceda8dc0ccce8dc1c7" class="f-link">📧 <span class="__cf_email__" data-cfemail="83f0f6f3f3ecf1f7c3eeebe2e0e2e7e6eefaade0eceeade1e7">[email&#160;protected]</span></a>
+        <a href="tel:+8801343914432" class="f-link">📞 01343914432</a>
+        <a href="https://wa.me/8801343914432" class="f-link">💬 WhatsApp</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 MH Academy. All rights reserved.</span>
+      <span style="color:#334155">Powered by MH Academy Platform</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ LOGIN MODAL ═══ -->
+<div class="modal-bg" id="modalLogin">
+  <div class="modal-box">
+    <div class="modal-drag"></div>
+    <div class="modal-ico">🔐</div>
+    <div class="modal-title">লগইন করুন</div>
+    <div class="modal-desc">ব্যাচে ভর্তি হতে প্রথমে আপনার Google একাউন্ট দিয়ে লগইন করুন।</div>
+    <button class="modal-btn-primary" id="btnGoogleLogin">
+      <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M43.6 20.1H24v7.8h11.3c-1.1 5.3-5.8 9-11.3 9-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.1 8 3l5.8-5.8C34.1 7.3 29.3 5 24 5 13.5 5 5 13.5 5 24s8.5 19 19 19c10.7 0 18.4-7.5 18.4-18.5 0-1.2-.1-2.5-.4-4.4z" fill="#FFC107"/><path d="M6.3 14.7l6.6 4.8C14.5 16 18.9 13 24 13c3.1 0 5.9 1.1 8 3l5.8-5.8C34.1 7.3 29.3 5 24 5c-7.7 0-14.4 4.4-17.7 9.7z" fill="#FF3D00"/><path d="M24 43c5.2 0 9.9-1.9 13.5-5.1l-6.3-5.2C29.1 34.4 26.6 35 24 35c-5.4 0-10-3.6-11.2-8.6l-6.6 5.1C9.5 38.4 16.3 43 24 43z" fill="#4CAF50"/><path d="M43.6 20.1H24v7.8h11.3c-.5 2.7-2 5.1-4.2 6.7l6.3 5.2C40.7 36.3 44 30.6 44 24c0-1.2-.1-2.5-.4-3.9z" fill="#1976D2"/></svg>
+      Google দিয়ে লগইন করুন
+    </button>
+    <button class="modal-btn-sec" id="btnCloseLogin">বাতিল করুন</button>
+  </div>
+</div>
+
+<!-- ═══ PROMO MODAL ═══ -->
+<div class="modal-bg" id="modalPromo">
+  <div class="modal-box">
+    <div class="modal-drag"></div>
+    <div class="modal-ico">🏷️</div>
+    <div class="modal-title">প্রোমো কোড</div>
+    <div class="modal-desc">CS24 কোড ব্যবহার করে পাচ্ছেন ২৪% ডিসকাউন্ট!</div>
+    <input class="promo-input-field" type="text" id="promoCodeInput" placeholder="প্রোমো কোড লিখুন..." value="CS24" oninput="this.value=this.value.toUpperCase()">
+    <button class="modal-btn-primary" id="btnApplyPromo">✅ এপ্লাই করুন</button>
+    <button class="modal-btn-sec" id="btnClosePromo">বাতিল করুন</button>
+  </div>
+</div>
+
+<!-- ═══ PROMO SUCCESS MODAL ═══ -->
+<div class="modal-bg" id="modalPromoSuccess">
+  <div class="modal-box">
+    <div class="modal-drag"></div>
+    <div class="modal-ico">🎉</div>
+    <div class="modal-title">ডিসকাউন্ট পেয়েছেন!</div>
+    <div class="modal-desc">CS24 প্রোমো কোড সফলভাবে এপ্লাই হয়েছে।<br>আপনি <strong>২৪% ডিসকাউন্ট</strong> পাচ্ছেন।<br>নতুন মূল্য: <strong style="color:#7c3aed">৳৮,৮০০</strong></div>
+    <button class="modal-btn-primary" id="btnPromoSuccessEnroll">এখনই ভর্তি হোন →</button>
+    <button class="modal-btn-sec" id="btnClosePromoSuccess">পরে করবো</button>
+  </div>
+</div>
+
+<!-- ═══ FIREBASE + SCRIPTS ═══ -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
+<script>
+// ── Firebase init ──
+firebase.initializeApp({
+  apiKey: "AIzaSyCSVcrc2L6aVMb4GZ5pLIUufXS2k1Dem7o",
+  authDomain: "login-app-fb96c.firebaseapp.com",
+  projectId: "login-app-fb96c",
+  storageBucket: "login-app-fb96c.firebasestorage.app",
+  messagingSenderId: "377973996747",
+  appId: "1:377973996747:web:7a01d630fe75230627ef4e",
+  measurementId: "G-QB2QXYM8WN"
+});
+const auth = firebase.auth();
+const provider = new firebase.auth.GoogleAuthProvider();
+
+// Auth state
+auth.onAuthStateChanged(function(user) {
+  if (user) {
+    document.getElementById('btnLogin').style.display = 'none';
+    const bar = document.getElementById('userBar');
+    bar.style.display = 'flex';
+    document.getElementById('navUserName').textContent = user.displayName || user.email;
+    document.getElementById('navAvatar').textContent = (user.displayName || user.email).charAt(0).toUpperCase();
+  } else {
+    document.getElementById('btnLogin').style.display = 'flex';
+    document.getElementById('userBar').style.display = 'none';
+  }
+});
+
+// ── Helpers ──
+function openModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+function goToPayment() {
+  window.location.href = 'payment.html';
+}
+function handleEnroll() {
+  if (auth.currentUser) {
+    goToPayment();
+  } else {
+    openModal('modalLogin');
+  }
+}
+
+// ── Login ──
+document.getElementById('btnLogin').onclick = function() { openModal('modalLogin'); };
+document.getElementById('btnGoogleLogin').onclick = function() {
+  auth.signInWithPopup(provider)
+    .then(function() { closeModal('modalLogin'); goToPayment(); })
+    .catch(function(e) { alert('লগইন ব্যর্থ হয়েছে: ' + e.message); });
+};
+document.getElementById('btnCloseLogin').onclick = function() { closeModal('modalLogin'); };
+document.getElementById('btnLogout').onclick = function() {
+  auth.signOut().then(function() { location.reload(); });
+};
+
+// ── Enroll buttons ──
+document.getElementById('btnEnrollHero').onclick = handleEnroll;
+document.getElementById('btnEnrollBottom').onclick = handleEnroll;
+document.getElementById('btnEnrollFloat').onclick = handleEnroll;
+
+// ── Promo ──
+document.getElementById('btnPromoApply').onclick = function() { openModal('modalPromo'); };
+document.getElementById('btnPromoTrigger').onclick = function() { openModal('modalPromo'); };
+document.getElementById('btnClosePromo').onclick = function() { closeModal('modalPromo'); };
+document.getElementById('btnApplyPromo').onclick = function() {
+  var code = document.getElementById('promoCodeInput').value.trim().toUpperCase();
+  if (code === 'CS24') {
+    closeModal('modalPromo');
+    openModal('modalPromoSuccess');
+  } else if (code === '') {
+    alert('প্রোমো কোড লিখুন');
+  } else {
+    alert('❌ ভুল প্রোমো কোড! সঠিক কোড: CS24');
+  }
+};
+document.getElementById('btnPromoSuccessEnroll').onclick = function() {
+  closeModal('modalPromoSuccess');
+  handleEnroll();
+};
+document.getElementById('btnClosePromoSuccess').onclick = function() { closeModal('modalPromoSuccess'); };
+
+// ── Close promo banner ──
+document.getElementById('closePromoBanner').onclick = function() {
+  document.getElementById('promoBanner').style.display = 'none';
+};
+
+// ── Demo videos ──
+document.getElementById('heroDemo').onclick = function() { window.open('https://www.youtube.com/watch?v=-h-xmJ73nd8','_blank'); };
+document.getElementById('demo1').onclick = function() { window.open('https://www.youtube.com/watch?v=JBerMv-V8tE','_blank'); };
+document.getElementById('demo2').onclick = function() { window.open('https://www.youtube.com/watch?v=-h-xmJ73nd8','_blank'); };
+
+// ── Free demo ──
+document.getElementById('btnFreeDemo').onclick = handleEnroll;
+document.getElementById('btnJoinFb').onclick = function() { window.open('https://www.facebook.com/groups/','_blank'); };
+
+// ── Curriculum accordion ──
+document.querySelectorAll('[data-week]').forEach(function(card) {
+  card.querySelector('.week-hdr').addEventListener('click', function() {
+    card.classList.toggle('open');
+  });
+});
+
+// ── FAQ accordion ──
+document.querySelectorAll('[data-faq]').forEach(function(item) {
+  item.querySelector('.faq-q').addEventListener('click', function() {
+    item.classList.toggle('open');
+  });
+});
+
+// ── Sticky tabs ──
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var target = this.getAttribute('data-target');
+    var el = document.getElementById(target);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+    this.classList.add('active');
+  });
+});
+
+// ── Close modals on backdrop click ──
+document.querySelectorAll('.modal-bg').forEach(function(bg) {
+  bg.addEventListener('click', function(e) {
+    if (e.target === bg) bg.classList.remove('show');
+  });
+});
+
+// ── Scroll → active tab ──
+window.addEventListener('scroll', function() {
+  var secs = ['sec-curriculum','sec-features','sec-projects','sec-whom','sec-reviews','sec-faq','sec-payment'];
+  var active = 0;
+  secs.forEach(function(id, i) {
+    var el =
